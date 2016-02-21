@@ -77,6 +77,9 @@ public class CustomerFunctionalities {
         lblNewLabel_2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                frame.dispose();
+                MakeReservation mr = new MakeReservation();
+                mr.mrWindow();
             }
         });
         lblNewLabel_2.setForeground(SystemColor.textHighlight);
@@ -84,6 +87,14 @@ public class CustomerFunctionalities {
         panel.add(lblNewLabel_2);
         
         JLabel lblNewLabel_3 = new JLabel("<html><u>Update a reservation</u></html>");
+        lblNewLabel_3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                frame.dispose();
+                UpdateReservation ur = new UpdateReservation();
+                ur.urWindow();
+            }
+        });
         lblNewLabel_3.setForeground(SystemColor.textHighlight);
         lblNewLabel_3.setBounds(155, 110, 140, 35);
         panel.add(lblNewLabel_3);
