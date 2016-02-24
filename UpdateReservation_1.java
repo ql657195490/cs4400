@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -86,10 +87,12 @@ public class UpdateReservation_1 extends JFrame{
     //method to create all buttons and add them to the panels
     public void createButton(){
         button1 = new JButton("Next");
+        button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button1.setBounds(400, 30, 100, 29);
         panel1.add(button1);
         
         button2 = new JButton("Back");
+        button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button2.setBounds(200, 30, 100, 29);
         panel1.add(button2);
         
