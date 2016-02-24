@@ -1,14 +1,19 @@
 import java.awt.EventQueue;
-import java.awt.Cursor;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JLabel;
+
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Color;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -78,6 +83,7 @@ public class AddSchoolInfo {
         
         JButton btnNewButton = new JButton("Back");
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
