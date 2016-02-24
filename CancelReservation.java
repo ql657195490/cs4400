@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Cursor;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -83,6 +84,7 @@ public class CancelReservation {
         panel.add(btnBack);
         
         JButton btnSearch = new JButton("Search");
+        btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
