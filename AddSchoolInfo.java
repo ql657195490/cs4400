@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.awt.Cursor;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -76,6 +77,7 @@ public class AddSchoolInfo {
         panel.add(lblNewLabel_2);
         
         JButton btnNewButton = new JButton("Back");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -87,6 +89,7 @@ public class AddSchoolInfo {
         panel.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("Sumbit");
+        btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
