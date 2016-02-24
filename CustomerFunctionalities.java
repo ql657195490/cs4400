@@ -2,14 +2,20 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JLabel;
+
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.SystemColor;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -62,6 +68,7 @@ public class CustomerFunctionalities {
         
         JLabel lblNewLabel_1 = new JLabel("<html><u>View Train Schedule</u></html>");
         lblNewLabel_1.setForeground(SystemColor.textHighlight);
+        lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
        
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
@@ -86,6 +93,7 @@ public class CustomerFunctionalities {
         panel.add(lblNewLabel_1);
         
         JLabel lblNewLabel_2 = new JLabel("<html><u>Make a new reservation</u></html>");
+        lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblNewLabel_2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -107,6 +115,7 @@ public class CustomerFunctionalities {
         panel.add(lblNewLabel_2);
         
         JLabel lblNewLabel_3 = new JLabel("<html><u>Update a reservation</u></html>");
+        lblNewLabel_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblNewLabel_3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -129,6 +138,7 @@ public class CustomerFunctionalities {
         panel.add(lblNewLabel_3);
         
         JLabel lblNewLabel_4 = new JLabel("<html><u>Cancel a reservation</u></html>");
+        lblNewLabel_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblNewLabel_4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -150,6 +160,7 @@ public class CustomerFunctionalities {
         panel.add(lblNewLabel_4);
         
         JLabel lblNewLabel_5 = new JLabel("<html><u>    Give review</u></html>");
+        lblNewLabel_5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblNewLabel_5.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -168,6 +179,7 @@ public class CustomerFunctionalities {
         panel.add(lblNewLabel_5);
         
         JLabel lblNewLabel_6 = new JLabel("<html><u>Add school information(Student discount)</u></html>");
+        lblNewLabel_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblNewLabel_6.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -189,6 +201,7 @@ public class CustomerFunctionalities {
         panel.add(lblNewLabel_6);
         
         JButton btnNewButton = new JButton("Log out");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 login li = new login();

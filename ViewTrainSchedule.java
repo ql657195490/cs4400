@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 
 import javax.swing.JScrollPane;
@@ -81,6 +82,7 @@ public class ViewTrainSchedule {
         textField.setColumns(10);
         
         JButton btnSearch = new JButton("Search");
+        btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
        
         btnSearch.setBounds(90, 195, 100, 29);
         panel.add(btnSearch);
@@ -118,6 +120,7 @@ public class ViewTrainSchedule {
         lblNewLabel_5.add(jsb);
         
         JButton btnNewButton = new JButton("Back");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 panel_1.setVisible(false);

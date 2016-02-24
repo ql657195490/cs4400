@@ -1,6 +1,6 @@
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Cursor;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,6 +10,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -73,6 +74,7 @@ public class CancelReservation {
         textField.setColumns(10);
         
         JButton btnBack = new JButton("Back");
+        btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -87,7 +89,9 @@ public class CancelReservation {
         btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                frame.dispose();
+                CancelReservation_1 cr1 = new CancelReservation_1();
+                cr1.cr1Window();
             }
         });
         btnSearch.setBounds(275, 191, 100, 29);

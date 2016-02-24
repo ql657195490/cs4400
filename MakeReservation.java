@@ -1,29 +1,43 @@
 import java.awt.EventQueue;
-import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 
 import javax.swing.JLabel;
+
+import java.awt.Font;
+
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
-public class MakeReservation_5 {
+import java.awt.GridLayout;
+
+
+public class MakeReservation {
 
     private JFrame frame;
+    private JTextField textField;
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
+    public static void mrWindow() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MakeReservation_5 window = new MakeReservation_5();
+                    MakeReservation window = new MakeReservation();
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -35,7 +49,7 @@ public class MakeReservation_5 {
     /**
      * Create the application.
      */
-    public MakeReservation_5() {
+    public MakeReservation() {
         initialize();
     }
 
@@ -54,35 +68,58 @@ public class MakeReservation_5 {
         frame.getContentPane().add(panel);
         panel.setLayout(null);
         
-        JLabel lblNewLabel = new JLabel("Confirmation");
-        lblNewLabel.setForeground(Color.ORANGE);
-        lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-        lblNewLabel.setBounds(175, 20, 100, 20);
-        panel.add(lblNewLabel);
+        panel.setVisible(true);
         
-        JLabel lblNewLabel_1 = new JLabel("Reservation ID");
-        lblNewLabel_1.setBounds(40, 60, 100, 20);
-        panel.add(lblNewLabel_1);
+        JLabel lblSearchTrain = new JLabel("Search Train");
+        lblSearchTrain.setForeground(Color.ORANGE);
+        lblSearchTrain.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+        lblSearchTrain.setBounds(180, 20, 90, 20);
+        panel.add(lblSearchTrain);
         
-        JLabel label = new JLabel("12345");
-        label.setBounds(234, 62, 61, 16);
-        panel.add(label);
+        JLabel lblDeportsFrom = new JLabel("Deports From");
+        lblDeportsFrom.setBounds(70, 80, 90, 20);
+        panel.add(lblDeportsFrom);
         
-        JLabel lblNewLabel_2 = new JLabel("Thank you for your purchase! Please save reservation ID for your records");
-        lblNewLabel_2.setBounds(40, 90, 350, 20);
-        lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 9));
-        panel.add(lblNewLabel_2);
+        JLabel lblArrivesAt = new JLabel("Arrives At");
+        lblArrivesAt.setBounds(70, 120, 70, 20);
+        panel.add(lblArrivesAt);
         
-        JButton btnNewButton = new JButton("Go back to choose funtionality");
-        btnNewButton.addActionListener(new ActionListener() {
+        JLabel lblDepatureDate = new JLabel("Depature Date");
+        lblDepatureDate.setBounds(70, 160, 90, 20);
+        panel.add(lblDepatureDate);
+        
+        JComboBox comboBox = new JComboBox();
+        comboBox.setBounds(242, 78, 110, 27);
+        panel.add(comboBox);
+        
+        JComboBox comboBox_1 = new JComboBox();
+        comboBox_1.setBounds(242, 118, 161, 27);
+        panel.add(comboBox_1);
+        
+        textField = new JTextField();
+        textField.setBounds(242, 160, 110, 20);
+        panel.add(textField);
+        textField.setColumns(10);
+        
+        JButton btnNewButton = new JButton("New button");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnNewButton.setBounds(364, 157, 44, 29);
+        panel.add(btnNewButton);
+        
+        JButton btnNewButton_1 = new JButton("Find Train");
+        btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
-                cf.cfWindow();
+              frame.dispose();
+              MakeReservation_1 mr = new MakeReservation_1();
+              mr.mrWindow_1();
             }
         });
-        btnNewButton.setBounds(115, 218, 220, 29);
-        panel.add(btnNewButton);
+        btnNewButton_1.setBounds(286, 310, 100, 29);
+        panel.add(btnNewButton_1);
+        
+        
+        
+        
     }
-
 }

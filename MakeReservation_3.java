@@ -1,4 +1,5 @@
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -27,6 +28,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -123,6 +125,7 @@ public class MakeReservation_3 {
         panel_1.add(lblAddCard);
         
         JLabel lblContinueToAdding = new JLabel("<html><u>Continue adding a train</u></html>");
+        lblContinueToAdding.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblContinueToAdding.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -134,10 +137,12 @@ public class MakeReservation_3 {
         panel_1.add(lblContinueToAdding);
         
         JButton btnBack = new JButton("Back");
+        btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.setBounds(98, 165, 100, 29);
         panel_1.add(btnBack);
         
         JButton btnSumbit = new JButton("Sumbit");
+        btnSumbit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSumbit.setBounds(362, 165, 100, 29);
         panel_1.add(btnSumbit);
         

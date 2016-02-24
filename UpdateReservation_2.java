@@ -1,3 +1,4 @@
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -95,10 +96,12 @@ public class UpdateReservation_2 {
         textField.setColumns(10);
         
         JButton btnCalender = new JButton("calendar");
+        btnCalender.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnCalender.setBounds(337, 7, 80, 29);
         panel_4.add(btnCalender);
         
         JButton btnSearch = new JButton("Search availability");
+        btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.setBounds(500, 7, 140, 29);
         panel_4.add(btnSearch);
         
@@ -161,10 +164,12 @@ public class UpdateReservation_2 {
         textField_2.setEnabled(false);
         
         JButton btnBack = new JButton("Back");
+        btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.setBounds(55, 95, 100, 29);
         panel_7.add(btnBack);
         
-        JButton btnSumbit = new JButton("Sumbit");
+        JButton btnSumbit = new JButton("Submit");
+        btnSumbit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSumbit.setBounds(238, 95, 100, 29);
         panel_7.add(btnSumbit);
         

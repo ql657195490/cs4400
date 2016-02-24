@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -13,8 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JComboBox;
 
 
@@ -119,12 +122,15 @@ public class MakeReservation_4 {
         textField_3.setColumns(10);
         
         JButton btnNewButton = new JButton("New button");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.setBounds(120, 220, 70, 29);
         panel_1.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("Submit");
+        btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               
             }
         });
         btnNewButton_1.setBounds(60, 265, 100, 29);
@@ -148,6 +154,7 @@ public class MakeReservation_4 {
         panel_2.add(comboBox);
         
         JButton btnSubmit = new JButton("Submit");
+        btnSubmit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             }

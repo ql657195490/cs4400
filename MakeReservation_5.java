@@ -1,3 +1,4 @@
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -8,6 +9,7 @@ import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -74,6 +76,7 @@ public class MakeReservation_5 {
         panel.add(lblNewLabel_2);
         
         JButton btnNewButton = new JButton("Go back to choose funtionality");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();

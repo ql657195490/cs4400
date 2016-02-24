@@ -10,12 +10,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+
 import javax.swing.JTable;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -69,6 +72,7 @@ public class MakeReservation_1 {
         frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
         
         JButton btnNewButton = new JButton("Back");
+        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
@@ -80,6 +84,7 @@ public class MakeReservation_1 {
         panel_1.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("Next");
+        btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
