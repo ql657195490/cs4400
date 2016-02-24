@@ -69,6 +69,18 @@ public class CustomerFunctionalities {
                 ViewTrainSchedule vts = new ViewTrainSchedule();
                 vts.vtsWindow();
             }
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                lblNewLabel_1.setForeground(Color.RED);
+//            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblNewLabel_1.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblNewLabel_1.setForeground(SystemColor.textHighlight);
+            }
         });
         lblNewLabel_1.setBounds(160, 60, 130, 35);
         panel.add(lblNewLabel_1);
@@ -80,6 +92,14 @@ public class CustomerFunctionalities {
                 frame.dispose();
                 MakeReservation mr = new MakeReservation();
                 mr.mrWindow();
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblNewLabel_2.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblNewLabel_2.setForeground(SystemColor.textHighlight);
             }
         });
         lblNewLabel_2.setForeground(SystemColor.textHighlight);
@@ -94,17 +114,55 @@ public class CustomerFunctionalities {
                 UpdateReservation ur = new UpdateReservation();
                 ur.urWindow();
             }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblNewLabel_3.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblNewLabel_3.setForeground(SystemColor.textHighlight);
+            }
         });
         lblNewLabel_3.setForeground(SystemColor.textHighlight);
         lblNewLabel_3.setBounds(155, 110, 140, 35);
         panel.add(lblNewLabel_3);
         
         JLabel lblNewLabel_4 = new JLabel("<html><u>Cancel a reservation</u></html>");
+        lblNewLabel_4.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                frame.dispose();
+                CancelReservation cr = new CancelReservation();
+                cr.crWindow();
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblNewLabel_4.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblNewLabel_4.setForeground(SystemColor.textHighlight);
+            }
+        });
         lblNewLabel_4.setForeground(SystemColor.textHighlight);
         lblNewLabel_4.setBounds(155, 135, 140, 35);
         panel.add(lblNewLabel_4);
         
         JLabel lblNewLabel_5 = new JLabel("<html><u>    Give review</u></html>");
+        lblNewLabel_5.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblNewLabel_5.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblNewLabel_5.setForeground(SystemColor.textHighlight);
+            }
+        });
         lblNewLabel_5.setForeground(SystemColor.textHighlight);
         lblNewLabel_5.setBounds(185, 160, 80, 35);
         panel.add(lblNewLabel_5);
@@ -116,6 +174,14 @@ public class CustomerFunctionalities {
                 frame.dispose();
                 AddSchoolInfo asi = new AddSchoolInfo();
                 asi.asiWindow();
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblNewLabel_6.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblNewLabel_6.setForeground(SystemColor.textHighlight);
             }
         });
         lblNewLabel_6.setForeground(SystemColor.textHighlight);
