@@ -170,6 +170,7 @@ public class UpdateReservation_2 {
         
         JPanel panel_8 = new JPanel();
         panel_8.setBackground(Color.WHITE);
+        panel_8.setBorder(new EmptyBorder(10, 10, 10 ,10));
         panel_2.add(panel_8, BorderLayout.CENTER);
         panel_8.setLayout(new BorderLayout(0, 0));
         
