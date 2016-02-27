@@ -164,6 +164,9 @@ public class CustomerFunctionalities {
         lblNewLabel_5.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                frame.dispose();
+                GiveReview gr = new GiveReview();
+                gr.grWindow();
             }
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -197,7 +200,7 @@ public class CustomerFunctionalities {
             }
         });
         lblNewLabel_6.setForeground(SystemColor.textHighlight);
-        lblNewLabel_6.setBounds(90, 185, 270, 35);
+        lblNewLabel_6.setBounds(90, 210, 270, 35);
         panel.add(lblNewLabel_6);
         
         JButton btnNewButton = new JButton("Log out");
@@ -210,6 +213,28 @@ public class CustomerFunctionalities {
         });
         btnNewButton.setBounds(300, 265, 87, 29);
         panel.add(btnNewButton);
+        
+        JLabel lblNewLabel_7 = new JLabel("<html><u>View review</u></html>");
+        lblNewLabel_7.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lblNewLabel_7.setForeground(SystemColor.textHighlight);
+        lblNewLabel_7.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                frame.dispose();
+                ViewReview vr = new ViewReview();
+                vr.vrWindow();
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblNewLabel_7.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblNewLabel_7.setForeground(SystemColor.textHighlight);
+            }
+        });
+        lblNewLabel_7.setBackground(SystemColor.menu);
+        lblNewLabel_7.setBounds(185, 185, 80, 35);
+        panel.add(lblNewLabel_7);
     }
-
 }

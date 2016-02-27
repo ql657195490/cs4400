@@ -134,6 +134,7 @@ public class UpdateReservation_1 extends JFrame{
         };
         
         ButtonGroup bg = new ButtonGroup();
+        
         for (int i = 0; i< rb.length; i++){
             bg.add(rb[i]);
         }
