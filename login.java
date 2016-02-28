@@ -85,8 +85,15 @@ public class login {
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CustomerFunctionalities cf = new CustomerFunctionalities();
-                cf.cfWindow();
+                frame.dispose();
+                boolean cm = false;// use for test customer or manager version
+                if(cm){
+                    CustomerFunctionalities cf = new CustomerFunctionalities();
+                    cf.cfWindow();
+                }else{
+                    ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
+                    mcf.mcfWindow();
+                }
             }
         });
         btnNewButton.setBounds(94, 171, 86, 29);
