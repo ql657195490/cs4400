@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
@@ -25,6 +26,8 @@ public class login {
     private JFrame frame;
     private JTextField textField;
     private JPasswordField passwordField;
+    public database db;
+    public String sql;
 
     /**
      * Launch the application.
@@ -81,20 +84,52 @@ public class login {
         panel.add(textField);
         textField.setColumns(10);
         
+        passwordField = new JPasswordField();
+        passwordField.setBounds(200, 106, 147, 28);
+        panel.add(passwordField);
+        
         JButton btnNewButton = new JButton("Login");
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                boolean cm = false;// use for test customer or manager version
-                if(cm){
-                    CustomerFunctionalities cf = new CustomerFunctionalities();
-                    cf.cfWindow();
-                }else{
-                    ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
-                    mcf.mcfWindow();
+                
+                db = new database();
+                try{
+                    
+                    sql = "select username from customer where username = '" + textField.getText().trim() +"'";
+                    db.checkUsername(sql);
+                    if (!db.getCheckUsername()){// if username exist
+                        sql = "select password from customer where username = '" + textField.getText().trim() + "'";
+                        if (passwordField.getText().trim().equals(db.checkLoginInfo(sql))){ //if username and password match
+                            sql = "select userType from customer where username = '" + textField.getText().trim() + "'";
+                            frame.dispose();
+                            if (db.checkFunctionality(sql).equals("1")){// if the username is a customer
+                                CustomerFunctionalities cf = new CustomerFunctionalities();
+                                cf.cfWindow();
+                            }else if (db.checkFunctionality(sql).equals("2")){// if the username is a manager
+                                ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
+                                mcf.mcfWindow();
+                            }
+                        }else{//username and password not match
+                            JOptionPane.showMessageDialog(null, "invaild login information, please try again");
+                        }
+                    }else{ // if username not exist
+                        JOptionPane.showMessageDialog(null, "invaild login information, please try again");
+                    }
+                   
+//                    boolean cm = false;// use for test customer or manager version
+//                    if(cm){
+//                        CustomerFunctionalities cf = new CustomerFunctionalities();
+//                        cf.cfWindow();
+//                    }else{
+//                        ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
+//                        mcf.mcfWindow();
+//                    }
+                }catch (Exception ee){
+                    
                 }
             }
+        
         });
         btnNewButton.setBounds(94, 171, 86, 29);
         panel.add(btnNewButton);
@@ -104,7 +139,7 @@ public class login {
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
-//                frame.dispose();
+                frame.dispose();
 //                try{
 //                    this.wait();
 //                }catch (Exception ee){
@@ -117,9 +152,7 @@ public class login {
         btnNewButton_1.setBounds(274, 171, 86, 29);
         panel.add(btnNewButton_1);
         
-        passwordField = new JPasswordField();
-        passwordField.setBounds(200, 106, 147, 28);
-        panel.add(passwordField);
+       
        
     }
 }

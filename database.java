@@ -13,12 +13,13 @@ public class database {
     public database(){
        try{
            driver = "com.mysql.jdbc.Driver";
-           url = "jdbc:mysql://127.0.0.1:3306/sys?useSSL=false";
-           username = "root";
-           password = "ql19930305";
+           url = "jdbc:mysql://127.0.0.1:3306/sys?useSSL=false"; //enter your own mysql info
+           username = "root"; //your username
+           password = "ql19930305"; //your password
            Class.forName(driver);
            con = DriverManager.getConnection(url, username, password);
-         
+           statement = con.prepareStatement("use sys"); // to connect the current database
+           statement.executeQuery();
        }catch(Exception e){
            
        }
@@ -57,7 +58,34 @@ public class database {
     }
     
     
-    
+    /**
+     * use to check the user is a customer or manager
+     * @param sql the sql language to check 
+     * @return userType in the table customer
+     * */
+    public String checkFunctionality(String sql)throws Exception{
+        statement = con.prepareStatement(sql);
+        result = statement.executeQuery();
+        while (result.next()){
+            return result.getString(1);
+        }
+        return "";
+    }
+    /**
+     * method to check the username and password is match or not
+     * @param sql the sql language to do the check
+     * @return return a password 
+     * */
+    public String checkLoginInfo(String sql)throws Exception{
+       
+        statement = con.prepareStatement(sql);
+        result = statement.executeQuery();
+        while (result.next()){
+            return result.getString(1);
+           
+        }
+        return "";
+    }
     
     public void setCheckUsername(String s){
         if (s == null || s.equals("")){
