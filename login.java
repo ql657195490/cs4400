@@ -65,76 +65,74 @@ public class login {
         frame.getContentPane().add(panel, null);
         panel.setLayout(null);
         
-        JLabel lblNewLabel = new JLabel("Login");
+        JLabel lblNewLabel = new JLabel("Login"); //longin Label
         lblNewLabel.setForeground(Color.ORANGE);
         lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
         lblNewLabel.setBounds(190, 31, 61, 19);
         panel.add(lblNewLabel);
         
-        JLabel lblNewLabel_1 = new JLabel("Username");
+        JLabel lblNewLabel_1 = new JLabel("Username"); //username label
         lblNewLabel_1.setBounds(48, 72, 74, 16);
         panel.add(lblNewLabel_1);
         
-        JLabel lblNewLabel_2 = new JLabel("Password");
+        JLabel lblNewLabel_2 = new JLabel("Password"); // password label
         lblNewLabel_2.setBounds(48, 112, 61, 16);
         panel.add(lblNewLabel_2);
         
-        textField = new JTextField();
+        textField = new JTextField(); // textField for username
         textField.setBounds(200, 66, 147, 28);
         panel.add(textField);
         textField.setColumns(10);
         
-        passwordField = new JPasswordField();
+        passwordField = new JPasswordField(); // passwordField for password
         passwordField.setBounds(200, 106, 147, 28);
         panel.add(passwordField);
         
-        JButton btnNewButton = new JButton("Login");
+        JButton btnNewButton = new JButton("Login"); //login button
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
                 db = new database();
                 try{
-                    
-                    sql = "select username from customer where username = '" + textField.getText().trim() +"'";
-                    db.checkUsername(sql);
-                    if (!db.getCheckUsername()){// if username exist
-                        sql = "select password from customer where username = '" + textField.getText().trim() + "'";
-                        if (passwordField.getText().trim().equals(db.checkLoginInfo(sql))){ //if username and password match
-                            sql = "select userType from customer where username = '" + textField.getText().trim() + "'";
+                    db.checkUsername("select username from user where username = '" + textField.getText().trim()
+                            +"'");
+                    if (!db.getCheckUsername()){
+                        if(passwordField.getText().trim().equals(db.checkLoginInfo("select password from user"
+                                + " where username = '" + textField.getText().trim() + "'"))){
                             frame.dispose();
-                            if (db.checkFunctionality(sql).equals("1")){// if the username is a customer
+                            if (db.checkFunctionality("select userType from user where username = '" +
+                                textField.getText().trim() + "'").equals("customer")){
                                 CustomerFunctionalities cf = new CustomerFunctionalities();
                                 cf.cfWindow();
-                            }else if (db.checkFunctionality(sql).equals("2")){// if the username is a manager
+                            }else{
                                 ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
                                 mcf.mcfWindow();
                             }
-                        }else{//username and password not match
-                            JOptionPane.showMessageDialog(null, "invaild login information, please try again");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Invalid login information");
                         }
-                    }else{ // if username not exist
-                        JOptionPane.showMessageDialog(null, "invaild login information, please try again");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Invalid login informaiton");
                     }
-                   
-//                    boolean cm = false;// use for test customer or manager version
-//                    if(cm){
-//                        CustomerFunctionalities cf = new CustomerFunctionalities();
-//                        cf.cfWindow();
-//                    }else{
-//                        ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
-//                        mcf.mcfWindow();
-//                    }
                 }catch (Exception ee){
                     
                 }
+               
+//              boolean cm = true;// use for test customer or manager version
+//              if(cm){
+//                  CustomerFunctionalities cf = new CustomerFunctionalities();
+//                  cf.cfWindow();
+//              }else{
+//                  ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
+//                  mcf.mcfWindow();
+//              }
             }
         
         });
         btnNewButton.setBounds(94, 171, 86, 29);
         panel.add(btnNewButton);
         
-        JButton btnNewButton_1 = new JButton("Register");
+        JButton btnNewButton_1 = new JButton("Register"); // register button
         btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

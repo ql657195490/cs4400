@@ -13,12 +13,12 @@ public class database {
     public database(){
        try{
            driver = "com.mysql.jdbc.Driver";
-           url = "jdbc:mysql://127.0.0.1:3306/sys?useSSL=false"; //enter your own mysql info
+           url = "jdbc:mysql://127.0.0.1:3306/cs4400?useSSL=false"; //enter your own mysql info
            username = "root"; //your username
            password = "ql19930305"; //your password
            Class.forName(driver);
            con = DriverManager.getConnection(url, username, password);
-           statement = con.prepareStatement("use sys"); // to connect the current database
+           statement = con.prepareStatement("use cs4400"); // to connect the current database
            statement.executeQuery();
        }catch(Exception e){
            

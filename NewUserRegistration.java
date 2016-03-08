@@ -218,9 +218,14 @@ public class NewUserRegistration{
                         if (db.getCheckUsername()){
                             JOptionPane.showMessageDialog(null, "username already exist");
                         }else{
-                             sql = "insert customer values('" + textField.getText().trim() + "', '" + passwordField.getText().trim()
-                                    + "', 1, '" + textField_2.getText().trim() + "', '" + textField_1.getText().trim()
-                                    + "', 0, 'No')";
+                            sql = "insert user values('" + textField.getText().trim()+ "', '" + passwordField.getText().trim()
+                                    + "', 'customer')";
+                            db.update(sql);
+                            sql = "insert customer values('" + textField_1.getText().trim() + "', '" + textField.getText().trim()
+                                    + "', 'false')";
+//                             sql = "insert customer values('" + textField.getText().trim() + "', '" + passwordField.getText().trim()
+//                                    + "', 1, '" + textField_2.getText().trim() + "', '" + textField_1.getText().trim()
+//                                    + "', 0, 'No')";
                             db.update(sql);
                             JOptionPane.showMessageDialog(null, "register successful");
                         }
