@@ -41,7 +41,6 @@ public class NewUserRegistration{
     private JPasswordField passwordField_1;
     private boolean b;
     private database db;
-    private JTextField textField_2;
     public String sql;
 
     /**
@@ -183,15 +182,6 @@ public class NewUserRegistration{
         });
         panel.add(passwordField_1);
         
-        JLabel lblName = new JLabel("Name");
-        lblName.setBounds(40, 231, 61, 16);
-        panel.add(lblName);
-        
-        textField_2 = new JTextField();
-        textField_2.setBounds(196, 225, 200, 28);
-        panel.add(textField_2);
-        textField_2.setColumns(10);
-        
         
         JButton btnNewButton = new JButton("create");
         btnNewButton.addActionListener(new ActionListener() {
@@ -204,8 +194,6 @@ public class NewUserRegistration{
                     JOptionPane.showMessageDialog(null, "please enter the password");
                 }else if (passwordField_1.getText().trim() == null || passwordField_1.getText().trim().equals("")){
                     JOptionPane.showMessageDialog(null, "please enter your password again");
-                }else if (textField_2.getText().trim() == null || textField_2.getText().trim().equals("")){
-                    JOptionPane.showMessageDialog(null, "Name cannot be null");
                 }else {
                     
                     try {
@@ -217,6 +205,9 @@ public class NewUserRegistration{
                         db.checkUsername("select username from customer where username = " + textField.getText().trim());
                         if (db.getCheckUsername()){
                             JOptionPane.showMessageDialog(null, "username already exist");
+                        }else if (!(db.checkFunctionality("select email from customer where email = '"
+                                + textField_1.getText().trim()+ "'").equals(""))){
+                            JOptionPane.showMessageDialog(null, "email already exist");
                         }else{
                             sql = "insert user values('" + textField.getText().trim()+ "', '" + passwordField.getText().trim()
                                     + "', 'customer')";

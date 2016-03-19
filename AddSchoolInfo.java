@@ -1,6 +1,7 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
@@ -22,6 +23,10 @@ public class AddSchoolInfo {
 
     private JFrame frame;
     private JTextField textField;
+    public String sql;
+    public database db;
+    public login li;
+    public static String username;
 
     /**
      * Launch the application.
@@ -30,7 +35,7 @@ public class AddSchoolInfo {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    AddSchoolInfo window = new AddSchoolInfo();
+                    AddSchoolInfo window = new AddSchoolInfo(username);
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -42,7 +47,8 @@ public class AddSchoolInfo {
     /**
      * Create the application.
      */
-    public AddSchoolInfo() {
+    public AddSchoolInfo(String username) {
+        this.username = username;
         initialize();
     }
 
@@ -87,7 +93,7 @@ public class AddSchoolInfo {
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
+                CustomerFunctionalities cf = new CustomerFunctionalities(username);
                 cf.cfWindow();
             }
         });
@@ -98,9 +104,29 @@ public class AddSchoolInfo {
         btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
-                cf.cfWindow();
+                String edu = textField.getText().trim();
+                if (edu.length() < 4){
+                    JOptionPane.showMessageDialog(null, "invalid school information");
+                }else{
+                    edu = edu.substring(edu.length() - 3, edu.length());
+                    if (edu.equals("edu")){
+                        db = new database();
+                        //li = new login();
+                        System.out.println(username);
+                        sql = "update customer set isStudent = 'true' where username = '" + username + "'";
+                        System.out.println(sql);
+                        try{
+                            db.update(sql);
+                        }catch (Exception ee){}
+                        JOptionPane.showMessageDialog(null, "add school information successful");
+                        frame.dispose();
+                        CustomerFunctionalities cf = new CustomerFunctionalities(username);
+                        cf.cfWindow();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "invalid school information");
+                    }
+                }
+               
             }
         });
         btnNewButton_1.setBounds(235, 190, 100, 29);

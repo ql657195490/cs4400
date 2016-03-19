@@ -21,17 +21,23 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
 
-public class login {
+public class login extends JFrame {
 
     private JFrame frame;
     private JTextField textField;
     private JPasswordField passwordField;
     public database db;
     public String sql;
+    public String username;
 
-    /**
-     * Launch the application.
-     */
+    //constructor 
+//    public login(){
+//       buildwindow();
+//       frame.setVisible(true);
+//    }
+//    /**
+//     * Launch the application.
+//     */
     public static void loginWindow() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -55,7 +61,7 @@ public class login {
     /**
      * Initialize the contents of the frame.
      */
-    private void initialize() {
+    public void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,7 +108,10 @@ public class login {
                             frame.dispose();
                             if (db.checkFunctionality("select userType from user where username = '" +
                                 textField.getText().trim() + "'").equals("customer")){
-                                CustomerFunctionalities cf = new CustomerFunctionalities();
+                                login li = new login();
+                                li.setUsername(textField.getText().trim());
+                                System.out.println(li.getUsername());
+                                CustomerFunctionalities cf = new CustomerFunctionalities(li.getUsername());
                                 cf.cfWindow();
                             }else{
                                 ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
@@ -118,14 +127,6 @@ public class login {
                     
                 }
                
-//              boolean cm = true;// use for test customer or manager version
-//              if(cm){
-//                  CustomerFunctionalities cf = new CustomerFunctionalities();
-//                  cf.cfWindow();
-//              }else{
-//                  ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
-//                  mcf.mcfWindow();
-//              }
             }
         
         });
@@ -150,7 +151,22 @@ public class login {
         btnNewButton_1.setBounds(274, 171, 86, 29);
         panel.add(btnNewButton_1);
         
-       
-       
+    }
+    
+    /**
+     * methond to store the username
+     * @param username the username that the user login
+     * 
+     * */
+    public  void setUsername(String username){
+        this.username = username;
+    }
+    
+    /**
+     * method to get the username
+     * @return the username that the customer login
+     * */
+    public String getUsername(){
+        return this.username;
     }
 }

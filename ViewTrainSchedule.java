@@ -9,8 +9,10 @@ import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -20,13 +22,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JScrollBar;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
 
 
 public class ViewTrainSchedule {
 
     private JFrame frame;
     private JTextField textField;
-
+    public int trainNumber;
+    private JTable table;
+    public database db;
+    public String sql;
+    public Object[][] ss;
+    
     /**
      * Launch the application.
      */
@@ -47,6 +56,7 @@ public class ViewTrainSchedule {
      * Create the application.
      */
     public ViewTrainSchedule() {
+        db = new database();
         initialize();
     }
 
@@ -58,6 +68,8 @@ public class ViewTrainSchedule {
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
+
+        
         
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -90,52 +102,83 @@ public class ViewTrainSchedule {
         drawPanel panel_1 = new drawPanel();
         panel_1.setBounds(0, 0, 450, 300);
         frame.getContentPane().add(panel_1);
-        panel_1.setLayout(null);
+        panel_1.setLayout(new BorderLayout(0, 0));
         
+        JPanel panel_2 = new JPanel();
+        panel_2.setBackground(Color.WHITE);
+        panel_1.add(panel_2, BorderLayout.NORTH);
+        panel_2.setPreferredSize(new Dimension(450, 60));
+        panel_2.setLayout(null);
         
-        JLabel lblNewLabel_1 = new JLabel("View Train Schedule");
-        lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-        lblNewLabel_1.setForeground(Color.ORANGE);
-        lblNewLabel_1.setBounds(150, 20, 150, 35);
-        panel_1.add(lblNewLabel_1);
+        JLabel lblViewTrainSchedule_1 = new JLabel("View Train Schedule");
+        lblViewTrainSchedule_1.setForeground(Color.ORANGE);
+        lblViewTrainSchedule_1.setBounds(150, 20, 150, 20);
+        lblViewTrainSchedule_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+        panel_2.add(lblViewTrainSchedule_1);
         
-        JLabel lblNewLabel_2 = new JLabel("<html>Train<br/>(Train Number)");
-        lblNewLabel_2.setBounds(15, 60, 105, 35);
-        panel_1.add(lblNewLabel_2);
+        JPanel panel_3 = new JPanel();
+        panel_3.setBackground(Color.WHITE);
+        panel_3.setPreferredSize(new Dimension(450, 90));
+        panel_1.add(panel_3, BorderLayout.SOUTH);
+        panel_3.setLayout(null);
         
-        JLabel lblNewLabel_4 = new JLabel("Departure Time");
-        lblNewLabel_4.setBounds(225, 60, 105, 35);
-        panel_1.add(lblNewLabel_4);
+        JButton btnBack = new JButton("Back");
+        btnBack.setBounds(88, 40, 117, 29);
+        btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        panel_3.add(btnBack);
         
-        JLabel lblNewLabel_3 = new JLabel("Arrival Time");
-        lblNewLabel_3.setBounds(120, 60, 105, 35);
-        panel_1.add(lblNewLabel_3);
+        JPanel panel_4 = new JPanel();
+        panel_4.setBackground(Color.WHITE);
+        panel_4.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel_1.add(panel_4, BorderLayout.CENTER);
+        panel_4.setLayout(new BorderLayout(0, 0));
         
-        JLabel lblNewLabel_5 = new JLabel("Station");
-        lblNewLabel_5.setBounds(330, 60, 105, 35);
-        panel_1.add(lblNewLabel_5);
+        JScrollPane scrollPane = new JScrollPane();
+        panel_4.add(scrollPane, BorderLayout.CENTER);
         
-        JScrollBar jsb = new JScrollBar();
-        jsb.setOrientation(JScrollBar.VERTICAL);
-        lblNewLabel_5.add(jsb);
+
+        panel_1.setVisible(false);
         
-        JButton btnNewButton = new JButton("Back");
-        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnNewButton.addActionListener(new ActionListener() {
+        btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 panel_1.setVisible(false);
                 panel.setVisible(true);
             }
         });
-        btnNewButton.setBounds(100, 200, 100, 29);
-        panel_1.add(btnNewButton);
-        panel_1.setVisible(false);
         
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                
+                sql = "select trainNum, arrivalTime, departureTime, location, name from stop where trainNum = '" 
+                        + textField.getText().trim() + "'";
+                try{
+                   if (db.checkFunctionality(sql).equals("")){
+                       JOptionPane.showMessageDialog(null, "can not find train" + textField.getText());
+                   }else{
+                       ss = new Object[db.viewSchedule(sql).length][4];
+                       ss = db.viewSchedule(sql);
+                       
+                       Object[] s= {"Train Number", "Arrival Time",  "Depature Time", "Station"};
+    
+                       table = new JTable(ss, s); //table
+                       scrollPane.setViewportView(table);
+                   }
+                }catch (Exception ee){
+                    
+                }
                 panel.setVisible(false);
                 panel_1.setVisible(true);
             }
         });
+    }
+    
+    public Object[][] resize(Object[][] ss){
+        Object[][] temp = new Object[ss.length * 2][ss[0].length];
+        for (int i = 0; i < ss.length; i++){
+            for (int j = 0; j < ss[0].length; j++){
+                temp[i][j] = ss[i][j];
+            }
+        }
+        return temp;
     }
 }

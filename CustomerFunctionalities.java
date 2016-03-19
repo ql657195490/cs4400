@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 public class CustomerFunctionalities {
 
     private JFrame frame;
+    public static String username;
 
     /**
      * Launch the application.
@@ -31,7 +32,7 @@ public class CustomerFunctionalities {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    CustomerFunctionalities window = new CustomerFunctionalities();
+                    CustomerFunctionalities window = new CustomerFunctionalities(username);
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -43,7 +44,8 @@ public class CustomerFunctionalities {
     /**
      * Create the application.
      */
-    public CustomerFunctionalities() {
+    public CustomerFunctionalities(String username) {
+        this.username = username;
         initialize();
     }
 
@@ -73,6 +75,7 @@ public class CustomerFunctionalities {
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                frame.dispose();
                 ViewTrainSchedule vts = new ViewTrainSchedule();
                 vts.vtsWindow();
             }
@@ -98,7 +101,7 @@ public class CustomerFunctionalities {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
-                MakeReservation mr = new MakeReservation();
+                MakeReservation mr = new MakeReservation(username);
                 mr.mrWindow();
             }
             @Override
@@ -187,7 +190,7 @@ public class CustomerFunctionalities {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
-                AddSchoolInfo asi = new AddSchoolInfo();
+                AddSchoolInfo asi = new AddSchoolInfo(username);
                 asi.asiWindow();
             }
             @Override

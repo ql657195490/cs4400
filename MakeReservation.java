@@ -33,6 +33,8 @@ public class MakeReservation {
     private JFrame frame;
     private JTextField textField;
     private boolean a, b;
+    public String[] station;
+    public static String username;
 
     /**
      * Launch the application.
@@ -41,7 +43,7 @@ public class MakeReservation {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MakeReservation window = new MakeReservation();
+                    MakeReservation window = new MakeReservation(username);
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -53,7 +55,8 @@ public class MakeReservation {
     /**
      * Create the application.
      */
-    public MakeReservation() {
+    public MakeReservation(String username) {
+        this.username = username;
         initialize();
     }
 
@@ -82,6 +85,7 @@ public class MakeReservation {
         lblSearchTrain.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
         lblSearchTrain.setBounds(180, 20, 90, 20);
         panel.add(lblSearchTrain);
+        
         
         JLabel lblDeportsFrom = new JLabel("Deports From"); // deports from label
         lblDeportsFrom.setBounds(70, 80, 90, 20);
