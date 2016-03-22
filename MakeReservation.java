@@ -26,6 +26,11 @@ import javax.swing.JSplitPane;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 
 public class MakeReservation {
@@ -35,6 +40,9 @@ public class MakeReservation {
     private boolean a, b;
     public String[] station;
     public static String username;
+    public database db;
+    public static ArrayList list;
+    public Object[][] s1;
 
     /**
      * Launch the application.
@@ -57,6 +65,8 @@ public class MakeReservation {
      */
     public MakeReservation(String username) {
         this.username = username;
+        db = new database();
+        list = new ArrayList();
         initialize();
     }
 
@@ -99,11 +109,17 @@ public class MakeReservation {
         lblDepatureDate.setBounds(70, 160, 90, 20);
         panel.add(lblDepatureDate);
         
-        JComboBox comboBox = new JComboBox(); // comboBox for deports from
-        comboBox.setBounds(242, 78, 110, 27);
+        try{
+            station = db.getStation("select * from station"); 
+        }catch (Exception e){
+            
+        }
+        JComboBox comboBox = new JComboBox(station); // comboBox for deports from
+
+        comboBox.setBounds(242, 78, 161, 27);
         panel.add(comboBox);
         
-        JComboBox comboBox_1 = new JComboBox(); // comBox for arrives At
+        JComboBox comboBox_1 = new JComboBox(station); // comBox for arrives At
         comboBox_1.setBounds(242, 118, 161, 27);
         panel.add(comboBox_1);
         
@@ -111,6 +127,11 @@ public class MakeReservation {
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+               
+                if (textField.getText().matches("[A-Za-z]+")){
+                    textField.setText("");
+                    JOptionPane.showMessageDialog(null, "date should be numbers");
+                }
                 if (textField.getText().trim().length() < 2){
                     a = true;
                     b = true;
@@ -158,11 +179,58 @@ public class MakeReservation {
         btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-              frame.dispose();
-              MakeReservation_1 mr = new MakeReservation_1();
-              mr.mrWindow_1();
-            }
-        });
+                if (comboBox.getSelectedItem().equals(comboBox_1.getSelectedItem())){
+                    JOptionPane.showMessageDialog(null, "deeparts from and arrives at station cannot be same");
+                }else if(textField.getText().equals("")){
+                    JOptionPane.showMessageDialog(null, "departure date cannot be null");
+                }else if (textField.getText().trim().length() != 10){
+                    JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
+                }else{
+                    String n1 = "";
+                    String n2 = "";
+                    String n3 = "";
+                    String n4 = "";
+                    int count = 0;
+                    for (int i = 0; i < String.valueOf(comboBox.getSelectedItem()).length(); i++){
+                        if (String.valueOf(comboBox.getSelectedItem()).substring(i, i + 1).equals("(")){
+                            count = i;
+                            n1 = String.valueOf(comboBox.getSelectedItem()).substring(0, i);
+                            n2 = String.valueOf(comboBox.getSelectedItem()).substring(i + 1, String.valueOf(comboBox.getSelectedItem()).length() - 1);
+                            count = 0;
+                        }
+                       
+                    }
+                    for (int i = 0; i < String.valueOf(comboBox_1.getSelectedItem()).length(); i++){
+                        if (String.valueOf(comboBox_1.getSelectedItem()).substring(i, i + 1).equals("(")){
+                            count = i;
+                            n3 = String.valueOf(comboBox_1.getSelectedItem()).substring(0, i);
+                            n4 = String.valueOf(comboBox_1.getSelectedItem()).substring(i + 1, String.valueOf(comboBox_1.getSelectedItem()).length() - 1);
+
+                        }
+                        
+                    }
+
+                    list.add(username);//index 0 : username
+                    list.add(comboBox.getSelectedItem()); // index 1 : departs from
+                    list.add(comboBox_1.getSelectedItem()); //index 2 : arrives at
+                    list.add(textField.getText().trim()); //index 3: departure date
+                
+                    try{
+                        s1 = db.TrainOption("select * from (select * from (select trainNum, departureTime from stop "
+                                + " where name = '" + n2 + "' and location = '" + n1 + "') as a1 natural join "
+                                +"(select trainNum, arrivalTime from stop where name = '" + n4 + "' and location = '" + n3 + "') as a2) as a3"
+                                + " natural join trainRoute");
+                    }catch (Exception ee){
+                      
+                    }
+                    
+                  
+                    frame.dispose();
+                    MakeReservation_1 mr = new MakeReservation_1(list, s1);
+                    //mr.mrWindow_1();
+                }
+              }
+          });
         btnNewButton_1.setBounds(286, 310, 100, 29);
         panel.add(btnNewButton_1);
         

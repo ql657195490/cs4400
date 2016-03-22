@@ -10,17 +10,21 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 
 public class MakeReservation_2 {
 
     private JFrame frame;
     private JTextField textField;
+    public static ArrayList list;
+    public static Object[][] s1;
 
     /**
      * Launch the application.
@@ -29,7 +33,7 @@ public class MakeReservation_2 {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MakeReservation_2 window = new MakeReservation_2();
+                    MakeReservation_2 window = new MakeReservation_2(list, s1);
                     window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -41,7 +45,9 @@ public class MakeReservation_2 {
     /**
      * Create the application.
      */
-    public MakeReservation_2() {
+    public MakeReservation_2(ArrayList list, Object[][] s1) {
+        this.list = list;
+        this.s1 = s1;
         initialize();
     }
 
@@ -96,9 +102,10 @@ public class MakeReservation_2 {
         btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            
                 frame.dispose();
-                MakeReservation_1 mr1 = new MakeReservation_1();
-                mr1.mrWindow_1();
+                MakeReservation_1 mr1 = new MakeReservation_1(list, s1);
+                //mr1.mrWindow_1();
             }
         });
         btnBack.setBounds(80, 305, 100, 29);
@@ -108,8 +115,15 @@ public class MakeReservation_2 {
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                if (textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "you need to enter a name");
+                }
+                
+                list.add(comboBox.getSelectedItem()); // index 6: number of baggage
+                list.add(textField.getText().trim()); // index 7: passenger name
+                
                 frame.dispose();
-                MakeReservation_3 mr3 = new MakeReservation_3();
+                MakeReservation_3 mr3 = new MakeReservation_3(list);
                 mr3.mrWindow_3();
             }
         });

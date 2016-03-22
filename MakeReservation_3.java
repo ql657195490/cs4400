@@ -31,6 +31,7 @@ import javax.swing.UIManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 
 public class MakeReservation_3 {
@@ -38,6 +39,7 @@ public class MakeReservation_3 {
     private JFrame frame;
     private JTable table;
     private JTextField textField;
+    public ArrayList list;
 
     /**
      * Launch the application.
@@ -60,6 +62,10 @@ public class MakeReservation_3 {
      */
     public MakeReservation_3() {
         initialize();
+    }
+    
+    public MakeReservation_3(ArrayList list){
+        this.list = list;
     }
 
     /**

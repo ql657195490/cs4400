@@ -1,5 +1,7 @@
 import java.sql.*;
 
+import javax.swing.JRadioButton;
+
 public class database {
     private String driver;
     private String url;
@@ -10,6 +12,7 @@ public class database {
     private ResultSet result;
     public boolean cUsername;
     public int resize;
+    private boolean mb;
     
     public database(){
         resize = 0;
@@ -139,8 +142,87 @@ public class database {
         return temp;
     }
     
-    //method to get resize
-    public int getResize(){
-        return this.resize;
+    /**
+     * method to create the array for combobox
+     * @param sql the sql query
+     * @return return an array
+     * */
+    public String[] getStation(String sql) throws Exception{
+        int stationNum = arraySize("select * from station");
+        String[] station = new String[stationNum];
+        int count = 0;
+        statement = con.prepareStatement(sql);
+        result = statement.executeQuery();
+        while (result.next()){
+            station[count] = result.getString(2) + "(" + result.getString(1) + ")";
+            count++;
+        }
+        return station;
     }
+    
+    /**
+     * method to decide the size of array
+     * @param sql the sql query 
+     * @return the array size
+     * */
+    public int arraySize(String sql)throws Exception{
+        int arraySize = 0;
+        statement = con.prepareStatement(sql);
+        result = statement.executeQuery();
+        while (result.next()){
+            if (result.getString(1) != null){
+                arraySize++;
+            }else if (result.getString(2) != null){
+                arraySize++;
+            }
+        }
+        return arraySize;
+    }
+    
+    /**
+     * method to list all possible train when customer searching in make reservation
+     * @param sql sql query
+     * @return the list in Object[][] array
+     * */
+    public Object[][] TrainOption(String sql) throws Exception{
+        statement = con.prepareStatement(sql);
+        result = statement.executeQuery();
+   
+        mb = false;
+        Object[][] ss = new Object[100][4];
+        int count = 0;
+        while (result.next()){
+            if (Integer.parseInt(result.getString(2).substring(0, 2)) - 
+                    Integer.parseInt(result.getString(3).substring(0, 2)) < 0){
+                mb = true;
+            }else if(Integer.parseInt(result.getString(2).substring(0, 2)) - 
+                    Integer.parseInt(result.getString(3).substring(0, 2)) == 0){
+                if (Integer.parseInt(result.getString(2).substring(3,5)) - 
+                        Integer.parseInt(result.getString(3).substring(3, 5)) < 0){
+                    mb = true;
+                }else if(Integer.parseInt(result.getString(2).substring(3,5)) - 
+                        Integer.parseInt(result.getString(3).substring(3, 5)) == 0){
+                    
+                }
+            }
+            for (int i = 0; i < 4; i++){
+                if (mb){
+                    if (i == 0){
+                        ss[count][i] = result.getString(i + 1);
+                    }else if (i == 1){
+                        ss[count][i] = result.getString(i + 1) + "-" + result.getString(i + 2);
+                    }else{
+                        ss[count][i] = new JRadioButton(result.getString(i + 2));
+                    }
+                }
+            }
+            mb = false;
+            if (count == ss.length - 1){
+                this.resize(ss);
+            }
+            count++;
+        }
+        return ss;
+    }
+   
 }

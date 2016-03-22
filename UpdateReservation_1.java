@@ -186,7 +186,7 @@ class radioEditor extends DefaultCellEditor implements ItemListener{
         // TODO Auto-generated method stub
         
         super.fireEditingStopped();
-        JOptionPane.showMessageDialog(null, radio.getText());
+        //JOptionPane.showMessageDialog(null, radio.getText());
         
     }
 }

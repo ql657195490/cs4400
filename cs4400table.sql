@@ -1,4 +1,3 @@
-# all of the data in the table are user for test
 use cs4400
 CREATE TABLE user(
 	username VARCHAR(50) PRIMARY KEY NOT NULL,

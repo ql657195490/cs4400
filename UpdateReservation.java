@@ -20,6 +20,7 @@ public class UpdateReservation {
 
     private JFrame frame;
     private JTextField textField;
+    public static String username;
 
     /**
      * Launch the application.
@@ -93,7 +94,7 @@ public class UpdateReservation {
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
+                CustomerFunctionalities cf = new CustomerFunctionalities(username);
                 cf.cfWindow();
             }
         });

@@ -1,7 +1,14 @@
+import java.util.ArrayList;
+
 
 public class test { //user for test the database class
     public static void main(String[] args){
         database db = new database();
-        db.search("select * from test");
+        String username = "123";
+        String station = "Boston(BBY)";
+
+        MakeReservation mr = new MakeReservation(username);
+        mr.mrWindow();
+
     }
 }
