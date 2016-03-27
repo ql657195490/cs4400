@@ -24,6 +24,8 @@ public class CustomerFunctionalities {
 
     private JFrame frame;
     public static String username;
+    public static Object[][] s2;
+    public MakeReservationData mrd;
 
     /**
      * Launch the application.
@@ -46,6 +48,9 @@ public class CustomerFunctionalities {
      */
     public CustomerFunctionalities(String username) {
         this.username = username;
+        s2 = new Object[1][9];
+        mrd = new MakeReservationData(false);
+        mrd.setReservationData(s2);
         initialize();
     }
 

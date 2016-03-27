@@ -39,16 +39,22 @@ public class MakeReservation_1 {
     public JScrollPane scrollPane;
     public static String username;
     public static ArrayList list;
-    public Object[][] s1;
+    public static Object[][] s1;
     public rButton rbv;
-    public String trainNum;
+    public static String trainNum;
     public String tclass;
+    public static String time;
+    public static Object[][] s2;
+    public MakeReservationData mrd;
+    public static int position;
     
     //constructor
     public MakeReservation_1(ArrayList list, Object[][] s1){
         this.list = list;
         this.username = (String)list.get(0);
         this.s1 = s1;
+        mrd = new MakeReservationData(false);
+        s2 = mrd.getReservationData();
         createParts();
         frame.setVisible(true);
     }
@@ -81,21 +87,45 @@ public class MakeReservation_1 {
         });
         btnNewButton.setBounds(80, 20, 100, 29);
         panel_1.add(btnNewButton);
-      
+     
         JButton btnNewButton_1 = new JButton("Next");
         btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                rbv = new rButton();
-                trainNum = rbv.getTn();
-                tclass = rbv.getTclass();
-                list.add(trainNum); //index 4: train number
-                list.add(tclass); // index 5: class
+//                rbv = new rButton();
+//                trainNum = rbv.getTn();
+//                tclass = rbv.getTclass();
+//                list.add(trainNum); //index 4: train number
+//                
+//                
+//                System.out.println("tn is " + trainNum);
+//                list.add(tclass); // index 5: class
+                //list.add(getTime(s1, trainNum)); // index 6: time
+                
+                //add data
+                //int position = 0;
+                for (int i = 0; i < s2.length; i++){
+                    if (s2[i][1] == null){
+                        position = i;
+                        break;
+                    }
+                }
+                
+                s2 = mrd.getReservationData();
+                time = getTime(s1, (String)s2[position][0]);
+                System.out.println("train: " + s2[position][0]);
+                System.out.println("time is " + time);
+//                s2[position][0] = trainNum; //index 0: train number
+                  s2[position][1] = time; // index 1: time
+//                s2[position][4] = tclass; // index 4 : class
+//                s2[position][5] = rbv.getPrice(); // index 5: price
+                mrd.setReservationData(s2);
                 frame.dispose();
-                MakeReservation_2 mr2 = new MakeReservation_2(list, s1);
+                MakeReservation_2 mr2 = new MakeReservation_2(username, s1);
                 mr2.mrWindow_2();
             }
         });
+        
         btnNewButton_1.setBounds(270, 20, 100, 29);
         panel_1.add(btnNewButton_1);
       
@@ -134,35 +164,79 @@ public class MakeReservation_1 {
     }
     
     public void createTable(Object[][] s1, Object[] s2){
+        
         int count = 0;
         ButtonGroup bg = new ButtonGroup();
         Object[] s3 = new Object[s1.length];
         JRadioButton[] rb = new JRadioButton[s1.length * 2];
+//        System.out.println("s1 length: " + s1.length);
+//        System.out.println("rb length :" +  rb.length);
+        //int lengthR = 0;
+
+        
         for (int i = 0; i < s1.length; i++){
             if (s1[i][2] == null){
                 break;
             }
+            //lengthR += 2;
+            
             rb[count] = (JRadioButton)s1[i][2];
-            //System.out.println(rb[count]);
             bg.add(rb[count]);
             s3[i] = s1[i][0];
-            rb[count].addItemListener(new rButton(s3[i], "first"));
+            rb[count].addItemListener(new rButton(s3[i], "first", rb[count].getText(), position));
+            
             count++;
+            
             rb[count] = (JRadioButton)s1[i][3];
-            rb[count].addItemListener(new rButton(s3[i], "second"));
             bg.add(rb[count]);
+            rb[count].addItemListener(new rButton(s3[i], "second", rb[count].getText(), position));
+            
+            
+            
             //System.out.println(rb[count]);
             //s1[i][1] = rb[i];
         }
         
-        dtm = new DefaultTableModel(s1, s2);
-        table = new JTable(dtm){
-            public void tableChanged(TableModelEvent e){
-                super.tableChanged(e);
-                
-                repaint();
-            }
-        };
+        
+//        System.out.println("length R" + lengthR);
+//        JRadioButton[] rb1 = new JRadioButton[lengthR];
+//        System.out.println("rb1 length: " + rb1.length);
+//        count = 0;
+//        for (int i = 0; i < rb1.length / 2; i++){
+//            
+//            rb1[count++] = (JRadioButton)s1[i][2];
+//            bg.add(rb1[count - 1]);
+//            rb1[count++] = (JRadioButton)s1[i][3];
+//            bg.add(rb1[count - 1]);
+//        }
+//        
+//        for (int i = 0; i <  s3.length; i++){
+//            System.out.println(s3[i]);
+//        }
+//        
+//        
+//        
+//        count = 0;
+//        for (int i = 0; i <  rb1.length; i++){
+//            
+//            if (i % 2 == 0){
+//                System.out.println(count);
+//                rb1[i].addItemListener(new rButton(s3[count], "first", rb1[i].getText()));
+//                System.out.println(s3[count]+ "first" + rb1[i].getText());
+//            }else{
+//                rb1[i].addItemListener(new rButton(s3[count++], "second", rb1[i].getText()));
+//            }
+//        }
+        
+//        dtm = new DefaultTableModel(s1, s2);
+//        table = new JTable(dtm){
+//            public void tableChanged(TableModelEvent e){
+//                super.tableChanged(e);
+//                
+//                repaint();
+//            }
+//        };
+        table  = new JTable(s1, s2);
         
         //ButtonGroup bg = new ButtonGroup();
         
@@ -181,6 +255,78 @@ public class MakeReservation_1 {
         table.getColumn("2nd Class Price").setCellEditor(new radioEditor(new JCheckBox()));
 
         scrollPane.setViewportView(table);
+    }
+    
+    
+    private class rButton implements ItemListener{
+        public String tn;
+        public 
+        String tclass;
+        public String price;
+        public Object[][] ss;
+        public MakeReservationData mdr1;
+        public int position;
+        
+        public rButton(){
+            
+        }
+        
+        public rButton(Object ob, String tclass, String price, int position){
+            this.tn = (String)ob;
+            this.tclass = tclass;
+            this.price = price;
+          
+            mdr1 = new MakeReservationData(false);
+        }
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            // TODO Auto-generated method stub
+            System.out.println("your select train si " + tn);
+            System.out.println(getTn());
+            this.ss = mrd.getReservationData();
+            int position = 0;
+            for (int i = 0; i < ss.length; i++){
+                if (ss[i][0] == null){
+                    position = i;
+                    
+                }
+            }
+            ss[position][0] = tn; //index 0: train number
+            //ss[position][1] = time; // index 1: time
+            ss[position][4] = tclass; // index 4 : class
+            ss[position][5] = price; // index 5: price
+            mdr1.setReservationData(ss);
+            
+            
+        }
+        
+        public String getTn(){
+            return this.tn;
+        }
+        
+        public String getTclass(){
+            return this.tclass;
+        }
+        
+        public String getPrice(){
+            return this.price;
+        }
+    }
+    
+    public String getTime(Object[][] s1, String tn){
+        for (int i = 0; i < s1.length; i++){
+            System.out.println("s1[i][0] is " + s1[i][0]);
+            System.out.println("tn is" + tn);
+            if (s1[i][0].equals(tn)){
+                System.out.println("test");
+                this.time = (String)s1[i][1];
+                System.out.println(time);
+                break;
+                
+                
+            }
+        }
+        return this.time;
     }
 
 //    /**
@@ -277,31 +423,4 @@ public class MakeReservation_1 {
 //    }
 }
 
-class rButton implements ItemListener{
-    private String tn;
-    private String tclass;
-    
-    public rButton(){
-        
-    }
-    
-    public rButton(Object ob, String tclass){
-        this.tn = (String)ob;
-        this.tclass = tclass;
-    }
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println(tn);
-        
-    }
-    
-    public String getTn(){
-        return this.tn;
-    }
-    
-    public String getTclass(){
-        return this.tclass;
-    }
-    
-}
+

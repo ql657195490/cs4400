@@ -39,7 +39,15 @@ public class MakeReservation_3 {
     private JFrame frame;
     private JTable table;
     private JTextField textField;
-    public ArrayList list;
+    public static ArrayList list;
+    public static String username;
+    public static Object[][] s2;
+    public static DefaultTableModel model;
+    public static MakeReservationData mrd;
+    public static String ms;
+    public static database db;
+    public static double totalCost;
+    public static final double bagCharge = 30;
 
     /**
      * Launch the application.
@@ -61,11 +69,15 @@ public class MakeReservation_3 {
      * Create the application.
      */
     public MakeReservation_3() {
+        db = new database();
+        totalCost = 0;
         initialize();
     }
     
-    public MakeReservation_3(ArrayList list){
-        this.list = list;
+    public MakeReservation_3(String username){
+        this.username = username;
+        mrd = new MakeReservationData(false);
+        s2 = mrd.getReservationData();
     }
 
     /**
@@ -94,29 +106,51 @@ public class MakeReservation_3 {
         
         JPanel panel_1 = new JPanel();
         panel_1.setBackground(Color.WHITE);
-        panel_1.setPreferredSize(new Dimension(950,200));
+        panel_1.setPreferredSize(new Dimension(950,240));
         frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
         panel_1.setLayout(null);
         
-        JLabel lblNewLabel_1 = new JLabel("Student discount aplied or not");
-        lblNewLabel_1.setBounds(25, 20, 190, 20);
+        JLabel lblNewLabel_1 = new JLabel();// set student discount label
+        try{
+            if (db.checkLoginInfo("select isStudent from customer where username = '" + username + "'").equals("true")){
+                lblNewLabel_1.setText("Student discount Applied");
+            }else{
+                lblNewLabel_1.setText("Student discount not Applied");
+            }
+        }catch (Exception e){}
+        
+        lblNewLabel_1.setBounds(25, 60, 190, 20);
         panel_1.add(lblNewLabel_1);
         
         JLabel lblTotalCost = new JLabel("Total cost");
-        lblTotalCost.setBounds(25, 60, 80, 20);
+        lblTotalCost.setBounds(25, 100, 80, 20);
         panel_1.add(lblTotalCost);
         
-        textField = new JTextField();
-        textField.setBounds(267, 56, 134, 28);
+        for (int i = 0; i < s2.length; i++){
+            double temp = 0;
+            if (Double.parseDouble(s2[i][6].toString()) > 2){
+                temp = (Double.parseDouble(s2[i][6].toString()) - 2) * bagCharge;
+            }
+            totalCost += Double.parseDouble((String)s2[i][5]) + temp;
+        }
+        textField = new JTextField();// total cost textfield
+        if (lblNewLabel_1.getText().equals("Student discount Applied")){
+            textField.setText(String.valueOf(totalCost * 0.8));
+        }else {
+            textField.setText(String.valueOf(totalCost));
+        }
+        
+        textField.setEnabled(false);
+        textField.setBounds(267, 96, 134, 28);
         panel_1.add(textField);
         textField.setColumns(10);
         
         JLabel lblNewLabel_2 = new JLabel("Use card");
-        lblNewLabel_2.setBounds(25, 100, 61, 20);
+        lblNewLabel_2.setBounds(25, 140, 61, 20);
         panel_1.add(lblNewLabel_2);
         
         JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(267, 96, 52, 27);
+        comboBox.setBounds(267, 140, 52, 27);
         panel_1.add(comboBox);
         
         JLabel lblAddCard = new JLabel("<html><u>Add card</u></html>");
@@ -127,7 +161,7 @@ public class MakeReservation_3 {
             }
         });
         lblAddCard.setForeground(UIManager.getColor("CheckBoxMenuItem.selectionBackground"));
-        lblAddCard.setBounds(351, 102, 61, 16);
+        lblAddCard.setBounds(351, 142, 61, 16);
         panel_1.add(lblAddCard);
         
         JLabel lblContinueToAdding = new JLabel("<html><u>Continue adding a train</u></html>");
@@ -139,31 +173,74 @@ public class MakeReservation_3 {
             }
         });
         lblContinueToAdding.setForeground(UIManager.getColor("CheckBoxMenuItem.selectionBackground"));
-        lblContinueToAdding.setBounds(25, 140, 160, 20);
+        lblContinueToAdding.setBounds(25, 180, 160, 20);
         panel_1.add(lblContinueToAdding);
         
         JButton btnBack = new JButton("Back");
         btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnBack.setBounds(98, 165, 100, 29);
+        btnBack.setBounds(98, 205, 100, 29);
         panel_1.add(btnBack);
         
         JButton btnSumbit = new JButton("Sumbit");
         btnSumbit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnSumbit.setBounds(362, 165, 100, 29);
+        btnSumbit.setBounds(362, 205, 100, 29);
         panel_1.add(btnSumbit);
         
+        JButton btnSelectAll = new JButton("Select all");
+        btnSelectAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < s2.length; i++){
+                    model.setValueAt(true, i, 0);
+                }
+            }
+        });
+        btnSelectAll.setBounds(98, 20, 100, 29);
+        panel_1.add(btnSelectAll);
+        
+        JButton btnRemove = new JButton("Remove");// remove button
+        btnRemove.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ms = "";
+                // TODO Auto-generated method stub
+                for (int i = 0; i < table.getRowCount();i++){
+                    Boolean checked = Boolean.valueOf(table.getValueAt(i, 0).toString()); // get the boolean value of current row
+                    String col = table.getValueAt(i, 1).toString(); // get the train number of current row
+                    double tp = Double.parseDouble(table.getValueAt(i, 6).toString()); // get the price of current row
+                    double tb = Double.parseDouble(table.getValueAt(i, 7).toString()); // get the number of bags
+                    
+                    if (checked){ // if the current is selected then add the train number remove it
+                      ms = col;
+                      mrd.removeReservationData(s2, ms);
+                      model.removeRow(i);
+                      
+                      totalCost -= tp;
+                      if (tb > 2){
+                          totalCost -= (tb - 2) * bagCharge;
+                      }
+                      if (lblNewLabel_1.getText().equals("Student discount Applied")){
+                          textField.setText(String.valueOf(totalCost * 0.8));
+                      }else {
+                          textField.setText(String.valueOf(totalCost));
+                      }
+                    }
+                }
+            }
+        });
+        btnRemove.setBounds(360, 20, 100, 29);
+        panel_1.add(btnRemove);
+        
+        table = new JTable();
         JScrollPane scrollPane;
         
-        JButton button1 = new JButton("Remove");
-        String[] s = {"<html>Train<br/>(Train number)", "<html>Time<br/>(Duration)", "Departs From", "Arrives At", "Class"
-                , "Price", "# of Baggages", "Passenger Name", "Remove"};
-        Object[][] s1 = {//user for test
-                {1,"Click" , 1, 1, 1, 1, 1, 1, "button"},
-               
-                {2, "test", 2, 2, 2, 2, 2, 2, "button"}
-                
-        };
-        table = new JTable(s1, s);
+//        String[] s = {"<html>Train<br/>(Train number)", "<html>Time<br/>(Duration)", "Departs From", "Arrives At", "Class"
+//                , "Price", "# of Baggages", "Passenger Name", "Remove"};
+//        Object[][] s1 = {//user for test
+//                {1,"Click" , 1, 1, 1, 1, 1, 1, "button"},
+//               
+//                {2, "test", 2, 2, 2, 2, 2, 2, "button"}
+//                
+//        };
+       // table = new JTable(s1, s);
 //        table.getColumnModel().getColumn(1).setCellRenderer(new ButtonRenderer());
 //        table.getColumnModel().getColumn(1).setCellEditor(new ButtonEditor(new JTextField()));
 //        table.getColumn("button").setCellRenderer(new ButtonRenderer());
@@ -175,113 +252,72 @@ public class MakeReservation_3 {
         //table.setCellEditor(new DefaultCellEditor(button1));
         scrollPane = new JScrollPane(table);
         scrollPane.setBorder(new EmptyBorder(0,25 , 0,25));
+        model = new DefaultTableModel(){
+            
+            public Class<?> getColumnClass(int column){
+                switch(column){
+                    case 0 :
+                        return Boolean.class;
+                    case 1 :
+                        return String.class;
+                    case 2 : 
+                        return String.class;
+                    case 3 :
+                        return String.class;
+                    case 4 : 
+                        return String.class;
+                    case 5 :
+                        return String.class;
+                    case 6 :
+                        return String.class;
+                    case 7 :
+                        return String.class;
+                        
+                        default:
+                             return String.class;
+                  
+                }
+            }
+         };
+         
+         table.setModel(model);
+         model.addColumn("Select");
+         model.addColumn("Train number");
+         model.addColumn("Time(Duration)");
+         model.addColumn("Departs From");
+         model.addColumn("Arrives At");
+         model.addColumn("Class");
+         model.addColumn("Price");
+         model.addColumn("# of Baggage");
+         model.addColumn("Passenger Name");
+
+//         for (int i = 0;  i <= list.size(); i++){
+//             model.addRow(new Object[0]);
+//             model.setValueAt(false, i, 0);
+//             model.setValueAt(list.get(4), i, 1);
+//             model.setValueAt(list.get(6), i, 2);
+//             model.setValueAt(list.get(1), i, 3);
+//             model.setValueAt(list.get(2), i, 4);
+//             model.setValueAt(list.get(5), i, 5);
+//             model.setValueAt("", i, 6);
+//             model.setValueAt(list.get(7), i, 7);
+//             model.setValueAt(list.get(8), i, 8);
+//         }
+         for (int i = 0; i < s2.length; i++){
+             model.addRow(new Object[0]);
+           model.setValueAt(false, i, 0);
+           model.setValueAt(s2[i][0], i, 1);
+           model.setValueAt(s2[i][1], i, 2);
+           model.setValueAt(s2[i][2], i, 3);
+           model.setValueAt(s2[i][3], i, 4);
+           model.setValueAt(s2[i][4], i, 5);
+           model.setValueAt(s2[i][5], i, 6);
+           model.setValueAt(s2[i][6], i, 7);
+           model.setValueAt(s2[i][7], i, 8);
+             
+         }
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
     }
-
 }
 
-class ButtonRenderer extends JButton implements TableCellRenderer{
-
-    public ButtonRenderer(){
-        setOpaque(true);
-    }
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
-        setText((value == null) ? "" : value.toString());
-        return this;
-    }
-    
-}
-
-class ButtonEditor extends DefaultCellEditor{
-    protected JButton btn;
-    private String lbl;
-    private Boolean clicked;
-    
-    public ButtonEditor(JTextField txt){
-        super(txt);
-        btn = new JButton();
-        btn.setOpaque(true);
-   
-    
-        btn.addActionListener(new ActionListener(){
-    
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                fireEditingStopped();
-                
-            }
-            
-        });
-    }
-    
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object obj, boolean selected,
-            int row, int col){
-        lbl = (obj == null) ? "" : obj.toString();
-        btn.setText(lbl);
-        clicked = true;
-        return btn;
-    }
-    
-    @Override
-    public Object getCellEditorValue(){
-        if (clicked){
-            System.out.println("test successful");
-        }
-        clicked = false;
-        return new String(lbl);
-    }
-   
-    @Override
-    public boolean stopCellEditing(){
-        clicked = false;
-        return super.stopCellEditing();
-    }
-    
-    @Override
-    protected  void fireEditingStopped(){
-        super.fireEditingStopped();
-    }
-}
-
-class MyRender extends AbstractCellEditor implements TableCellRenderer,ActionListener, TableCellEditor{
-
-    private static final long serialVersionUID = 1L;
-    private JButton button =null;
-    public MyRender(){
-        button = new JButton("确定不？");
-        button.addActionListener(this);
-    }
-
-@Override
-    public Object getCellEditorValue() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus, int row, int column) {
-        // TODO Auto-generated method stub
-        return button;
-    }
-
-@Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        JOptionPane.showMessageDialog(null, "渲染器学期", "消息", JOptionPane.OK_OPTION);
-        
-    }
-
-@Override
-    public Component getTableCellEditorComponent(JTable table, Object value,
-            boolean isSelected, int row, int column) {
-        // TODO Auto-generated method stub
-        return button;
-    }
-    
-}

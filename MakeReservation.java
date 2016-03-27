@@ -42,7 +42,9 @@ public class MakeReservation {
     public static String username;
     public database db;
     public static ArrayList list;
-    public Object[][] s1;
+    public static Object[][] s1;
+    public static Object[][] s2;
+    public MakeReservationData mdr;
 
     /**
      * Launch the application.
@@ -214,6 +216,23 @@ public class MakeReservation {
                     list.add(comboBox.getSelectedItem()); // index 1 : departs from
                     list.add(comboBox_1.getSelectedItem()); //index 2 : arrives at
                     list.add(textField.getText().trim()); //index 3: departure date
+                    
+                    //adding data
+                    mdr = new MakeReservationData(false);
+                    s2 = mdr.getReservationData();
+                    s2 = new Object[1][9];//user for test
+                    int position = 0;
+                    System.out.println(s2.length);
+                    for (int i = 0; i < s2.length; i++){
+                        if (s2[i][0] == null){
+                            position = i;
+                            break;
+                        }
+                    }
+                    s2[position][2] = comboBox.getSelectedItem(); //index 2: departs from
+                    s2[position][3] = comboBox_1.getSelectedItem(); //index 3: arrives at
+                    s2[position][8] = textField.getText().trim(); //index 8: date
+                    mdr.setReservationData(s2);
                 
                     try{
                         s1 = db.TrainOption("select * from (select * from (select trainNum, departureTime from stop "
