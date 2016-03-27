@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 import javax.swing.JRadioButton;
 
@@ -223,6 +224,22 @@ public class database {
             count++;
         }
         return ss;
+    }
+    
+    /**
+     * method to get all card number for the current customer
+     * @param sql the sql query that pass in
+     * @return the arraylist that store card number
+     * 
+     * */
+    public ArrayList getCard(String sql)throws Exception{
+        statement = con.prepareStatement(sql);
+        result = statement.executeQuery();
+        ArrayList list = new ArrayList();
+        while (result.next()){
+            list.add(result.getString(1));
+        }
+        return list;
     }
    
 }

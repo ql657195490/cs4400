@@ -281,7 +281,7 @@ public class MakeReservation_1 {
         @Override
         public void itemStateChanged(ItemEvent e) {
             // TODO Auto-generated method stub
-            System.out.println("your select train si " + tn);
+            System.out.println("your select train is " + tn);
             System.out.println(getTn());
             this.ss = mrd.getReservationData();
             int position = 0;

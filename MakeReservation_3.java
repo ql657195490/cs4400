@@ -3,6 +3,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.SystemColor;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultCellEditor;
@@ -48,6 +49,7 @@ public class MakeReservation_3 {
     public static database db;
     public static double totalCost;
     public static final double bagCharge = 30;
+    public String[] card;
 
     /**
      * Launch the application.
@@ -141,7 +143,7 @@ public class MakeReservation_3 {
         }
         
         textField.setEnabled(false);
-        textField.setBounds(267, 96, 134, 28);
+        textField.setBounds(267, 96, 145, 28);
         panel_1.add(textField);
         textField.setColumns(10);
         
@@ -150,26 +152,63 @@ public class MakeReservation_3 {
         panel_1.add(lblNewLabel_2);
         
         JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(267, 140, 52, 27);
+        comboBox.setBounds(267, 140, 80, 27);
         panel_1.add(comboBox);
+        //adding card number to comboBox
+        try{
+            list = db.getCard("select cardNum from paymentInfo where username = '" + username + "'");
+            if (list.get(0) != null){
+                for (int i = 0; i < list.size(); i++){
+                    comboBox.addItem(list.get(i));
+                }
+            }
+        }catch(Exception eee){
+            
+        }
+        
         
         JLabel lblAddCard = new JLabel("<html><u>Add card</u></html>");
+        lblAddCard.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
         lblAddCard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 
+                MakeReservation_4 mr4 = new MakeReservation_4(username);
+                mr4.mr4Window();
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblAddCard.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblAddCard.setForeground(SystemColor.textHighlight);
             }
         });
         lblAddCard.setForeground(UIManager.getColor("CheckBoxMenuItem.selectionBackground"));
         lblAddCard.setBounds(351, 142, 61, 16);
         panel_1.add(lblAddCard);
         
+        
+        //continue adding a new train
         JLabel lblContinueToAdding = new JLabel("<html><u>Continue adding a train</u></html>");
         lblContinueToAdding.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblContinueToAdding.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+                MakeReservationData mrd = new MakeReservationData(true);
+                frame.dispose();
+                MakeReservation mr = new MakeReservation(username);
+                mr.mrWindow();
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblContinueToAdding.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblContinueToAdding.setForeground(SystemColor.textHighlight);
             }
         });
         lblContinueToAdding.setForeground(UIManager.getColor("CheckBoxMenuItem.selectionBackground"));
@@ -181,10 +220,17 @@ public class MakeReservation_3 {
         btnBack.setBounds(98, 205, 100, 29);
         panel_1.add(btnBack);
         
-        JButton btnSumbit = new JButton("Sumbit");
-        btnSumbit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnSumbit.setBounds(362, 205, 100, 29);
-        panel_1.add(btnSumbit);
+        JButton btnSubmit = new JButton("Submit");
+        btnSubmit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MakeReservation_5 mr5 = new MakeReservation_5(username);
+                mr5.mrWindow_5();
+            }
+        });
+        btnSubmit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnSubmit.setBounds(362, 205, 100, 29);
+        panel_1.add(btnSubmit);
         
         JButton btnSelectAll = new JButton("Select all");
         btnSelectAll.addActionListener(new ActionListener() {

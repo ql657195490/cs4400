@@ -9,6 +9,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JLabel;
 import javax.swing.UIManager;
@@ -19,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class MakeReservation_4 {
@@ -28,11 +31,13 @@ public class MakeReservation_4 {
     private JTextField textField_1;
     private JTextField textField_2;
     private JTextField textField_3;
+    public static String username;
+    public static database db;
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
+    public static void mr4Window() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -49,7 +54,12 @@ public class MakeReservation_4 {
      * Create the application.
      */
     public MakeReservation_4() {
+        db = new database();
         initialize();
+    }
+    
+    public MakeReservation_4(String username){
+        this.username = username;
     }
 
     /**
@@ -99,6 +109,7 @@ public class MakeReservation_4 {
         panel_1.add(lblNewLabel);
         
         textField_1 = new JTextField();
+       
         textField_1.setBounds(40, 105, 140, 28);
         panel_1.add(textField_1);
         textField_1.setColumns(10);
@@ -112,6 +123,7 @@ public class MakeReservation_4 {
         panel_1.add(textField_2);
         textField_2.setColumns(10);
         
+        
         JLabel lblNewLabel_2 = new JLabel("Expiration date");
         lblNewLabel_2.setBounds(60, 200, 100, 16);
         panel_1.add(lblNewLabel_2);
@@ -120,6 +132,26 @@ public class MakeReservation_4 {
         textField_3.setBounds(40, 220, 70, 28);
         panel_1.add(textField_3);
         textField_3.setColumns(10);
+        //set expiration date format
+        textField_3.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (textField_3.getText().matches("[A-Za-z]+")){
+                    textField_3.setText(textField_3.getText().trim().substring(0, textField_3.getText().trim().length() - 1));
+                    JOptionPane.showMessageDialog(null, "expiration date should be numbers");
+                }
+                if (textField_3.getText().trim().length() == 2 && e.getKeyCode() != KeyEvent.VK_BACK_SPACE){
+                    
+                    textField_3.setText(textField_3.getText().trim().substring(0, 2) + "/");
+                }
+                if (textField_3.getText().trim().length() == 4 && e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                    
+                    textField_3.setText(textField_3.getText().trim().substring(0, 2));
+                }
+            }
+        });
+       
+        
         
         JButton btnNewButton = new JButton("New button");
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -130,8 +162,38 @@ public class MakeReservation_4 {
         btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+               if (textField.getText().trim().equals("")){
+                   JOptionPane.showMessageDialog(null, "you must to enter a name on card");
+               }else if (textField_1.getText().trim().equals("")){
+                   JOptionPane.showMessageDialog(null, "the card number cannot be null");
+                  
+               }else if (textField_2.getText().trim().equals("")){
+                   JOptionPane.showMessageDialog(null, "the cvv cannot be null");
+               }else if (textField_3.getText().trim().equals("")){
+                   JOptionPane.showMessageDialog(null, "the expiration date cannot be null");
+               }else if (textField_1.getText().trim().length() != 16){
+                   JOptionPane.showMessageDialog(null, "the card number should be 16 digit");
+               }else if (textField_2.getText().trim().length() != 3){
+                   JOptionPane.showMessageDialog(null, "the cvv should be the last three number on the back of your card");
+               }else if(textField_3.getText().trim().length() != 7){
+                   textField_3.setText(textField_3.getText().trim().substring(0, textField_3.getText().trim().length() - 1));
+                   JOptionPane.showMessageDialog(null, "the expiration date format is MM/YYYY");
+               }else {
+                   try{
+                       String sql = "insert paymentInfo values(" + textField_1.getText().trim() 
+                               + ", " + textField_2.getText().trim() + ", '"
+                               + textField_3.getText().trim().substring(3, 7)
+                               + "-" + textField_3.getText().trim().substring(0, 2) + "-" + "01', '"
+                               + textField.getText().trim() + "', '" + username + "');";
+                       System.out.println(sql);
+                       db.update(sql);       
+                       frame.dispose();
+                   }catch (Exception ee){}
+               }
+               
                
             }
+            
         });
         btnNewButton_1.setBounds(60, 265, 100, 29);
         panel_1.add(btnNewButton_1);

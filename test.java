@@ -10,7 +10,7 @@ public class test { //user for test the database class
         MakeReservation mr = new MakeReservation(username);
         mr.mrWindow();
         
-        System.out.println(0 % 2);
+        
 
     }
 }

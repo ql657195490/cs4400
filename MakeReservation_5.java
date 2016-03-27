@@ -17,11 +17,12 @@ import java.awt.event.ActionEvent;
 public class MakeReservation_5 {
 
     private JFrame frame;
+    public static String username;
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
+    public static void mrWindow_5() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -39,6 +40,10 @@ public class MakeReservation_5 {
      */
     public MakeReservation_5() {
         initialize();
+    }
+    
+    public MakeReservation_5(String username){
+        this.username = username;
     }
 
     /**
@@ -66,7 +71,7 @@ public class MakeReservation_5 {
         lblNewLabel_1.setBounds(40, 60, 100, 20);
         panel.add(lblNewLabel_1);
         
-        JLabel label = new JLabel("12345");
+        JLabel label = new JLabel("");
         label.setBounds(234, 62, 61, 16);
         panel.add(label);
         
@@ -80,7 +85,7 @@ public class MakeReservation_5 {
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
+                CustomerFunctionalities cf = new CustomerFunctionalities(username);
                 cf.cfWindow();
             }
         });

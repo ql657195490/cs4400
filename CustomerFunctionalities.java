@@ -105,6 +105,9 @@ public class CustomerFunctionalities {
         lblNewLabel_2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                MakeReservationData mrd = new MakeReservationData(false);
+                Object[][] s2 = new Object[1][9];
+                mrd.setReservationData(s2);
                 frame.dispose();
                 MakeReservation mr = new MakeReservation(username);
                 mr.mrWindow();

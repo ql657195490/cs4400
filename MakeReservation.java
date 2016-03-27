@@ -220,9 +220,8 @@ public class MakeReservation {
                     //adding data
                     mdr = new MakeReservationData(false);
                     s2 = mdr.getReservationData();
-                    s2 = new Object[1][9];//user for test
+                    //s2 = new Object[1][9];//user for test
                     int position = 0;
-                    System.out.println(s2.length);
                     for (int i = 0; i < s2.length; i++){
                         if (s2[i][0] == null){
                             position = i;
