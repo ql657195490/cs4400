@@ -39,6 +39,7 @@ public class UpdateReservation_1 extends JFrame{
     public static String username;
     public UpdateReservation_1 ur1;
     public static Object[][] s;
+    public static Object[][] s1;
     public static int index;
     
     
@@ -56,7 +57,7 @@ public class UpdateReservation_1 extends JFrame{
     }
     //Constructor
     public UpdateReservation_1(Object[][] s1, Object[] s2, String ReservationID, String username){
-       
+        this.s1 = s1;
         createPanel();
         createLabel();
         createButton(s1);
@@ -119,6 +120,17 @@ public class UpdateReservation_1 extends JFrame{
         button2 = new JButton("Back");
         button2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button2.setBounds(200, 30, 100, 29);
+        button2.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                UpdateReservation ur = new UpdateReservation(username);
+                frame.dispose();
+                ur.urWindow();
+            }
+            
+        });
         panel1.add(button2);
         
         //add listener and action event to the button
@@ -203,6 +215,15 @@ public class UpdateReservation_1 extends JFrame{
     * */
    public void setIndex(int index){
        this.index = index;
+   }
+   
+   /**
+    * method to get the double array that we use to store the data
+    * use when the next screen back to current screen
+    * @return return the double array
+    * */
+   public Object[][] getData(){
+       return this.s1;
    }
 
 }

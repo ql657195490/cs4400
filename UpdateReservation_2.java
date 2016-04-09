@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -32,6 +33,7 @@ public class UpdateReservation_2 {
     public static String trainNum;
     public static String reservationID;
     public static Object[][] s;
+    public database db;
 
     /**
      * Launch the application.
@@ -53,6 +55,7 @@ public class UpdateReservation_2 {
      * Create the application.
      */
     public UpdateReservation_2() {
+        db = new database();
         initialize();
     }
     
@@ -186,11 +189,38 @@ public class UpdateReservation_2 {
         JButton btnBack = new JButton("Back");
         btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.setBounds(55, 95, 100, 29);
+        btnBack.addActionListener(new ActionListener(){
+            //back to previous screen
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                frame.dispose();
+                UpdateReservation_1 urdata = new UpdateReservation_1();
+                UpdateReservation_1 ur1 = new UpdateReservation_1(urdata.getData(),
+                        new Object[]{"Select", "TrainNum", "Time", "Departs From", "Arrives At", "Class", "Price", "#of Baggages", "Passenger Name"}
+                , reservationID, username);
+                
+            }
+            
+        });
         panel_7.add(btnBack);
         
         JButton btnSumbit = new JButton("Submit");
         btnSumbit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSumbit.setBounds(238, 95, 100, 29);
+        btnSumbit.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                
+                //need to update data to database
+                try{
+                    
+                }catch(Exception ee){}
+            }
+            
+        });
         panel_7.add(btnSumbit);
         
         JPanel panel_8 = new JPanel();
