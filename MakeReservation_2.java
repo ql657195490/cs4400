@@ -110,7 +110,7 @@ public class MakeReservation_2 {
             public void actionPerformed(ActionEvent e) {
             
                 frame.dispose();
-                MakeReservation_1 mr1 = new MakeReservation_1(list, s1);
+                MakeReservation_1 mr1 = new MakeReservation_1(username, s1);
                 //mr1.mrWindow_1();
             }
         });

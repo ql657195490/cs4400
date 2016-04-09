@@ -34,6 +34,12 @@ public class UpdateReservation_1 extends JFrame{
     public DefaultTableModel dtm = new DefaultTableModel();
     public JLabel label;
     public JButton button1, button2;
+    public static String trainNumber;
+    public static String ReservationID;
+    public static String username;
+    public UpdateReservation_1 ur1;
+    public static Object[][] s;
+    public static int index;
     
     
     //test
@@ -45,11 +51,15 @@ public class UpdateReservation_1 extends JFrame{
 //        Object[] s2 = {"Select", "test"};
 //        UpdateReservation_1 ur1 = new UpdateReservation_1(s1, s2);
 //    }
+    public UpdateReservation_1(){
+        
+    }
     //Constructor
-    public UpdateReservation_1(Object[][] s1, Object[] s2){
+    public UpdateReservation_1(Object[][] s1, Object[] s2, String ReservationID, String username){
+       
         createPanel();
         createLabel();
-        createButton();
+        createButton(s1);
         createTable(s1, s2);
         frame.setBounds(100, 100, 950, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,10 +95,25 @@ public class UpdateReservation_1 extends JFrame{
     }
     
     //method to create all buttons and add them to the panels
-    public void createButton(){
+    public void createButton(Object[][] s1){
         button1 = new JButton("Next");
         button1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button1.setBounds(400, 30, 100, 29);
+        button1.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                s = new Object[1][8];
+                for (int i = 0; i < 8; i++){
+                    s[0][i] = s1[index][i + 1];
+                }
+                UpdateReservation_2 ur2 = new UpdateReservation_2(username, ReservationID,
+                        trainNumber, s);
+                frame.dispose();
+                ur2.ur2Window();         
+            }
+            
+        });
         panel1.add(button1);
         
         button2 = new JButton("Back");
@@ -118,9 +143,10 @@ public class UpdateReservation_1 extends JFrame{
     //method to set JTable and add it to JScrollPane
     public void createTable(Object[][] s1, Object[] s2){
        
-        JRadioButton[] rb = new JRadioButton[s1[1].length];
+        JRadioButton[] rb = new JRadioButton[s1.length];
         for (int i = 0; i < rb.length; i++){
             rb[i] = (JRadioButton)s1[i][0];
+            rb[i].addItemListener(new UpdateReservationListener((String)s1[i][1], i));
             //s1[i][1] = rb[i];
         }
         
@@ -142,6 +168,42 @@ public class UpdateReservation_1 extends JFrame{
         table.getColumn("Select").setCellEditor(new radioEditor(new JCheckBox()));
         scrollPane.setViewportView(table);
     }
+    
+    /**
+     * listener class for the radio button
+     * */
+   private class UpdateReservationListener implements ItemListener{
+       private String trainNum;
+       private int index;
+        //constructor
+        public UpdateReservationListener(String tarinNum, int index){
+            this.trainNum = trainNum;
+            this.index = index;
+            ur1 = new UpdateReservation_1();
+        }
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            ur1.setTrainNum(this.trainNum);
+            ur1.setIndex(this.index);
+        }
+    }
+   
+   /**
+    * method to set store the train number that current selected
+    * @param trainNum the trainNum that current selected
+    * */
+   public void setTrainNum(String trainNum){
+       this.trainNumber = trainNum;
+   }
+   
+   /**
+    * method to store the index that current selected
+    * @param the index that the user current selected
+    * */
+   public void setIndex(int index){
+       this.index = index;
+   }
 
 }
 
@@ -170,7 +232,7 @@ class radioEditor extends DefaultCellEditor implements ItemListener{
         if (value == null) return null;
         
         radio = (JRadioButton) value;
-        radio.addItemListener(this);
+        //radio.addItemListener(this);
         return (Component) value;
     }
     
@@ -190,3 +252,4 @@ class radioEditor extends DefaultCellEditor implements ItemListener{
         
     }
 }
+

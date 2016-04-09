@@ -131,7 +131,7 @@ public class CustomerFunctionalities {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
-                UpdateReservation ur = new UpdateReservation();
+                UpdateReservation ur = new UpdateReservation(username);
                 ur.urWindow();
             }
             

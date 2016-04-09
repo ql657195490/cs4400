@@ -130,7 +130,7 @@ public class MakeReservation {
             @Override
             public void keyPressed(KeyEvent e) {
                
-                if (textField.getText().matches("[A-Za-z]+")){
+                if (textField.getText().matches("[A-Za-z]")){
                     textField.setText("");
                     JOptionPane.showMessageDialog(null, "date should be numbers");
                 }
@@ -164,7 +164,11 @@ public class MakeReservation {
                         JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
                         textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
                     }
+                    
                 }
+                
+                
+               
            
             }
         });
@@ -211,11 +215,66 @@ public class MakeReservation {
                         }
                         
                     }
+                    if (Integer.parseInt(textField.getText().trim().substring(0, 2)) > 12){
+                        JOptionPane.showMessageDialog(null, "month should between 01 - 12");
+                    }
+                    
+                    switch (Integer.parseInt(textField.getText().trim().substring(0, 2))){
+                        case 1:
+                            monthDate(1, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 2:
+                            if( Integer.parseInt(textField.getText().trim().substring(6,10)) % 400 == 0){
+                                monthDate(4, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            }else if(Integer.parseInt(textField.getText().trim().substring(6,10)) % 4 == 0){
+                                if (Integer.parseInt(textField.getText().trim().substring(6,20)) % 100 != 0){
+                                    monthDate(4, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                                }else{
+                                    monthDate(3, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                                }
+                            }else{
+                                monthDate(3, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            }
+                            
+                            break;
+                        case 3:
+                            monthDate(1, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 4:
+                            monthDate(2, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 5:
+                            monthDate(1, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 6:
+                            monthDate(2, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 7:
+                            monthDate(1, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 8:
+                            monthDate(1, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 9:
+                            monthDate(2, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 10:
+                            monthDate(1, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 11:
+                            monthDate(2, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                        case 12:
+                            monthDate(1, Integer.parseInt(textField.getText().trim().substring(3,5)));
+                            break;
+                            
+                    
+                    }
 
-                    list.add(username);//index 0 : username
-                    list.add(comboBox.getSelectedItem()); // index 1 : departs from
-                    list.add(comboBox_1.getSelectedItem()); //index 2 : arrives at
-                    list.add(textField.getText().trim()); //index 3: departure date
+//                    list.add(username);//index 0 : username
+//                    list.add(comboBox.getSelectedItem()); // index 1 : departs from
+//                    list.add(comboBox_1.getSelectedItem()); //index 2 : arrives at
+//                    list.add(textField.getText().trim()); //index 3: departure date
                     
                     //adding data
                     mdr = new MakeReservationData(false);
@@ -228,9 +287,13 @@ public class MakeReservation {
                             break;
                         }
                     }
-                    s2[position][2] = comboBox.getSelectedItem(); //index 2: departs from
-                    s2[position][3] = comboBox_1.getSelectedItem(); //index 3: arrives at
-                    s2[position][8] = textField.getText().trim(); //index 8: date
+                    s2[position][2] = location((String)comboBox.getSelectedItem()); //index 2: departs from
+                    s2[position][3] = location((String)comboBox_1.getSelectedItem()); //index 3: arrives at
+                    String ymd = textField.getText().trim().substring(6, 10)
+                            + "-" + textField.getText().trim().substring(0,2) + "-" +
+                            textField.getText().trim().substring(3, 5);
+                    System.out.println(ymd);
+                    s2[position][8] = ymd; //index 8: date
                     mdr.setReservationData(s2);
                 
                     try{
@@ -244,7 +307,7 @@ public class MakeReservation {
                     
                   
                     frame.dispose();
-                    MakeReservation_1 mr = new MakeReservation_1(list, s1);
+                    MakeReservation_1 mr = new MakeReservation_1(username, s1);
                     //mr.mrWindow_1();
                 }
               }
@@ -255,5 +318,36 @@ public class MakeReservation {
         
         
         
+    }
+    
+    public void monthDate(int a, int b){
+        if (a == 1){
+            if (b > 31){
+                JOptionPane.showMessageDialog(null, "date should between 01 - 31");
+            }
+        }else if (a == 2){
+            if (b > 30){
+                JOptionPane.showMessageDialog(null, "date should between 01 - 30");
+            }
+        }else if (a == 3){
+            if (b > 28){
+                JOptionPane.showMessageDialog(null, "date should between 01 - 28");
+            }
+        }else{
+            if (b > 29){
+                JOptionPane.showMessageDialog(null, "date should between 01 - 29");
+            }
+        }
+    }
+    
+    private String location(String ads){
+        String temp = "";
+        for (int i = 0; i < ads.length() - 1; i++){
+            if (ads.substring(i, i + 1).equals("(")){
+                break;
+            }
+            temp += ads.substring(i, i + 1);
+        }
+        return temp;
     }
 }

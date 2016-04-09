@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class UpdateReservation_2 {
@@ -26,6 +28,10 @@ public class UpdateReservation_2 {
     private JTextField textField_2;
     private JTable table_1;
     private JTable table_2;
+    public static String username;
+    public static String trainNum;
+    public static String reservationID;
+    public static Object[][] s;
 
     /**
      * Launch the application.
@@ -48,6 +54,13 @@ public class UpdateReservation_2 {
      */
     public UpdateReservation_2() {
         initialize();
+    }
+    
+    public UpdateReservation_2(String username, String reservationID, String trainNum, Object[][] s){
+        this.username = username;
+        this.reservationID = reservationID;
+        this.trainNum = trainNum;
+        this.s = s;
     }
 
     /**
@@ -96,11 +109,20 @@ public class UpdateReservation_2 {
         textField.setColumns(10);
         
         JButton btnCalender = new JButton("calendar");
+        btnCalender.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
         btnCalender.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnCalender.setBounds(337, 7, 80, 29);
         panel_4.add(btnCalender);
         
-        JButton btnSearch = new JButton("Search availability");
+        JButton btnSearch = new JButton("Search availability");// click this to check availability and also act the update result
+        btnSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
         btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.setBounds(500, 7, 140, 29);
         panel_4.add(btnSearch);
@@ -114,10 +136,8 @@ public class UpdateReservation_2 {
         JScrollPane scrollPane = new JScrollPane();
         panel_5.add(scrollPane, BorderLayout.CENTER);
         
-        table = new JTable(new Object[][]{
-                                        {"test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8"}
-                                        
-                            }, new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
+        table = new JTable(s
+                            , new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
         table.setEnabled(false);
         scrollPane.setViewportView(table);
         

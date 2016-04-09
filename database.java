@@ -241,5 +241,66 @@ public class database {
         }
         return list;
     }
+    
+    /**
+     * method to get reservation ID
+     * @param sql the sql query that pass in
+     * @return return the reservationID
+     * */
+   public String getReservationID(String sql)throws Exception{
+       String rid = "";
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       while (result.next()){
+           rid = result.getString(1);
+       }
+       return rid;
+   }
    
+   /**
+    * method to return all the reservation for the current resercationID
+    * @param sql the sql query that we pass in
+    * @return return an array with all the reservation data
+    * 
+    * */
+   public Object[][] getUpdateReservation(String sql, int size)throws Exception{
+       System.out.println(sql);
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       Object[][] temp = new Object[size][9];
+       System.out.println(temp.length);
+       
+       int count = 0;
+       while(result.next()){
+           System.out.println("test");
+           temp[count][0] = new JRadioButton(); 
+           temp[count][1] = result.getString(1) ; //index 1: train number
+           System.out.println(temp[count][1]);
+           temp[count][2] = result.getString(2) + result.getString(3); // index 2: time
+           temp[count][3] = result.getString(4); //index 3: departs from
+           temp[count][4] = result.getString(5); //index 4: arrives at
+           temp[count][5] = result.getString(6); //index 5 : class//
+           if (result.getString(6).equals("first")){
+               temp[count][6] = result.getString(9);//index 6: price
+           }else{
+               temp[count][6] = result.getString(10);
+           }
+           temp[count][7] = result.getString(7); //index 7: number of baggages
+           temp[count][8] = result.getString(8); // index 8: passenger name
+           count++;
+           
+       }
+       return temp;
+   }
+   
+   public int UpdateReservationSize(String sql)throws Exception{
+       int size = 0;
+       
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       while(result.next()){
+           size++;
+       }
+       return size;
+   }
 }

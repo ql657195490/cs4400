@@ -223,6 +223,12 @@ public class MakeReservation_3 {
         JButton btnSubmit = new JButton("Submit");
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                try {
+                   
+                    db.update("insert reservation(isCanceled, username, cardNum) values ('false', '" 
+                            + username +"', " + comboBox.getSelectedItem().toString() + ");");
+                   
+                }catch (Exception ee){}
                 frame.dispose();
                 MakeReservation_5 mr5 = new MakeReservation_5(username);
                 mr5.mrWindow_5();
@@ -278,24 +284,7 @@ public class MakeReservation_3 {
         table = new JTable();
         JScrollPane scrollPane;
         
-//        String[] s = {"<html>Train<br/>(Train number)", "<html>Time<br/>(Duration)", "Departs From", "Arrives At", "Class"
-//                , "Price", "# of Baggages", "Passenger Name", "Remove"};
-//        Object[][] s1 = {//user for test
-//                {1,"Click" , 1, 1, 1, 1, 1, 1, "button"},
-//               
-//                {2, "test", 2, 2, 2, 2, 2, 2, "button"}
-//                
-//        };
-       // table = new JTable(s1, s);
-//        table.getColumnModel().getColumn(1).setCellRenderer(new ButtonRenderer());
-//        table.getColumnModel().getColumn(1).setCellEditor(new ButtonEditor(new JTextField()));
-//        table.getColumn("button").setCellRenderer(new ButtonRenderer());
-//        table.getColumn("button").setCellEditor(new ButtonEditor(new JTextField()));
-//        table.getColumnModel().getColumn(1).setCellEditor(new MyRender());//设置编辑器
-//        table.getColumnModel().getColumn(1).setCellRenderer(new MyRender() );
-        
-       
-        //table.setCellEditor(new DefaultCellEditor(button1));
+
         scrollPane = new JScrollPane(table);
         scrollPane.setBorder(new EmptyBorder(0,25 , 0,25));
         model = new DefaultTableModel(){

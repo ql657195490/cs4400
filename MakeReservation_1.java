@@ -49,9 +49,10 @@ public class MakeReservation_1 {
     public static int position;
     
     //constructor
-    public MakeReservation_1(ArrayList list, Object[][] s1){
+    public MakeReservation_1(String username, Object[][] s1){
         this.list = list;
-        this.username = (String)list.get(0);
+      //  this.username = (String)list.get(0);
+        this.username = username;
         this.s1 = s1;
         mrd = new MakeReservationData(false);
         s2 = mrd.getReservationData();

@@ -18,6 +18,11 @@ public class MakeReservation_5 {
 
     private JFrame frame;
     public static String username;
+    public static String rid;
+    public static Object[][] s;
+    public static MakeReservationData mrd;
+    public static database db;
+    
 
     /**
      * Launch the application.
@@ -39,6 +44,8 @@ public class MakeReservation_5 {
      * Create the application.
      */
     public MakeReservation_5() {
+        rid = "";
+        db = new database();
         initialize();
     }
     
@@ -71,9 +78,33 @@ public class MakeReservation_5 {
         lblNewLabel_1.setBounds(40, 60, 100, 20);
         panel.add(lblNewLabel_1);
         
-        JLabel label = new JLabel("");
+        //get Reservation ID
+        try{
+            rid = db.getReservationID("select reservationID from reservation;");
+        }catch(Exception e){}
+        JLabel label = new JLabel(rid);
         label.setBounds(234, 62, 61, 16);
         panel.add(label);
+        
+        //adding reservation info to database
+        mrd = new MakeReservationData(false);
+        s = mrd.getReservationData();
+       
+            
+        
+        for (int i = 0; i < s.length; i++){
+            String sql = "insert reserves values( '" + s[i][4] + "', '" + s[i][8] + "', '"
+                    + s[i][7] + "', " + s[i][6] + ", '" + s[i][2] + "', '" + s[i][3] + "', "
+                    + rid  + ", '" + s[i][0] + "');";
+            
+            try{
+                System.out.println(sql);
+                db.update(sql);
+            }catch(Exception e){
+                
+            }
+        }
+        
         
         JLabel lblNewLabel_2 = new JLabel("Thank you for your purchase! Please save reservation ID for your records");
         lblNewLabel_2.setBounds(40, 90, 350, 20);
