@@ -80,7 +80,7 @@ public class MakeReservation_5 {
         
         //get Reservation ID
         try{
-            rid = db.getReservationID("select reservationID from reservation;");
+            rid = db.getReservationID("select reservationID from reservation order by reservationID;");
         }catch(Exception e){}
         JLabel label = new JLabel(rid);
         label.setBounds(234, 62, 61, 16);
@@ -93,7 +93,7 @@ public class MakeReservation_5 {
             
         
         for (int i = 0; i < s.length; i++){
-            String sql = "insert reserves values( '" + s[i][4] + "', '" + s[i][8] + "', '"
+            String sql = "insert reserves values( '" + s[i][4] + "', '" + s[i][8].toString().substring(s[i][8].toString().length() - 10, s[i][8].toString().length()) + "', '"
                     + s[i][7] + "', " + s[i][6] + ", '" + s[i][2] + "', '" + s[i][3] + "', "
                     + rid  + ", '" + s[i][0] + "');";
             

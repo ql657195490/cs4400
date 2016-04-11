@@ -45,6 +45,7 @@ public class MakeReservation {
     public static Object[][] s1;
     public static Object[][] s2;
     public MakeReservationData mdr;
+    public MonthConverter mc;
 
     /**
      * Launch the application.
@@ -69,6 +70,7 @@ public class MakeReservation {
         this.username = username;
         db = new database();
         list = new ArrayList();
+        mc = new MonthConverter();
         initialize();
     }
 
@@ -292,7 +294,10 @@ public class MakeReservation {
                     String ymd = textField.getText().trim().substring(6, 10)
                             + "-" + textField.getText().trim().substring(0,2) + "-" +
                             textField.getText().trim().substring(3, 5);
+                    ymd = mc.changeMonth(textField.getText().trim()) + ymd;
                     System.out.println(ymd);
+                    
+                    
                     s2[position][8] = ymd; //index 8: date
                     mdr.setReservationData(s2);
                 

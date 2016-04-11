@@ -253,7 +253,7 @@ class radioEditor extends DefaultCellEditor implements ItemListener{
         if (value == null) return null;
         
         radio = (JRadioButton) value;
-        //radio.addItemListener(this);
+        radio.addItemListener(this);
         return (Component) value;
     }
     

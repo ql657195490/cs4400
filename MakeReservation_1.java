@@ -116,6 +116,7 @@ public class MakeReservation_1 {
                 time = getTime(s1, (String)s2[position][0]);
                 System.out.println("train: " + s2[position][0]);
                 System.out.println("time is " + time);
+                time = s2[position][8].toString().substring(0, s2[position][8].toString().length() - 10) + time;
 //                s2[position][0] = trainNum; //index 0: train number
                   s2[position][1] = time; // index 1: time
 //                s2[position][4] = tclass; // index 4 : class
@@ -174,6 +175,7 @@ public class MakeReservation_1 {
 //        System.out.println("rb length :" +  rb.length);
         //int lengthR = 0;
 
+         
         
         for (int i = 0; i < s1.length; i++){
             if (s1[i][2] == null){
@@ -197,6 +199,9 @@ public class MakeReservation_1 {
             //System.out.println(rb[count]);
             //s1[i][1] = rb[i];
         }
+        
+ 
+       
         
         
 //        System.out.println("length R" + lengthR);

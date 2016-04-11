@@ -253,6 +253,7 @@ public class database {
        result = statement.executeQuery();
        while (result.next()){
            rid = result.getString(1);
+           System.out.println(rid);
        }
        return rid;
    }
