@@ -154,7 +154,7 @@ public class CustomerFunctionalities {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
-                CancelReservation cr = new CancelReservation();
+                CancelReservation cr = new CancelReservation(username);
                 cr.crWindow();
             }
             @Override

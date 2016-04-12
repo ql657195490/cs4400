@@ -20,8 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JComboBox;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 
 public class MakeReservation_4 {
@@ -33,6 +35,7 @@ public class MakeReservation_4 {
     private JTextField textField_3;
     public static String username;
     public static database db;
+    public static ArrayList list;
 
     /**
      * Launch the application.
@@ -55,6 +58,7 @@ public class MakeReservation_4 {
      */
     public MakeReservation_4() {
         db = new database();
+        list = new ArrayList();
         initialize();
     }
     
@@ -212,6 +216,12 @@ public class MakeReservation_4 {
         panel_2.add(lblCardNumber);
         
         JComboBox comboBox = new JComboBox();
+        try{
+            list = db.getCard("select cardNum from paymentInfo where username = '" + username + "'");
+        }catch(Exception e){}
+        for (int i = 0; i < list.size(); i++){
+            comboBox.addItem(list.get(i));
+        }
         comboBox.setBounds(109, 50, 89, 27);
         panel_2.add(comboBox);
         
@@ -219,6 +229,11 @@ public class MakeReservation_4 {
         btnSubmit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                try{
+                    System.out.println("delete from paymentInfo where cardNum = " + comboBox.getSelectedItem().toString() + ";");
+                    db.update("delete from paymentInfo where cardNum = " + comboBox.getSelectedItem().toString() + ";");
+                    frame.dispose();
+                }catch (Exception ee){}
             }
         });
         btnSubmit.setBounds(60, 265, 100, 29);

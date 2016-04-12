@@ -10,9 +10,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -29,11 +31,15 @@ public class UpdateReservation_2 {
     private JTextField textField_2;
     private JTable table_1;
     private JTable table_2;
+    private DefaultTableModel model;
     public static String username;
     public static String trainNum;
     public static String reservationID;
     public static Object[][] s;
+    public static Object[][] s1;
     public database db;
+    public UpdateReservationData urd;
+    public MonthConverter mc;
 
     /**
      * Launch the application.
@@ -56,14 +62,27 @@ public class UpdateReservation_2 {
      */
     public UpdateReservation_2() {
         db = new database();
+        mc = new MonthConverter();
+       // this.s1 = this.s;
         initialize();
     }
     
-    public UpdateReservation_2(String username, String reservationID, String trainNum, Object[][] s){
+    public UpdateReservation_2(String username, String reservationID, String trainNum, Object[][] s, Object[][] s1){
         this.username = username;
         this.reservationID = reservationID;
         this.trainNum = trainNum;
         this.s = s;
+        this.s1 = s1;
+        //urd = new UpdateReservationData();
+        //this.s = urd.currentSelectData();
+        //this.s1 = urd.currentSelectData();
+//        System.out.println(s1[0][0]);
+//        db = new database();
+//        mc = new MonthConverter();
+       // ur2Window();
+//        urd = new UpdateReservationData();
+//        this.s1 = urd.currentSelectData();
+//        System.out.println("s1[0][1] is " + s1[0][1]);
     }
 
     /**
@@ -121,13 +140,28 @@ public class UpdateReservation_2 {
         panel_4.add(btnCalender);
         
         JButton btnSearch = new JButton("Search availability");// click this to check availability and also act the update result
+        
+        btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnSearch.setBounds(500, 7, 140, 29);
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+//                System.out.println(s1.length);
+//                urd.setUpdateReservationData(s1);
+               
+               int choice = JOptionPane.showConfirmDialog(null, "date is available, Do you want to update your reservation?", "Confirm",JOptionPane.YES_NO_OPTION); 
+               if (choice == JOptionPane.YES_OPTION){
+                   //System.out.println("s1[0][1] is " + mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length()));
+                   //System.out.println(s[0][1].toString().length());
+                  //s1[0][1] = mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length());
+                   //urd.renewReservationData();
+                  // s1 = urd.currentSelectData();
+                  
+                  table_2.getModel().setValueAt(mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length()), 0, 1);
+                  System.out.println("s[0][1]" + s[0][1]);
+               }
                 
             }
         });
-        btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnSearch.setBounds(500, 7, 140, 29);
         panel_4.add(btnSearch);
         
         JPanel panel_5 = new JPanel();
@@ -231,15 +265,24 @@ public class UpdateReservation_2 {
         
         JScrollPane scrollPane_1 = new JScrollPane();
         panel_8.add(scrollPane_1, BorderLayout.CENTER);
-        
-        table_2 = new JTable(new Object[][]{
-                {"test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8"}
+      //  model = new DefaultTableModel();
+//        table_2.setModel(model);
+//        String[] col = {"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"};
+//        for (int i = 0; i < col.length; i++){
+//            model.addColumn(col[i]);
+//        }
+//        for (int i = 0 ; i < s.length;i++){
+//            
+//        }
+      
+
+        table_2 = new JTable(s1,
                 
-    }, new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
-        table_2.setEnabled(false);
-     
-        scrollPane_1.setViewportView(table_2);
-        
-       
+                new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
+                    table_2.setEnabled(false);
+                 
+          scrollPane_1.setViewportView(table_2);
+          
+          //frame.setVisible(true);
     }
 }

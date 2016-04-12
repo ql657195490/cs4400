@@ -39,6 +39,7 @@ public class UpdateReservation_1 extends JFrame{
     public static String username;
     public UpdateReservation_1 ur1;
     public static Object[][] s;
+    public static Object[][] ss;
     public static Object[][] s1;
     public static int index;
     
@@ -108,10 +109,14 @@ public class UpdateReservation_1 extends JFrame{
                 for (int i = 0; i < 8; i++){
                     s[0][i] = s1[index][i + 1];
                 }
+                ss = s;
+                UpdateReservationData urd  = new UpdateReservationData();
+                urd.setUpdateReservationData(s);
                 UpdateReservation_2 ur2 = new UpdateReservation_2(username, ReservationID,
-                        trainNumber, s);
+                        trainNumber, s, ss);
                 frame.dispose();
-                ur2.ur2Window();         
+                ur2.ur2Window();     
+               
             }
             
         });
@@ -138,7 +143,7 @@ public class UpdateReservation_1 extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 UpdateReservation_2 ur2 = new UpdateReservation_2();
-                ur2.ur2Window();
+                //ur2.ur2Window();
             }
         });
         

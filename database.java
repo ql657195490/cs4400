@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.JRadioButton;
@@ -14,6 +16,7 @@ public class database {
     public boolean cUsername;
     public int resize;
     private boolean mb;
+    private MonthConverter mc;
     
     public database(){
         resize = 0;
@@ -70,6 +73,7 @@ public class database {
      * @return userType in the table customer
      * */
     public String checkFunctionality(String sql)throws Exception{
+        System.out.println(sql);
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
         while (result.next()){
@@ -274,10 +278,11 @@ public class database {
        int count = 0;
        while(result.next()){
            System.out.println("test");
+           mc = new MonthConverter();
            temp[count][0] = new JRadioButton(); 
            temp[count][1] = result.getString(1) ; //index 1: train number
            System.out.println(temp[count][1]);
-           temp[count][2] = result.getString(2) + result.getString(3); // index 2: time
+           temp[count][2] = mc.changeMonth(result.getString(11).substring(5, 10)) + result.getString(2) + "-" + result.getString(3); // index 2: time
            temp[count][3] = result.getString(4); //index 3: departs from
            temp[count][4] = result.getString(5); //index 4: arrives at
            temp[count][5] = result.getString(6); //index 5 : class//
@@ -288,12 +293,20 @@ public class database {
            }
            temp[count][7] = result.getString(7); //index 7: number of baggages
            temp[count][8] = result.getString(8); // index 8: passenger name
+//           String date = mc.changeMonth(result.getString(11).substring(5, 10));
+//           temp[count][9] = date;// index 9: departure date
            count++;
            
        }
        return temp;
    }
    
+   /**
+    * method to get the array size of update reservation
+    * @param sql sql that we pass in
+    * @return the size of the array
+    * 
+    * */
    public int UpdateReservationSize(String sql)throws Exception{
        int size = 0;
        
@@ -303,5 +316,32 @@ public class database {
            size++;
        }
        return size;
+   }
+   
+   /**
+    * method to get the departure date
+    * @param sql the sql query that we pass in
+    * @return the earliest departure date
+    * */
+   public String getDepatureDate(String sql)throws Exception{
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       java.util.Date min = null;
+       String minDate = "";
+       java.util.Date temp = null;
+       DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+       
+       while(result.next()){
+           temp = df.parse(result.getString(1));
+           if (min == null){
+               min = temp;
+           }else{
+               if (temp.getTime() < min.getTime()){
+                   min = temp;
+                   minDate = result.getString(1);
+               }
+           }
+       }
+       return minDate;
    }
 }

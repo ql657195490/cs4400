@@ -339,7 +339,7 @@ public class MakeReservation_3 {
 //             model.setValueAt(list.get(8), i, 8);
 //         }
          for (int i = 0; i < s2.length; i++){
-             model.addRow(new Object[0]);
+           model.addRow(new Object[0]);
            model.setValueAt(false, i, 0);
            model.setValueAt(s2[i][0], i, 1);
            model.setValueAt(s2[i][1], i, 2);

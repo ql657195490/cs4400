@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -19,6 +20,11 @@ public class CancelReservation {
 
     private JFrame frame;
     private JTextField textField;
+    public static String username;
+    public database db;
+    public static Object[][] s;
+    
+    
 
     /**
      * Launch the application.
@@ -40,7 +46,12 @@ public class CancelReservation {
      * Create the application.
      */
     public CancelReservation() {
+        db = new database();
         initialize();
+    }
+    
+    public CancelReservation(String username){
+        this.username = username;
     }
 
     /**
@@ -78,7 +89,7 @@ public class CancelReservation {
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
+                CustomerFunctionalities cf = new CustomerFunctionalities(username);
                 cf.cfWindow();
             }
         });
@@ -89,9 +100,41 @@ public class CancelReservation {
         btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                CancelReservation_1 cr1 = new CancelReservation_1();
-                cr1.cr1Window();
+                if (textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "reservation ID cannot be null");
+                }else{
+                    try{
+                       if (db.checkFunctionality("SELECT isCanceled FROM reservation WHERE reservationID = " + textField.getText().trim() + ";").equals("false")){
+                           String rid = db.checkFunctionality("select reservationID from reservation where ReservationID = " + textField.getText().trim() + ";");
+                           if (rid.equals(textField.getText().trim())){
+                               String sql = "select trainNum, departureTime,"
+                                       + " arrivalTime, departsFrom, arrivesAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
+                                       + " from ((reserves natural join(select trainNum, arrivalTime from stop where location "
+                                       + "in (select arrivesAt from reserves where reservationID = " + textField.getText().trim() + " and trainNum "
+                                       + "in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )and trainNum "
+                                       + "in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as a) natural join "
+                                       + "(select trainNum, departureTime from stop where location in "
+                                       + "(select departsFrom from reserves where reservationID = " + textField.getText().trim() + " and trainNum in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )"
+                                       + "and trainNum in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as c) natural join trainRoute where ReservationID = " + textField.getText().trim() + ";";
+                               s = new Object[db.UpdateReservationSize(sql)][8];
+                               Object[][] ss = db.getUpdateReservation(sql, db.UpdateReservationSize(sql));
+                               for (int i = 0; i < ss.length; i++){
+                                   for (int j = 1; j < ss[0].length; j++){
+                                       s[i][j - 1] = ss[i][j];
+                                   }
+                               }
+                           }else{
+                               JOptionPane.showMessageDialog(null, "invalid reservation ID information");
+                           }
+                       }else {
+                           JOptionPane.showMessageDialog(null, "no reservation found");
+                       }
+                    }catch (Exception ee){}
+                    frame.dispose();
+                    System.out.println("size of s is" + s.length);
+                    CancelReservation_1 cr1 = new CancelReservation_1(username, s, textField.getText().trim());
+                    cr1.cr1Window();
+                }
             }
         });
         btnSearch.setBounds(275, 191, 100, 29);
