@@ -35,8 +35,8 @@ public class CancelReservation_1 {
     public database db;
     private final static int bagfee = 30;
     private final static int changefee = 50;
-    private static double cost;
-    private static double refund;
+    private static float cost;
+    private static float refund;
     private static String year;
     private static String month;
     private static String date;
@@ -212,10 +212,14 @@ public class CancelReservation_1 {
         textField.setText(String.valueOf(cost));
         if (currentDate.getTime() - cancelDate.getTime() > sevendays){
             System.out.println("80% refund");
-            refund = cost * 0.8;
+          
+            refund = (float) (cost * 0.8);
+            refund -= 50;
+            System.out.println("refund is " + refund);
         }else if (currentDate.getTime() - cancelDate.getTime() <  sevendays && currentDate.getTime() - cancelDate.getTime() > oneday){
             System.out.println("50% refund");
-            refund = cost * 0.5;
+            refund = (float) (cost * 0.5);
+            refund -= 50;
         }else{
             refund = 0;
             System.out.println("no refund");

@@ -229,7 +229,7 @@ public class MakeReservation {
                             if( Integer.parseInt(textField.getText().trim().substring(6,10)) % 400 == 0){
                                 monthDate(4, Integer.parseInt(textField.getText().trim().substring(3,5)));
                             }else if(Integer.parseInt(textField.getText().trim().substring(6,10)) % 4 == 0){
-                                if (Integer.parseInt(textField.getText().trim().substring(6,20)) % 100 != 0){
+                                if (Integer.parseInt(textField.getText().trim().substring(6,10)) % 100 != 0){
                                     monthDate(4, Integer.parseInt(textField.getText().trim().substring(3,5)));
                                 }else{
                                     monthDate(3, Integer.parseInt(textField.getText().trim().substring(3,5)));

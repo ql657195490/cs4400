@@ -9,6 +9,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -20,6 +21,9 @@ public class ViewReview {
 
     private JFrame frame;
     private JTextField textField;
+    public static String username;
+    public static Object[][] s;
+    public database db;
 
     /**
      * Launch the application.
@@ -41,7 +45,12 @@ public class ViewReview {
      * Create the application.
      */
     public ViewReview() {
+        db = new database();
         initialize();
+    }
+    
+    public ViewReview(String usernmae){
+        this.username = username;
     }
 
     /**
@@ -79,7 +88,7 @@ public class ViewReview {
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
+                CustomerFunctionalities cf = new CustomerFunctionalities(username);
                 cf.cfWindow();
             }
         });
@@ -90,9 +99,21 @@ public class ViewReview {
         btnNext.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNext.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                ViewReview_1 vr1 = new ViewReview_1();
-                vr1.vr1Window();
+                String tn = "";
+                try{
+                    tn = db.checkFunctionality("SELECT trainNum FROM trainRoute WHERE trainNum = '"
+                            + textField.getText().trim() + "';");
+                    int size = db.getReviewSize("SELECT * FROM review");
+                    s = db.getReviewData("SELECT rating, comment FROM review where trainNum = '"
+                            + textField.getText().trim() + "';", size);
+                }catch(Exception ee){}
+                if (tn.equals(textField.getText().trim())){
+                    frame.dispose();
+                    ViewReview_1 vr1 = new ViewReview_1(username, s);
+                    vr1.vr1Window();
+                }else{
+                    JOptionPane.showMessageDialog(null, "invalid train number");
+                }
             }
         });
         btnNext.setBounds(230, 228, 100, 29);

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
@@ -21,6 +22,9 @@ public class GiveReview {
 
     private JFrame frame;
     private JTextField textField;
+    public static String username;
+    public static String comment;
+    public database db;
 
     /**
      * Launch the application.
@@ -42,7 +46,13 @@ public class GiveReview {
      * Create the application.
      */
     public GiveReview() {
+        this.comment = "";
+        db = new database();
         initialize();
+    }
+    
+    public GiveReview(String username){
+        this.username = username;
     }
 
     /**
@@ -79,8 +89,10 @@ public class GiveReview {
         lblRating.setBounds(60, 110, 61, 16);
         panel.add(lblRating);
         
-        JComboBox comboBox = new JComboBox();
-        comboBox.setBounds(212, 106, 80, 27);
+        String[] rating = {"very good", "good", "neutral", "bad", "very bad"};
+        JComboBox comboBox = new JComboBox(rating);
+        
+        comboBox.setBounds(212, 116, 120, 27);
         panel.add(comboBox);
         
         JLabel lblComment = new JLabel("Comment");
@@ -91,9 +103,13 @@ public class GiveReview {
         btnAddComment.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnAddComment.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                btnAddComment.setText("Edit Comment");
-                GiveComment gc = new GiveComment();
+                
+                GiveComment gc = new GiveComment(comment);
+                if (btnAddComment.getText().equals("Edit Comment")){
+
+                }
                 gc.gcWindow();
+                btnAddComment.setText("Edit Comment");
             }
         });
         btnAddComment.setBounds(212, 145, 117, 29);
@@ -103,9 +119,41 @@ public class GiveReview {
         btnSubmit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String real = "";
+                try{
+                    real = db.checkFunctionality("SELECT trainNum FROM trainRoute WHERE trainNum = '"
+                            + textField.getText().trim() + "';");
+                }catch(Exception a){}
+                if (textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "train number is empty");
+                }else if(!(textField.getText().trim().equals(real))){
+                    JOptionPane.showMessageDialog(null, "train number doesn't exist");
+                }else{
+                    try{
+                        String sql = "";
+                        if (comment.equals("")){
+                            sql = "INSERT review(rating, comment, trainNum, userName) VALUES('" 
+                                    + comboBox.getSelectedItem().toString() + "', " + null +", '"
+                                    + textField.getText().trim() + "', '" + username + "');";
+                        }else{
+                             sql = "INSERT review(rating, comment, trainNum, userName) VALUES('" 
+                                    + comboBox.getSelectedItem().toString() + "', '" + comment +"', '"
+                                    + textField.getText().trim() + "', '" + username + "');";
+                        }
+                            System.out.println(sql);
+                        db.update(sql);
+                    }catch (Exception ee){
+                        
+                    }
+                }
+                System.out.println(comment);
             }
         });
         btnSubmit.setBounds(175, 220, 100, 29);
         panel.add(btnSubmit);
+    }
+    
+    public void saveComment(String comment){
+        this.comment = comment;
     }
 }

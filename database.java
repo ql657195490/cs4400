@@ -59,6 +59,7 @@ public class database {
      * @param sql the sql language to search username
      */
     public void checkUsername(String sql)throws Exception{
+        System.out.println("test");
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
         while (result.next()){
@@ -343,5 +344,58 @@ public class database {
            }
        }
        return minDate;
+   }
+   
+   /**
+    * method to get the size of the review array
+    * @param the sql query that we pass in
+    * @return the size of array that we use to store the review data
+    * */
+   public int getReviewSize(String sql)throws Exception{
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       int count = 0;
+       while(result.next()){
+           count++;
+       }
+       return count;
+   }
+   
+   /**
+    * method use to get the data of review
+    * @param sql the sql query that we pass in
+    * @param the size of the array
+    * @return the array we use to store the data
+    * */
+   public Object[][] getReviewData(String sql, int size)throws Exception{
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       Object[][] s = new Object[size][2];
+       int count = 0;
+       while (result.next()){
+           s[count][0] = result.getString(1);
+           s[count][1] = result.getString(2);
+           count++;
+       }
+       return s;
+   }
+   
+   /**
+    * method to get the data for revenue report
+    * @param sql the sql query that we pass in
+    * @param s the array we use to store the data
+    * @param index the index of the array we use to store data
+    * @return the array we use to store the data
+    * */
+   public Object[][] getRevenueReport(String sql, Object[][] s, int index) throws Exception{ 
+       System.out.println("test");
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       while(result.next()){
+           s[index][1] = result.getString(1);
+           System.out.println(s[index][1].toString());
+           System.out.println("result: " + result.getString(1));
+       }
+       return s;
    }
 }

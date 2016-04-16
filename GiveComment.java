@@ -21,7 +21,9 @@ import java.awt.event.ActionEvent;
 public class GiveComment {
 
     private JFrame frame;
-
+    public GiveReview gr;
+    private JTextArea textArea;
+    private static String comment;
     /**
      * Launch the application.
      */
@@ -42,7 +44,14 @@ public class GiveComment {
      * Create the application.
      */
     public GiveComment() {
+        gr = new GiveReview();
+      
+        
         initialize();
+    }
+    
+    public GiveComment(String comment){
+        this.comment = comment;
     }
 
     /**
@@ -59,10 +68,12 @@ public class GiveComment {
         frame.getContentPane().add(panel, BorderLayout.SOUTH);
         panel.setLayout(null);
         
-        JButton btnBack = new JButton("Back");
+        JButton btnBack = new JButton("Done");
         btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                System.out.println(textArea.getText());
+                gr.saveComment(textArea.getText());
                 frame.dispose();
             }
         });
@@ -71,8 +82,15 @@ public class GiveComment {
         JScrollPane scrollPane = new JScrollPane();
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
+//        if (b){
+//            textArea.setText(comment);
+//        }
+        textArea.setText(comment);
+  
         scrollPane.setViewportView(textArea);
     }
+    
+    
 
 }

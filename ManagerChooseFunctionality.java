@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 public class ManagerChooseFunctionality {
 
     private JFrame frame;
+    public database db;
+    public static Object[][] s;
 
     /**
      * Launch the application.
@@ -40,6 +42,7 @@ public class ManagerChooseFunctionality {
      * Create the application.
      */
     public ManagerChooseFunctionality() {
+        db = new database();
         initialize();
     }
 
@@ -64,8 +67,40 @@ public class ManagerChooseFunctionality {
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                s = new Object[3][2];
+                
+                try{
+                    
+                    String sql = "select sum(ifnull(p,0) + ifnull(p1,0)) from (select sum(sClassPrice) as p from "
+                            + "(trainRoute natural join (select * from reserves where reservationID"
+                            + " in (select ReservationID from Reservation where isCanceled ='false')  and (departureDate like '2016-01%')) as a ) where class = 'first') "
+                            + "as b join (select sum(fClassPrice)  as p1 from (trainRoute natural join"
+                            + " (select * from reserves where reservationID in (select ReservationID from Reservation where isCanceled ='false') and (departureDate like "
+                            + "'2016-01%')) as a ) where class = 'second') as c";
+                    System.out.println(sql);
+                    s[0][0] = "January";
+                    System.out.println("test1");
+                    s = db.getRevenueReport(sql, s, 0);
+                    System.out.println("test1");
+                    sql = "select sum(ifnull(p,0) + ifnull(p1,0)) from (select sum(sClassPrice) as p from "
+                            + "(trainRoute natural join (select * from reserves where reservationID"
+                            + " in (select ReservationID from Reservation where isCanceled ='false')  and (departureDate like '2016-02%')) as a ) where class = 'first') "
+                            + "as b join (select sum(fClassPrice)  as p1 from (trainRoute natural join"
+                            + " (select * from reserves where reservationID in (select ReservationID from Reservation where isCanceled ='false') and (departureDate like "
+                            + "'2016-02%')) as a ) where class = 'second') as c";
+                    s[1][0] = "February";
+                    s = db.getRevenueReport(sql, s, 1);
+                    sql = "select sum(ifnull(p,0) + ifnull(p1,0)) from (select sum(sClassPrice) as p from "
+                            + "(trainRoute natural join (select * from reserves where reservationID"
+                            + " in (select ReservationID from Reservation where isCanceled ='false')  and (departureDate like '2016-03%')) as a ) where class = 'first') "
+                            + "as b join (select sum(fClassPrice)  as p1 from (trainRoute natural join"
+                            + " (select * from reserves where reservationID in (select ReservationID from Reservation where isCanceled ='false') and (departureDate like "
+                            + "'2016-03%')) as a ) where class = 'second') as c";
+                    s[2][0] = "March";
+                    s = db.getRevenueReport(sql, s, 2);
+                }catch(Exception ee){}
                 frame.dispose();
-                ViewRevenueReport vrr = new ViewRevenueReport();
+                ViewRevenueReport vrr = new ViewRevenueReport(s);
                 vrr.vrrWindow();
             }
             @Override
@@ -106,6 +141,7 @@ public class ManagerChooseFunctionality {
         JButton btnLogout = new JButton("Log out");
         btnLogout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                
                 System.exit(0);
             }
         });

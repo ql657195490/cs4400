@@ -176,7 +176,7 @@ public class CustomerFunctionalities {
             @Override
             public void mouseClicked(MouseEvent e) {
                 frame.dispose();
-                GiveReview gr = new GiveReview();
+                GiveReview gr = new GiveReview(username);
                 gr.grWindow();
             }
             @Override
@@ -231,8 +231,9 @@ public class CustomerFunctionalities {
         lblNewLabel_7.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+              
                 frame.dispose();
-                ViewReview vr = new ViewReview();
+                ViewReview vr = new ViewReview(username);
                 vr.vrWindow();
             }
             @Override

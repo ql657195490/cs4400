@@ -24,6 +24,9 @@ public class ViewReview_1 {
 
     private JFrame frame;
     private JTable table;
+    public static String username;
+    public static Object[][] s;
+    public database db;
 
     /**
      * Launch the application.
@@ -46,6 +49,11 @@ public class ViewReview_1 {
      */
     public ViewReview_1() {
         initialize();
+    }
+    
+    public ViewReview_1(String username, Object[][] s){
+        this.username = username;
+        this.s = s;
     }
 
     /**
@@ -79,7 +87,7 @@ public class ViewReview_1 {
         btnBackToChoose.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                CustomerFunctionalities cf = new CustomerFunctionalities();
+                CustomerFunctionalities cf = new CustomerFunctionalities(username);
                 cf.cfWindow();
             }
         });
@@ -90,9 +98,7 @@ public class ViewReview_1 {
         scrollPane.setBorder(new EmptyBorder(10, 30, 10, 30));
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
-        table = new JTable(new Object[][]{
-                 {"Good", "test1"}, {"Netural", "test2"}
-            }, new Object[]{"Rating", "Comment"});
+        table = new JTable(s, new Object[]{"Rating", "Comment"});
         TableColumn col1 = table.getColumnModel().getColumn(0);
         col1.setPreferredWidth(50);
         table.setSurrendersFocusOnKeystroke(true);

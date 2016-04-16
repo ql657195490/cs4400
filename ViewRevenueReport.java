@@ -23,6 +23,7 @@ public class ViewRevenueReport {
 
     private JFrame frame;
     private JTable table;
+    public static Object[][] s;
 
     /**
      * Launch the application.
@@ -45,6 +46,10 @@ public class ViewRevenueReport {
      */
     public ViewRevenueReport() {
         initialize();
+    }
+    
+    public ViewRevenueReport(Object[][] s){
+        this.s = s;
     }
 
     /**
@@ -94,9 +99,8 @@ public class ViewRevenueReport {
         JScrollPane scrollPane = new JScrollPane();
         panel_2.add(scrollPane, BorderLayout.CENTER);
         
-        table = new JTable(new Object[][]{
-                    {"January", "50513"}, {"February", "62345"}, {"March", "50283"}
-                }, new Object[]{"Month", "Revenue"});
+        table = new JTable(s
+                , new Object[]{"Month", "Revenue"});
         scrollPane.setViewportView(table);
     }
 }
