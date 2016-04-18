@@ -20,6 +20,8 @@ import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class UpdateReservation_2 {
@@ -40,6 +42,7 @@ public class UpdateReservation_2 {
     public database db;
     public UpdateReservationData urd;
     public MonthConverter mc;
+    public static float totalPrice;
 
     /**
      * Launch the application.
@@ -63,12 +66,15 @@ public class UpdateReservation_2 {
     public UpdateReservation_2() {
         db = new database();
         mc = new MonthConverter();
+        totalPrice = db.totalPrice;
+        System.out.println("total price is " + db.totalPrice);
        // this.s1 = this.s;
         initialize();
     }
     
     public UpdateReservation_2(String username, String reservationID, String trainNum, Object[][] s, Object[][] s1){
         this.username = username;
+        System.out.println("2: " + this.username);
         this.reservationID = reservationID;
         this.trainNum = trainNum;
         this.s = s;
@@ -90,7 +96,7 @@ public class UpdateReservation_2 {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 850, 800);
+        frame.setBounds(100, 100, 850, 580);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JPanel panel = new JPanel();
@@ -126,6 +132,54 @@ public class UpdateReservation_2 {
         panel_4.add(lblNew);
         
         textField = new JTextField();
+
+        textField.addKeyListener(new KeyAdapter() {
+            boolean a = false;
+            boolean b = false;
+            @Override
+            public void keyPressed(KeyEvent e) {
+               
+               
+                if (textField.getText().matches("[A-Za-z]")){
+                    textField.setText("");
+                    JOptionPane.showMessageDialog(null, "date should be numbers");
+                }
+                if (textField.getText().trim().length() < 2){
+                    a = true;
+                    b = true;
+                }else  if ( textField.getText().trim().length() < 5){
+                    b = true;
+                }if (textField.getText().trim().length() == 2 && a){
+                    if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                        textField.setText(textField.getText().trim() + "/");
+                        a = false;
+                        b = true;
+                    }
+                }else if (textField.getText().trim().length() == 4){
+                    if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                        textField.setText(textField.getText().trim().substring(0, 3));
+                        a = true;
+                    }
+                }else if (textField.getText().trim().length() == 5 && b){
+                    textField.setText(textField.getText().trim() + "/");
+                    b = false;
+                }else if (textField.getText().trim().length() == 7){
+                    if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                        textField.setText(textField.getText().trim().substring(0, 6));
+                        b = true;
+                    }
+                }else if (textField.getText().trim().length() == 10){
+                    if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                        
+                        JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
+                        textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
+                    }
+                    
+                }
+  
+           
+            }
+        });
         textField.setBounds(180, 6, 134, 28);
         panel_4.add(textField);
         textField.setColumns(10);
@@ -146,19 +200,32 @@ public class UpdateReservation_2 {
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 //                System.out.println(s1.length);
-//                urd.setUpdateReservationData(s1);
+//                urd.setUpdateReservationData(s1);\
+                if (textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "date cannot be null");
+                }else{
                
-               int choice = JOptionPane.showConfirmDialog(null, "date is available, Do you want to update your reservation?", "Confirm",JOptionPane.YES_NO_OPTION); 
-               if (choice == JOptionPane.YES_OPTION){
-                   //System.out.println("s1[0][1] is " + mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length()));
-                   //System.out.println(s[0][1].toString().length());
-                  //s1[0][1] = mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length());
-                   //urd.renewReservationData();
-                  // s1 = urd.currentSelectData();
-                  
-                  table_2.getModel().setValueAt(mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length()), 0, 1);
-                  System.out.println("s[0][1]" + s[0][1]);
-               }
+                   int choice = JOptionPane.showConfirmDialog(null, "date is available, Do you want to update your reservation?", "Confirm",JOptionPane.YES_NO_OPTION); 
+                   if (choice == JOptionPane.YES_OPTION){
+                       //System.out.println("s1[0][1] is " + mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length()));
+                       //System.out.println(s[0][1].toString().length());
+                      //s1[0][1] = mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length());
+                       //urd.renewReservationData();
+                      // s1 = urd.currentSelectData();
+                      
+                      table.getModel().setValueAt(mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length()), 0, 1);
+                      textField_1.setText("50");
+                      try{
+                          if (db.checkFunctionality("SELECT isStudent FROM customer WHERE username = '" + username + "';").equals("true")){
+                              totalPrice *= 0.8;
+                              totalPrice += 50;
+                          }
+                      }catch(Exception ee){}
+                      textField_2.setText(String.valueOf(totalPrice));
+                      lblCurrentTicket.setText("Update train ticket");
+                      System.out.println("s[0][1]" + s[0][1]);
+                   }
+                }
                 
             }
         });
@@ -189,10 +256,10 @@ public class UpdateReservation_2 {
         panel_6.setPreferredSize(new Dimension(850, 20));
         panel_2.add(panel_6, BorderLayout.NORTH);
         panel_6.setLayout(null);
-        
-        JLabel lblNewLabel = new JLabel("Update Train Ticket");
-        lblNewLabel.setBounds(10, 0, 140, 20);
-        panel_6.add(lblNewLabel);
+//        
+//        JLabel lblNewLabel = new JLabel("Update Train Ticket");
+//        lblNewLabel.setBounds(10, 0, 140, 20);
+//        panel_6.add(lblNewLabel);
         
         JPanel panel_7 = new JPanel();
         panel_7.setBackground(Color.WHITE);
@@ -246,25 +313,39 @@ public class UpdateReservation_2 {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 
-                //need to update data to database
-                try{
+                // TODO Auto-generated method stub
+                if (textField.getText().trim().length() != 10){
+                    JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
+                    textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
                     
-                }catch(Exception ee){}
+                    
+                }
+                int check1 = JOptionPane.showConfirmDialog(null,"Are you sure to update your reservation?", "Confirm",JOptionPane.YES_NO_OPTION);
+                //need to update data to database
+                if (check1 == JOptionPane.YES_OPTION){
+                    try{
+                        db.update("UPDATE reserves SET departureDate = '" + textField.getText().trim().substring(6, 10) + "-" + 
+                                textField.getText().trim().substring(0, 2) + "-" +  textField.getText().trim().substring(3, 5 ) 
+                                + "' " + "WHERE reservationID = "
+                                + reservationID + " AND trainNum = '" + trainNum + "';");
+                    }catch(Exception ee){}
+                    
+                }
+                
             }
             
         });
         panel_7.add(btnSumbit);
         
-        JPanel panel_8 = new JPanel();
-        panel_8.setBackground(Color.WHITE);
-        panel_8.setBorder(new EmptyBorder(10, 10, 10 ,10));
-        panel_2.add(panel_8, BorderLayout.CENTER);
-        panel_8.setLayout(new BorderLayout(0, 0));
-        
-        JScrollPane scrollPane_1 = new JScrollPane();
-        panel_8.add(scrollPane_1, BorderLayout.CENTER);
+//        JPanel panel_8 = new JPanel();
+//        panel_8.setBackground(Color.WHITE);
+//        panel_8.setBorder(new EmptyBorder(10, 10, 10 ,10));
+//        panel_2.add(panel_8, BorderLayout.CENTER);
+//        panel_8.setLayout(new BorderLayout(0, 0));
+//        
+//        JScrollPane scrollPane_1 = new JScrollPane();
+//        panel_8.add(scrollPane_1, BorderLayout.CENTER);
       //  model = new DefaultTableModel();
 //        table_2.setModel(model);
 //        String[] col = {"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"};
@@ -276,12 +357,12 @@ public class UpdateReservation_2 {
 //        }
       
 
-        table_2 = new JTable(s1,
-                
-                new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
-                    table_2.setEnabled(false);
-                 
-          scrollPane_1.setViewportView(table_2);
+//        table_2 = new JTable(s1,
+//                
+//                new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
+//                    table_2.setEnabled(false);
+//                 
+//          scrollPane_1.setViewportView(table_2);
           
           //frame.setVisible(true);
     }

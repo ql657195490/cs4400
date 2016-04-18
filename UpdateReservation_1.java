@@ -59,6 +59,9 @@ public class UpdateReservation_1 extends JFrame{
     //Constructor
     public UpdateReservation_1(Object[][] s1, Object[] s2, String ReservationID, String username){
         this.s1 = s1;
+        this.username = username;
+        this.ReservationID = ReservationID;
+       
         createPanel();
         createLabel();
         createButton(s1);
@@ -113,7 +116,7 @@ public class UpdateReservation_1 extends JFrame{
                 UpdateReservationData urd  = new UpdateReservationData();
                 urd.setUpdateReservationData(s);
                 UpdateReservation_2 ur2 = new UpdateReservation_2(username, ReservationID,
-                        trainNumber, s, ss);
+                        s[0][0].toString(), s, ss);
                 frame.dispose();
                 ur2.ur2Window();     
                

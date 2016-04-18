@@ -123,8 +123,27 @@ public class ManagerChooseFunctionality {
         lblNewLabel_2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                s = new Object[9][3];
+                try{
+                    String sql = "select trainNum, count(trainNum) as a from (reserves  natural joi"
+                            + "n reservation) where isCanceled = 'false' and departureDate like "
+                            + "'2016-01%' group by trainNum order by a desc;";
+                    s[0][0] = "January";
+                    s = db.getPopularRouteReport(sql, s, 0);
+                    sql = "select trainNum, count(trainNum) as a from (reserves  natural joi"
+                            + "n reservation) where isCanceled = 'false' and departureDate like "
+                            + "'2016-02%' group by trainNum order by a desc;";
+                    s[3][0] = "Feburary";
+                    s = db.getPopularRouteReport(sql, s, 3);
+                    sql = "select trainNum, count(trainNum) as a from (reserves  natural joi"
+                            + "n reservation) where isCanceled = 'false' and departureDate like "
+                            + "'2016-03%' group by trainNum order by a desc;";
+                    s[6][0] = "March";
+                    s = db.getPopularRouteReport(sql, s, 6);
+    
+                }catch(Exception ee){}
                 frame.dispose();
-                ViewPopularRouteReport vprr = new ViewPopularRouteReport();
+                ViewPopularRouteReport vprr = new ViewPopularRouteReport(s);
                 vprr.vprrWindow();
             }
             @Override

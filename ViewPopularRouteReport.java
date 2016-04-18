@@ -23,6 +23,7 @@ public class ViewPopularRouteReport {
 
     private JFrame frame;
     private JTable table;
+    public static Object[][] s;
 
     /**
      * Launch the application.
@@ -45,6 +46,10 @@ public class ViewPopularRouteReport {
      */
     public ViewPopularRouteReport() {
         initialize();
+    }
+    
+    public ViewPopularRouteReport(Object[][] s){
+        this.s = s;
     }
 
     /**
@@ -95,14 +100,8 @@ public class ViewPopularRouteReport {
         JScrollPane scrollPane = new JScrollPane();
         panel_2.add(scrollPane, BorderLayout.CENTER);
         
-        table = new JTable(new Object[][]{
-                    {"January", "2451 Regional", "613"},
-                    {"January", "2708 Regional", "413"},
-                    {"February", "5143 Regional", "728"},
-                    {"February", "2708 Regional", "634"},
-                    {"March", "5143 Regional", "597"},
-                    {"March", "4022 Regional", "516"}
-                }, new Object[]{"Month", "Train number", "#of Reservations"});
+        table = new JTable(
+                    s, new Object[]{"Month", "Train number", "#of Reservations"});
         scrollPane.setViewportView(table);
     }
 

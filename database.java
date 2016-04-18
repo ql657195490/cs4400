@@ -17,6 +17,7 @@ public class database {
     public int resize;
     private boolean mb;
     private MonthConverter mc;
+    public static float totalPrice;
     
     public database(){
         resize = 0;
@@ -51,6 +52,7 @@ public class database {
      * @param sql the sql language to database
      * */
     public void update(String sql)throws Exception{
+        System.out.println(sql);
         statement = con.prepareStatement(sql);
         statement.executeUpdate();
     }
@@ -274,6 +276,7 @@ public class database {
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        Object[][] temp = new Object[size][9];
+       float[][] total = new float[size][2];
        System.out.println(temp.length);
        
        int count = 0;
@@ -296,9 +299,12 @@ public class database {
            temp[count][8] = result.getString(8); // index 8: passenger name
 //           String date = mc.changeMonth(result.getString(11).substring(5, 10));
 //           temp[count][9] = date;// index 9: departure date
+           total[count][0] = Float.parseFloat(temp[count][6].toString());
+           total[count][1] = Float.parseFloat(temp[count][7].toString());
            count++;
            
        }
+       setUpdateTotalPrice(total);
        return temp;
    }
    
@@ -393,9 +399,48 @@ public class database {
        result = statement.executeQuery();
        while(result.next()){
            s[index][1] = result.getString(1);
-           System.out.println(s[index][1].toString());
-           System.out.println("result: " + result.getString(1));
+           
        }
        return s;
+   }
+   
+   /**
+    * method to get the data for popular route report
+    * @param sql the sql query that we pass in
+    * @param s the array we use to store the data
+    * @Param index the index of the array we use to store the data
+    * @return the array 
+    * */
+   public Object[][] getPopularRouteReport(String sql, Object[][] s, int index)throws Exception{
+       statement = con.prepareStatement(sql);
+       result = statement.executeQuery();
+       int count = 0;
+       while(result.next()){
+           if (count == 3){
+               break;
+           }
+           s[index][1] = result.getString(1);
+           s[index][2] = result.getString(2);
+           index++;
+           count++;
+       }
+       return s;
+   }
+   
+   /**
+    * method to calculate the total price after update your reservation
+    * @param total the array use to store the price and number of bags
+    * */
+   public void setUpdateTotalPrice(float[][] total){
+       float tp = 0;
+       for (int i = 0; i < total.length; i++){
+           tp += total[i][0];
+           if (total[i][1] > 2){
+               tp += (total[i][1] - 2) * 30;
+           }
+       }
+       
+       this.totalPrice = tp;
+       System.out.println(totalPrice);
    }
 }
