@@ -7,6 +7,7 @@ import java.awt.Color;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -22,6 +23,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
@@ -67,12 +69,12 @@ public class MakeReservation_1 {
       
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.setPreferredSize(new Dimension(450, 60));
+        panel.setPreferredSize(new Dimension(500, 60));
         panel.setLayout(null);
         frame.getContentPane().add(panel, BorderLayout.NORTH);
       
         JPanel panel_1 = new JPanel();
-        panel_1.setPreferredSize(new Dimension(450, 60));
+        panel_1.setPreferredSize(new Dimension(500, 60));
         panel_1.setLayout(null);
         panel_1.setBackground(Color.WHITE);
         frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
@@ -111,20 +113,28 @@ public class MakeReservation_1 {
                         break;
                     }
                 }
+                if (s2[position][0] == null){
+                    JOptionPane.showMessageDialog(null, "you must select a train");
+                }else{
+                    s2 = mrd.getReservationData();
+                    time = getTime(s1, (String)s2[position][0]);
+                    System.out.println("train: " + s2[position][0]);
+                    System.out.println("time is " + time);
+                    System.out.println("time length: " + time.length());
+                    System.out.println("date length: " + s2[position][8].toString().length());
+                    System.out.println("date: " + s2[position][8].toString());
+                    time = s2[position][8].toString().substring(0, s2[position][8].toString().length() - 10) + time;
+                    System.out.println("new time: " + time);
+//                    s2[position][0] = trainNum; //index 0: train number
+                      s2[position][1] = time; // index 1: time
+//                    s2[position][4] = tclass; // index 4 : class
+//                    s2[position][5] = rbv.getPrice(); // index 5: price
+                    mrd.setReservationData(s2);
+                    frame.dispose();
+                    MakeReservation_2 mr2 = new MakeReservation_2(username, s1);
+                    mr2.mrWindow_2();
+                }
                 
-                s2 = mrd.getReservationData();
-                time = getTime(s1, (String)s2[position][0]);
-                System.out.println("train: " + s2[position][0]);
-                System.out.println("time is " + time);
-                time = s2[position][8].toString().substring(0, s2[position][8].toString().length() - 10) + time;
-//                s2[position][0] = trainNum; //index 0: train number
-                  s2[position][1] = time; // index 1: time
-//                s2[position][4] = tclass; // index 4 : class
-//                s2[position][5] = rbv.getPrice(); // index 5: price
-                mrd.setReservationData(s2);
-                frame.dispose();
-                MakeReservation_2 mr2 = new MakeReservation_2(username, s1);
-                mr2.mrWindow_2();
             }
         });
         
@@ -161,7 +171,7 @@ public class MakeReservation_1 {
 //        scrollPane.setViewportView(table);
       
      
-        frame.setBounds(100, 100, 450, 400);
+        frame.setBounds(100, 100, 500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
@@ -259,6 +269,8 @@ public class MakeReservation_1 {
         table.getColumn("1st Class Price").setCellEditor(new radioEditor(new JCheckBox()));
         table.getColumn("2nd Class Price").setCellRenderer(new Radiorenderer());
         table.getColumn("2nd Class Price").setCellEditor(new radioEditor(new JCheckBox()));
+        
+        table.setRowHeight(50);
 
         scrollPane.setViewportView(table);
     }

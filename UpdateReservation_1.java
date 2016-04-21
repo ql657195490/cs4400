@@ -61,6 +61,7 @@ public class UpdateReservation_1 extends JFrame{
         this.s1 = s1;
         this.username = username;
         this.ReservationID = ReservationID;
+        this.index = -1;
        
         createPanel();
         createLabel();
@@ -108,17 +109,22 @@ public class UpdateReservation_1 extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                s = new Object[1][8];
-                for (int i = 0; i < 8; i++){
-                    s[0][i] = s1[index][i + 1];
+                if(index != -1){
+                    s = new Object[1][8];
+                    for (int i = 0; i < 8; i++){
+                        s[0][i] = s1[index][i + 1];
+                    }
+                    ss = s;
+                    UpdateReservationData urd  = new UpdateReservationData();
+                    urd.setUpdateReservationData(s);
+                    UpdateReservation_2 ur2 = new UpdateReservation_2(username, ReservationID,
+                            s[0][0].toString(), s, ss);
+                    frame.dispose();
+                    ur2.ur2Window(); 
+                }else{
+                    JOptionPane.showMessageDialog(null, "you must select one");
                 }
-                ss = s;
-                UpdateReservationData urd  = new UpdateReservationData();
-                urd.setUpdateReservationData(s);
-                UpdateReservation_2 ur2 = new UpdateReservation_2(username, ReservationID,
-                        s[0][0].toString(), s, ss);
-                frame.dispose();
-                ur2.ur2Window();     
+                    
                
             }
             
@@ -142,21 +148,21 @@ public class UpdateReservation_1 extends JFrame{
         panel1.add(button2);
         
         //add listener and action event to the button
-        button1.addActionListener(new ActionListener() {//button "Next"
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                UpdateReservation_2 ur2 = new UpdateReservation_2();
-                //ur2.ur2Window();
-            }
-        });
+//        button1.addActionListener(new ActionListener() {//button "Next"
+//            public void actionPerformed(ActionEvent e) {
+//                frame.dispose();
+//                UpdateReservation_2 ur2 = new UpdateReservation_2();
+//                //ur2.ur2Window();
+//            }
+//        });
         
-        button2.addActionListener(new ActionListener() {//button "Back"
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                UpdateReservation ur = new UpdateReservation();
-                ur.urWindow();
-            }
-        });
+//        button2.addActionListener(new ActionListener() {//button "Back"
+//            public void actionPerformed(ActionEvent e) {
+//                frame.dispose();
+//                UpdateReservation ur = new UpdateReservation();
+//                ur.urWindow();
+//            }
+//        });
       
     }
     
@@ -186,6 +192,9 @@ public class UpdateReservation_1 extends JFrame{
         }
         table.getColumn("Select").setCellRenderer(new Radiorenderer());
         table.getColumn("Select").setCellEditor(new radioEditor(new JCheckBox()));
+        table.getColumn("Time").setMinWidth(150);
+        table.setRowHeight(50);
+        table.getColumn("Price").setMaxWidth(50);
         scrollPane.setViewportView(table);
     }
     

@@ -199,26 +199,46 @@ public class database {
         mb = false;
         Object[][] ss = new Object[100][4];
         int count = 0;
+        DateFormat df = new SimpleDateFormat("hh:mm:ss");
+        java.util.Date dp = null;
+        java.util.Date aa = null;
+        String duration = "";
+        int hour = 3600000;
+        int minute = 60000;
         while (result.next()){
-            if (Integer.parseInt(result.getString(2).substring(0, 2)) - 
-                    Integer.parseInt(result.getString(3).substring(0, 2)) < 0){
+            //System.out.println("string1: " + result.getString(2));
+            dp = df.parse(result.getString(2));
+            //System.out.println("time1: " + dp.getTime());
+            aa = df.parse(result.getString(3));
+            //System.out.println("string2: " + result.getString(3));
+            //System.out.println("time2: " + aa.getTime());
+//            if (Integer.parseInt(result.getString(2).substring(0, 2)) - 
+//                    Integer.parseInt(result.getString(3).substring(0, 2)) < 0){
+//                mb = true;
+//            }else if(Integer.parseInt(result.getString(2).substring(0, 2)) - 
+//                    Integer.parseInt(result.getString(3).substring(0, 2)) == 0){
+//                if (Integer.parseInt(result.getString(2).substring(3,5)) - 
+//                        Integer.parseInt(result.getString(3).substring(3, 5)) < 0){
+//                    mb = true;
+//                }else if(Integer.parseInt(result.getString(2).substring(3,5)) - 
+//                        Integer.parseInt(result.getString(3).substring(3, 5)) == 0){
+//                    
+//                }
+//            }
+            if (dp.getTime() - aa.getTime() < 0){
                 mb = true;
-            }else if(Integer.parseInt(result.getString(2).substring(0, 2)) - 
-                    Integer.parseInt(result.getString(3).substring(0, 2)) == 0){
-                if (Integer.parseInt(result.getString(2).substring(3,5)) - 
-                        Integer.parseInt(result.getString(3).substring(3, 5)) < 0){
-                    mb = true;
-                }else if(Integer.parseInt(result.getString(2).substring(3,5)) - 
-                        Integer.parseInt(result.getString(3).substring(3, 5)) == 0){
-                    
-                }
             }
             for (int i = 0; i < 4; i++){
                 if (mb){
                     if (i == 0){
                         ss[count][i] = result.getString(i + 1);
                     }else if (i == 1){
-                        ss[count][i] = result.getString(i + 1) + "-" + result.getString(i + 2);
+                        long time = aa.getTime() - dp.getTime();
+                        duration = "";
+                        duration += String.valueOf(time / hour) + "hr";
+                        time = time % hour;
+                        duration += String.valueOf(time / minute) + "min";
+                        ss[count][i] = "<html>" + result.getString(i + 1) + "-" + result.getString(i + 2) + "<br/>" + duration + "</html>";
                     }else{
                         ss[count][i] = new JRadioButton(result.getString(i + 2));
                     }
@@ -280,13 +300,29 @@ public class database {
        System.out.println(temp.length);
        
        int count = 0;
+       
+       DateFormat df = new SimpleDateFormat("hh:mm:ss");
+       java.util.Date dp = null;
+       java.util.Date aa = null;
+       String duration = "";
+       int hour = 3600000;
+       int minute = 60000;
        while(result.next()){
            System.out.println("test");
+           dp = df.parse(result.getString(2));
+           //System.out.println("time1: " + dp.getTime());
+           aa = df.parse(result.getString(3));
+           
+           long time = aa.getTime() - dp.getTime();
+           duration = "";
+           duration += String.valueOf(time / hour) + "hr";
+           time = time % hour;
+           duration += String.valueOf(time / minute) + "min";
            mc = new MonthConverter();
            temp[count][0] = new JRadioButton(); 
            temp[count][1] = result.getString(1) ; //index 1: train number
            System.out.println(temp[count][1]);
-           temp[count][2] = mc.changeMonth(result.getString(11).substring(5, 10)) + result.getString(2) + "-" + result.getString(3); // index 2: time
+           temp[count][2] = "<html>" + mc.changeMonth(result.getString(11).substring(5, 10)) + result.getString(2) + "-" + result.getString(3) + "<br>" + duration; // index 2: time
            temp[count][3] = result.getString(4); //index 3: departs from
            temp[count][4] = result.getString(5); //index 4: arrives at
            temp[count][5] = result.getString(6); //index 5 : class//

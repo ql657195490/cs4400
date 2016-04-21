@@ -23,6 +23,8 @@ import javax.swing.JComboBox;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -36,6 +38,7 @@ public class MakeReservation_4 {
     public static String username;
     public static database db;
     public static ArrayList list;
+    
 
     /**
      * Launch the application.
@@ -184,14 +187,19 @@ public class MakeReservation_4 {
                    JOptionPane.showMessageDialog(null, "the expiration date format is MM/YYYY");
                }else {
                    try{
-                       String sql = "insert paymentInfo values(" + textField_1.getText().trim() 
-                               + ", " + textField_2.getText().trim() + ", '"
-                               + textField_3.getText().trim().substring(3, 7)
-                               + "-" + textField_3.getText().trim().substring(0, 2) + "-" + "01', '"
-                               + textField.getText().trim() + "', '" + username + "');";
-                       System.out.println(sql);
-                       db.update(sql);       
-                       frame.dispose();
+                       String sql = "SELECT cardNum FROM paymentInfo WHERE cardNum = " + textField_1.getText().trim() + ";";
+                       if(db.checkFunctionality(sql).equals(textField_1.getText().trim())){
+                           JOptionPane.showMessageDialog(null, "you already add this card");
+                       }else{
+                           sql = "insert paymentInfo values(" + textField_1.getText().trim() 
+                                   + ", " + textField_2.getText().trim() + ", '"
+                                   + textField_3.getText().trim().substring(3, 7)
+                                   + "-" + textField_3.getText().trim().substring(0, 2) + "-" + "01', '"
+                                   + textField.getText().trim() + "', '" + username + "');";
+                           System.out.println(sql);
+                           db.update(sql);       
+                           frame.dispose();
+                       }
                    }catch (Exception ee){}
                }
                
@@ -232,6 +240,7 @@ public class MakeReservation_4 {
                 try{
                     System.out.println("delete from paymentInfo where cardNum = " + comboBox.getSelectedItem().toString() + ";");
                     db.update("delete from paymentInfo where cardNum = " + comboBox.getSelectedItem().toString() + ";");
+                    JOptionPane.showMessageDialog(null, "delete card successful");
                     frame.dispose();
                 }catch (Exception ee){}
             }

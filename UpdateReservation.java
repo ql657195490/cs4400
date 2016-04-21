@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -87,24 +88,38 @@ public class UpdateReservation {
         btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try{
-                    String sql = "select trainNum, departureTime,"
-                            + " arrivalTime, departsFrom, arrivesAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
-                            + " from ((reserves natural join(select trainNum, arrivalTime from stop where location "
-                            + "in (select arrivesAt from reserves where reservationID = " + textField.getText().trim() + " and trainNum "
-                            + "in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )and trainNum "
-                            + "in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as a) natural join "
-                            + "(select trainNum, departureTime from stop where location in "
-                            + "(select departsFrom from reserves where reservationID = " + textField.getText().trim() + " and trainNum in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )"
-                            + "and trainNum in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as c) natural join trainRoute where ReservationID = " + textField.getText().trim() + ";";
-                    int size = db.UpdateReservationSize(sql);
-                    s = db.getUpdateReservation(sql, size);
-                    
-                }catch (Exception ee){}
-                frame.dispose();
-                UpdateReservation_1 ur1 = new UpdateReservation_1(s
-              , new Object[]{"Select", "TrainNum", "Time", "Departs From", "Arrives At", "Class", "Price", "#of Baggages", "Passenger Name"}
-                , textField.getText().trim(), username);
+                if (textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "reservationID cannot be null");
+                }else{
+                    try{
+                        String sql = "SELECT reservationID FROM reservation WHERE reservationID = '" + textField.getText().trim() + "';";
+                        if (db.checkFunctionality(sql).equals(textField.getText().trim())){
+                            System.out.println("test");
+                            sql = "select trainNum, departureTime,"
+                                    + " arrivalTime, departsFrom, arrivesAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
+                                    + " from ((reserves natural join(select trainNum, arrivalTime from stop where location "
+                                    + "in (select arrivesAt from reserves where reservationID = " + textField.getText().trim() + " and trainNum "
+                                    + "in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )and trainNum "
+                                    + "in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as a) natural join "
+                                    + "(select trainNum, departureTime from stop where location in "
+                                    + "(select departsFrom from reserves where reservationID = " + textField.getText().trim() + " and trainNum in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )"
+                                    + "and trainNum in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as c) natural join trainRoute where ReservationID = " + textField.getText().trim() + ";";
+                            int size = db.UpdateReservationSize(sql);
+                            s = db.getUpdateReservation(sql, size);
+                            frame.dispose();
+                            UpdateReservation_1 ur1 = new UpdateReservation_1(s
+                          , new Object[]{"Select", "TrainNum", "Time", "Departs From", "Arrives At", "Class", "Price", "#of Baggages", "Passenger Name"}
+                            , textField.getText().trim(), username);
+                        }else{
+                            JOptionPane.showMessageDialog(null, "cannnot find the reservation");
+                        }
+                            
+                    }catch (Exception ee){}
+                        
+                }
+                        
+                //}
+                
             }
         });
         btnSearch.setBounds(270, 208, 100, 29);

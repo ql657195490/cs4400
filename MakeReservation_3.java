@@ -87,12 +87,12 @@ public class MakeReservation_3 {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 950, 500);
+        frame.setBounds(100, 100, 1000, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.setPreferredSize(new Dimension(950, 90));
+        panel.setPreferredSize(new Dimension(1000, 90));
         frame.getContentPane().add(panel, BorderLayout.NORTH);
         panel.setLayout(null);
         
@@ -108,7 +108,7 @@ public class MakeReservation_3 {
         
         JPanel panel_1 = new JPanel();
         panel_1.setBackground(Color.WHITE);
-        panel_1.setPreferredSize(new Dimension(950,240));
+        panel_1.setPreferredSize(new Dimension(1000,240));
         frame.getContentPane().add(panel_1, BorderLayout.SOUTH);
         panel_1.setLayout(null);
         
@@ -225,8 +225,8 @@ public class MakeReservation_3 {
             public void actionPerformed(ActionEvent e) {
                 try {
                    
-                    db.update("insert reservation(isCanceled, username, cardNum) values ('false', '" 
-                            + username +"', " + comboBox.getSelectedItem().toString() + ");");
+                    db.update("insert reservation(isCanceled, username, cardNum, totalCost) values ('false', '" 
+                            + username +"', " + comboBox.getSelectedItem().toString() + ", " + textField.getText().trim() + ");");
                    
                 }catch (Exception ee){}
                 frame.dispose();
@@ -351,6 +351,10 @@ public class MakeReservation_3 {
            model.setValueAt(s2[i][7], i, 8);
              
          }
+         table.setRowHeight(70);
+         table.getColumn("Select").setMaxWidth(50);
+         table.getColumn("Time(Duration)").setMinWidth(150);
+         
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
     }

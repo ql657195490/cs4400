@@ -11,9 +11,15 @@ import javax.swing.JLabel;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class ManagerChooseFunctionality {
@@ -21,6 +27,10 @@ public class ManagerChooseFunctionality {
     private JFrame frame;
     public database db;
     public static Object[][] s;
+    public static Date currentDate;
+    public static DateFormat df;
+    public static Calendar now;
+    public static int month;
 
     /**
      * Launch the application.
@@ -43,6 +53,9 @@ public class ManagerChooseFunctionality {
      */
     public ManagerChooseFunctionality() {
         db = new database();
+        df = new SimpleDateFormat("yyyy-MM-dd");
+        now = Calendar.getInstance();
+        month = now.get(Calendar.MONTH);
         initialize();
     }
 

@@ -17,8 +17,12 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JPasswordField;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class login extends JFrame {
@@ -63,6 +67,7 @@ public class login extends JFrame {
      */
     public void initialize() {
         frame = new JFrame();
+        
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -91,6 +96,7 @@ public class login extends JFrame {
         textField.setColumns(10);
         
         passwordField = new JPasswordField(); // passwordField for password
+      
         passwordField.setBounds(200, 106, 147, 28);
         panel.add(passwordField);
         
@@ -100,36 +106,44 @@ public class login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 db = new database();
                 try{
-                    db.checkUsername("select username from user where username = '" + textField.getText().trim()
-                            +"'");
-                    if (!db.getCheckUsername()){
-                        if(passwordField.getText().trim().equals(db.checkLoginInfo("select password from user"
-                                + " where username = '" + textField.getText().trim() + "'"))){
-                            frame.dispose();
-                            if (db.checkFunctionality("select userType from user where username = '" +
-                                textField.getText().trim() + "'").equals("customer")){
-                                login li = new login();
-                                li.setUsername(textField.getText().trim());
-                                System.out.println(li.getUsername());
-                                CustomerFunctionalities cf = new CustomerFunctionalities(li.getUsername());
-                                cf.cfWindow();
+                    if(textField.getText().trim().equals("") || passwordField.getText().trim().equals("")){
+                        JOptionPane.showMessageDialog(null, "Invalid login information");
+                    }else{
+                        db.checkUsername("select username from user where username = '" + textField.getText().trim()
+                                +"'");
+                        if (!db.getCheckUsername()){
+                            if(passwordField.getText().trim().equals(db.checkLoginInfo("select password from user"
+                                    + " where username = '" + textField.getText().trim() + "'"))){
+                                frame.dispose();
+                                if (db.checkFunctionality("select userType from user where username = '" +
+                                    textField.getText().trim() + "'").equals("customer")){
+                                    login li = new login();
+                                    li.setUsername(textField.getText().trim());
+                                    System.out.println(li.getUsername());
+                                    CustomerFunctionalities cf = new CustomerFunctionalities(li.getUsername());
+                                    cf.cfWindow();
+                                }else if (db.checkFunctionality("select userType from user where username = '" +
+                                        textField.getText().trim() + "'").equals("manager")){
+                                    ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
+                                    mcf.mcfWindow();
+                                }
                             }else{
-                                ManagerChooseFunctionality mcf = new ManagerChooseFunctionality();
-                                mcf.mcfWindow();
+                                JOptionPane.showMessageDialog(null, "Invalid login information");
                             }
                         }else{
-                            JOptionPane.showMessageDialog(null, "Invalid login information");
+                            JOptionPane.showMessageDialog(null, "Invalid login informaiton");
                         }
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Invalid login informaiton");
                     }
-                }catch (Exception ee){
-                    
-                }
+                       
+                    }catch (Exception ee){
+                        
+                    }
+                
                
             }
         
         });
+       // btnNewButton.set
         btnNewButton.setBounds(94, 171, 86, 29);
         panel.add(btnNewButton);
         
@@ -150,6 +164,15 @@ public class login extends JFrame {
         });
         btnNewButton_1.setBounds(274, 171, 86, 29);
         panel.add(btnNewButton_1);
+        
+        passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    btnNewButton.doClick();
+                }
+            }
+        });
         
     }
     

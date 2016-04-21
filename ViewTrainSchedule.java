@@ -162,12 +162,13 @@ public class ViewTrainSchedule {
     
                        table = new JTable(ss, s); //table
                        scrollPane.setViewportView(table);
+                       panel.setVisible(false);
+                       panel_1.setVisible(true);
                    }
                 }catch (Exception ee){
                     
                 }
-                panel.setVisible(false);
-                panel_1.setVisible(true);
+                
             }
         });
     }

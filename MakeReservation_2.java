@@ -84,8 +84,8 @@ public class MakeReservation_2 {
         
         String[] numberBaggage = {"0", "1", "2", "3", "4"};
         JComboBox comboBox = new JComboBox(numberBaggage);
-        comboBox.setEditable(true);
-        comboBox.setBounds(275, 60, 52, 27);
+        comboBox.setEditable(false);
+        comboBox.setBounds(275, 60, 70, 27);
        
         
         panel.add(comboBox);
@@ -123,27 +123,28 @@ public class MakeReservation_2 {
             public void actionPerformed(ActionEvent e) {
                 if (textField.getText().trim().equals("")){
                     JOptionPane.showMessageDialog(null, "you need to enter a name");
-                }
+                }else{
                 
                 //list.add(comboBox.getSelectedItem()); // index 7: number of baggage
                 //list.add(textField.getText().trim()); // index 8: passenger name
                 
                 //add data
-                int position = 0;
-                for (int i = 0; i < s2.length; i++){
-                    if (s2[i][6] == null){
-                        position = i;
-                        break;
-                        
+                    int position = 0;
+                    for (int i = 0; i < s2.length; i++){
+                        if (s2[i][6] == null){
+                            position = i;
+                            break;
+                            
+                        }
                     }
+                    s2[position][6] = comboBox.getSelectedItem(); //index 6: number of baggage
+                    s2[position][7] = textField.getText().trim(); // index 7: passenger name
+                    mrd.setReservationData(s2);
+                    
+                    frame.dispose();
+                    MakeReservation_3 mr3 = new MakeReservation_3(username);
+                    mr3.mrWindow_3();
                 }
-                s2[position][6] = comboBox.getSelectedItem(); //index 6: number of baggage
-                s2[position][7] = textField.getText().trim(); // index 7: passenger name
-                mrd.setReservationData(s2);
-                
-                frame.dispose();
-                MakeReservation_3 mr3 = new MakeReservation_3(username);
-                mr3.mrWindow_3();
             }
         });
         btnNewButton.setBounds(228, 305, 100, 29);
