@@ -107,7 +107,9 @@ public class ViewReview {
                     s = db.getReviewData("SELECT rating, comment FROM review where trainNum = '"
                             + textField.getText().trim() + "';", size);
                 }catch(Exception ee){}
-                if (tn.equals(textField.getText().trim())){
+                if (textField.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(null, "train number is empty");
+                }else if (tn.equals(textField.getText().trim())){
                     frame.dispose();
                     ViewReview_1 vr1 = new ViewReview_1(username, s);
                     vr1.vr1Window();

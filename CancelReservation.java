@@ -104,9 +104,10 @@ public class CancelReservation {
                     JOptionPane.showMessageDialog(null, "reservation ID cannot be null");
                 }else{
                     try{
-                       if (db.checkFunctionality("SELECT isCanceled FROM reservation WHERE reservationID = " + textField.getText().trim() + ";").equals("false")){
-                           String rid = db.checkFunctionality("select reservationID from reservation where ReservationID = " + textField.getText().trim() + ";");
-                           if (rid.equals(textField.getText().trim())){
+                       if (db.checkFunctionality("SELECT isCanceled FROM reservation WHERE reservationID = " + textField.getText().trim() + ";").equals("false")
+                               && textField.getText().trim().equals(db.checkFunctionality("SELECT reservationID FROM reservation WHERE reservationID = " + textField.getText().trim() + ";"))){
+                           //String rid = db.checkFunctionality("select reservationID from reservation where ReservationID = " + textField.getText().trim() + ";");
+                           //if (rid.equals(textField.getText().trim())){
                                String sql = "select trainNum, departureTime,"
                                        + " arrivalTime, departsFrom, arrivesAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
                                        + " from ((reserves natural join(select trainNum, arrivalTime from stop where location "
@@ -123,17 +124,21 @@ public class CancelReservation {
                                        s[i][j - 1] = ss[i][j];
                                    }
                                }
-                           }else{
-                               JOptionPane.showMessageDialog(null, "invalid reservation ID information");
-                           }
+                               frame.dispose();
+                               //System.out.println("size of s is" + s.length);
+                               CancelReservation_1 cr1 = new CancelReservation_1(username, s, textField.getText().trim());
+                               cr1.cr1Window();
+//                           }else{
+//                               JOptionPane.showMessageDialog(null, "invalid reservation ID information");
+                          // }
                        }else {
+                           System.out.println("test");
                            JOptionPane.showMessageDialog(null, "no reservation found");
                        }
-                    }catch (Exception ee){}
-                    frame.dispose();
-                    System.out.println("size of s is" + s.length);
-                    CancelReservation_1 cr1 = new CancelReservation_1(username, s, textField.getText().trim());
-                    cr1.cr1Window();
+                    }catch (Exception ee){
+                        JOptionPane.showMessageDialog(null, "please enter correct reservation number");
+                    }
+                   
                 }
             }
         });

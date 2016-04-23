@@ -89,10 +89,10 @@ public class CancelReservation_1 {
         oneday = 1 * 24 * 60 * 60 * 1000;//one day represent in ms
         cost = 0;
         try{
-            current = db.getDepatureDate("select departureDate from reserves;");
+            current = db.getDepatureDate("SELECT departureDate FROM reserves WHERE reservationID = " + reservationID + ";");
             cancelDate = df.parse(cancel);
             currentDate = df.parse(current);
-            System.out.println(current);
+            System.out.println("current date is " + current);
         }catch(Exception e){}
         initialize();
     }
@@ -196,18 +196,22 @@ public class CancelReservation_1 {
         
         table = new JTable(s, new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
         table.setEnabled(false);
+        table.getColumn("<html>Time<br>(Duration)").setMinWidth(160);
+        table.setRowHeight(50);
         scrollPane.setViewportView(table);
-        System.out.println("number of row: " + table.getRowCount());
-        for (int i = 0; i < table.getRowCount(); i++){
-            cost += Integer.parseInt(table.getModel().getValueAt(i, 5).toString());
-            if (Integer.parseInt(table.getModel().getValueAt(i, 6).toString()) > 2){
-                cost += (Integer.parseInt(table.getModel().getValueAt(i, 6).toString()) - 2) * bagfee;
-            }
-        }
+        
+        //System.out.println("number of row: " + table.getRowCount());
+//        for (int i = 0; i < table.getRowCount(); i++){
+//            cost += Integer.parseInt(table.getModel().getValueAt(i, 5).toString());
+//            if (Integer.parseInt(table.getModel().getValueAt(i, 6).toString()) > 2){
+//                cost += (Integer.parseInt(table.getModel().getValueAt(i, 6).toString()) - 2) * bagfee;
+//            }
+//        }
         try{
-            if (db.checkFunctionality("SELECT isStudent FROM customer WHERE username = '" + username + "';").equals("true")){
-                cost *= 0.8;
-            }
+            cost = Float.parseFloat(db.checkFunctionality("SELECT totalCost FROM reservation WHERE reservationID = " + reservationID + ";"));
+//            if (db.checkFunctionality("SELECT isStudent FROM customer WHERE username = '" + username + "';").equals("true")){
+//                cost *= 0.8;
+//            }
         }catch(Exception e){}
         textField.setText(String.valueOf(cost));
         if (currentDate.getTime() - cancelDate.getTime() > sevendays){
@@ -226,6 +230,8 @@ public class CancelReservation_1 {
         }
         textField_2.setText(String.valueOf(refund));
         textField_2.setEnabled(false);
-        textField_1.setEnabled(false);
+        textField.setEnabled(false);
+        
+        System.out.println("current date is " + currentDate);
     }
 }

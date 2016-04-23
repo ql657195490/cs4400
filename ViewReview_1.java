@@ -98,15 +98,65 @@ public class ViewReview_1 {
         scrollPane.setBorder(new EmptyBorder(10, 30, 10, 30));
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
+        
+        
         table = new JTable(s, new Object[]{"Rating", "Comment"});
         TableColumn col1 = table.getColumnModel().getColumn(0);
         col1.setPreferredWidth(50);
         table.setSurrendersFocusOnKeystroke(true);
-        table.setEnabled(false);
+        table.setEnabled(true);
         table.setFillsViewportHeight(true);
         table.setCellSelectionEnabled(true);
         table.setColumnSelectionAllowed(true);
+        System.out.println(table.getModel().getValueAt(1, 1).toString());
+        for (int i = 0; i < s.length; i++){
+            if(s[i][1] != null && s[i][1].toString().length() > 25){
+                resize(i, s[i][1].toString());
+            }
+        }
         scrollPane.setViewportView(table);
         
     }
+    
+    public void resize(int index, String comment){
+        
+        int startIndex = 0;
+        int endIndex = 33;
+        String temp = comment.substring(0, 25);
+        int size = comment.length();
+        int spaceIndex = 25;
+        String renewData = "<html>";
+        while(size > 25){
+            table.setRowHeight(index, table.getRowHeight(index) + 20);
+            spaceIndex = getSpace(temp);
+            renewData += temp.substring(0, spaceIndex) + "<br/>";
+            size -= spaceIndex;
+            startIndex += spaceIndex;
+            System.out.println("space index: " + spaceIndex);
+            if(size > 25){
+                endIndex = 25;
+                temp = comment.substring(startIndex, startIndex + 25);
+                spaceIndex  = getSpace(temp);
+            }
+        }
+        renewData += comment.substring(comment.length()- size, comment.length());
+        System.out.println("old: " + s[index][1]);
+        System.out.println("new: " + renewData);
+        s[index][1] = renewData;
+    }
+    
+    public int getSpace(String comment){
+        System.out.println("space comment: " + comment);
+        int index  = 0;
+        boolean b = false;
+        for(int i = 24; i > 0; i--){
+            if(comment.charAt(i) == ' '){
+                index = i;
+                b = true;
+                break;
+            }
+        }
+        return b ? index : 25;
+    }
 }
+

@@ -60,7 +60,7 @@ public class GiveComment {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(175, 150, 300, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);

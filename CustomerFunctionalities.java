@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.SystemColor;
@@ -19,6 +20,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.ImageIcon;
+
 
 public class CustomerFunctionalities {
 
@@ -26,7 +29,7 @@ public class CustomerFunctionalities {
     public static String username;
     public static Object[][] s2;
     public MakeReservationData mrd;
-
+    public static Graphics g;
     /**
      * Launch the application.
      */
@@ -59,10 +62,10 @@ public class CustomerFunctionalities {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 450, 350);
+        frame.setBounds(100, 100, 450, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        JPanel panel = new JPanel();
+        ImageIcon icon = new ImageIcon("/Users/Lei/Documents/java2/cs4400/bj1.jpg");
+        JPanel panel = new ImagePanel(icon);
         panel.setBackground(Color.WHITE);
         frame.getContentPane().add(panel, null);
         panel.setLayout(null);
@@ -222,7 +225,7 @@ public class CustomerFunctionalities {
                 li.loginWindow();
             }
         });
-        btnNewButton.setBounds(300, 265, 87, 29);
+        btnNewButton.setBounds(185, 288, 87, 29);
         panel.add(btnNewButton);
         
         JLabel lblNewLabel_7 = new JLabel("<html><u>View review</u></html>");

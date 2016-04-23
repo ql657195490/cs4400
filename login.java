@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -67,11 +68,15 @@ public class login extends JFrame {
      */
     public void initialize() {
         frame = new JFrame();
+        frame.getContentPane().setBackground(Color.WHITE);
         
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        JPanel panel = new JPanel();
+        frame.getContentPane().setForeground(Color.WHITE);
+        ImageIcon icon = new ImageIcon("/Users/Lei/Documents/java2/cs4400/dl.jpg");
+
+        JPanel panel = new ImagePanel(icon);
+        panel.setBackground(Color.WHITE);
         panel.setForeground(Color.WHITE);
         frame.getContentPane().add(panel, null);
         panel.setLayout(null);
@@ -84,10 +89,12 @@ public class login extends JFrame {
         
         JLabel lblNewLabel_1 = new JLabel("Username"); //username label
         lblNewLabel_1.setBounds(48, 72, 74, 16);
+        lblNewLabel_1.setForeground(Color.WHITE);
         panel.add(lblNewLabel_1);
         
         JLabel lblNewLabel_2 = new JLabel("Password"); // password label
         lblNewLabel_2.setBounds(48, 112, 61, 16);
+        lblNewLabel_2.setForeground(Color.WHITE);
         panel.add(lblNewLabel_2);
         
         textField = new JTextField(); // textField for username
@@ -165,6 +172,12 @@ public class login extends JFrame {
         btnNewButton_1.setBounds(274, 171, 86, 29);
         panel.add(btnNewButton_1);
         
+//        JLabel lblNewLabel_3 = new JLabel("New label");
+//        ImageIcon image = new ImageIcon("/Users/Lei/Documents/java2/cs4400/xmf.jpg");
+//        lblNewLabel_3.setIcon(image);
+//        lblNewLabel_3.setBounds(274, 235, image.getIconWidth(), image.getIconHeight());
+//        panel.add(lblNewLabel_3);
+        
         passwordField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -173,6 +186,13 @@ public class login extends JFrame {
                 }
             }
         });
+        
+        //ImageIcon image = new ImageIcon("xmf");
+        //JLabel labeltp = new JLabel("");
+       // labeltp.setIcon(image);
+       
+        //labeltp.setBounds(100, 300, image.getIconHeight(), image.getIconWidth());
+        //panel.add(labeltp);
         
     }
     

@@ -12,6 +12,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -70,8 +71,9 @@ public class ViewTrainSchedule {
         frame.getContentPane().setLayout(null);
 
         
+        ImageIcon icon = new ImageIcon("/Users/Lei/Documents/java2/cs4400/bj2.jpg");
         
-        JPanel panel = new JPanel();
+        JPanel panel = new ImagePanel(icon);
         panel.setBackground(Color.WHITE);
         panel.setBounds(0, 0, 450, 300);
         frame.getContentPane().add(panel);
@@ -85,6 +87,7 @@ public class ViewTrainSchedule {
         panel.add(lblViewTrainSchedule);
         
         JLabel lblNewLabel = new JLabel("Train Number");
+        lblNewLabel.setForeground(Color.WHITE);
         lblNewLabel.setBounds(70, 90, 90, 16);
         panel.add(lblNewLabel);
         
@@ -99,7 +102,7 @@ public class ViewTrainSchedule {
         btnSearch.setBounds(90, 195, 100, 29);
         panel.add(btnSearch);
         
-        drawPanel panel_1 = new drawPanel();
+        JPanel panel_1 = new ImagePanel(icon);
         panel_1.setBounds(0, 0, 450, 300);
         frame.getContentPane().add(panel_1);
         panel_1.setLayout(new BorderLayout(0, 0));

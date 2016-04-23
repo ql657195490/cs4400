@@ -2,7 +2,9 @@ import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import java.awt.Color;
 
@@ -69,13 +71,19 @@ public class ManagerChooseFunctionality {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
-        JLabel lblNewLabel = new JLabel("Choose Functionality");
-        lblNewLabel.setForeground(Color.ORANGE);
-        lblNewLabel.setBounds(150, 20, 150, 20);
-        lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-        frame.getContentPane().add(lblNewLabel);
+        ImageIcon icon = new ImageIcon("/Users/Lei/Documents/java2/cs4400/bj1.jpg");
+        
+        
+        
+        JPanel panel_1 = new ImagePanel(icon);
+        panel_1.setBackground(Color.WHITE);
+        panel_1.setBounds(0, 0, 450, 300);
+        frame.getContentPane().add(panel_1);
+        panel_1.setLayout(null);
         
         JLabel lblNewLabel_1 = new JLabel("<html><u>View revenue report</u></html>");
+        lblNewLabel_1.setBounds(163, 70, 124, 16);
+        panel_1.add(lblNewLabel_1);
         lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         lblNewLabel_1.addMouseListener(new MouseAdapter() {
             @Override
@@ -126,13 +134,29 @@ public class ManagerChooseFunctionality {
             }
         });
         lblNewLabel_1.setForeground(SystemColor.textHighlight);
-        lblNewLabel_1.setBounds(160, 70, 130, 20);
-        frame.getContentPane().add(lblNewLabel_1);
         
         JLabel lblNewLabel_2 = new JLabel("<html><u>View popular route report</u></html>");
+        lblNewLabel_2.setBounds(145, 109, 160, 16);
+        panel_1.add(lblNewLabel_2);
         lblNewLabel_2.setForeground(SystemColor.textHighlight);
-        lblNewLabel_2.setBounds(145, 100, 160, 20);
         lblNewLabel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        JButton btnLogout = new JButton("Log out");
+        btnLogout.setBounds(179, 215, 92, 29);
+        panel_1.add(btnLogout);
+        btnLogout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                System.exit(0);
+            }
+        });
+        btnLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+                JLabel lblNewLabel = new JLabel("Choose Functionality");
+                lblNewLabel.setBounds(150, 26, 150, 19);
+                panel_1.add(lblNewLabel);
+                lblNewLabel.setForeground(Color.ORANGE);
+                lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
         lblNewLabel_2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -168,17 +192,5 @@ public class ManagerChooseFunctionality {
                 lblNewLabel_2.setForeground(SystemColor.textHighlight);
             }
         });
-        frame.getContentPane().add(lblNewLabel_2);
-        
-        JButton btnLogout = new JButton("Log out");
-        btnLogout.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                System.exit(0);
-            }
-        });
-        btnLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnLogout.setBounds(178, 225, 100, 29);
-        frame.getContentPane().add(btnLogout);
     }
 }

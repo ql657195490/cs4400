@@ -120,6 +120,15 @@ public class MakeReservation_4 {
         textField_1.setBounds(40, 105, 140, 28);
         panel_1.add(textField_1);
         textField_1.setColumns(10);
+        textField_1.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyPressed(KeyEvent e){
+                if ((e.getKeyText(e.getKeyCode()).matches("[A-Za-z-+,=.]"))){
+                    JOptionPane.showMessageDialog(null, "data should be numbers");
+                    textField_1.setText(textField_1.getText().trim().substring(0, textField_1.getText().trim().length() - 1));
+                }
+            }
+        });
         
         JLabel lblNewLabel_1 = new JLabel("CVV");
         lblNewLabel_1.setBounds(95, 140, 30, 20);
@@ -129,6 +138,15 @@ public class MakeReservation_4 {
         textField_2.setBounds(40, 160, 140, 28);
         panel_1.add(textField_2);
         textField_2.setColumns(10);
+        textField_2.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyPressed(KeyEvent e){
+                if ((e.getKeyText(e.getKeyCode()).matches("[A-Za-z-+,=.]"))){
+                    JOptionPane.showMessageDialog(null, "data should be numbers");
+                    textField_2.setText(textField_2.getText().trim().substring(0, textField_2.getText().trim().length() - 1));
+                }
+            }
+        });
         
         
         JLabel lblNewLabel_2 = new JLabel("Expiration date");
@@ -143,18 +161,20 @@ public class MakeReservation_4 {
         textField_3.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (textField_3.getText().matches("[A-Za-z]+")){
+                if ((e.getKeyText(e.getKeyCode()).matches("[A-Za-z-+,=.]"))){
+                    JOptionPane.showMessageDialog(null, "data should be numbers");
                     textField_3.setText(textField_3.getText().trim().substring(0, textField_3.getText().trim().length() - 1));
-                    JOptionPane.showMessageDialog(null, "expiration date should be numbers");
+                }else{
+                    if (textField_3.getText().trim().length() == 2 && e.getKeyCode() != KeyEvent.VK_BACK_SPACE){
+                        
+                        textField_3.setText(textField_3.getText().trim().substring(0, 2) + "/");
+                    }
+                    if (textField_3.getText().trim().length() == 4 && e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                        
+                        textField_3.setText(textField_3.getText().trim().substring(0, 2));
+                    }
                 }
-                if (textField_3.getText().trim().length() == 2 && e.getKeyCode() != KeyEvent.VK_BACK_SPACE){
-                    
-                    textField_3.setText(textField_3.getText().trim().substring(0, 2) + "/");
-                }
-                if (textField_3.getText().trim().length() == 4 && e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-                    
-                    textField_3.setText(textField_3.getText().trim().substring(0, 2));
-                }
+                
             }
         });
        

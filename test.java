@@ -13,6 +13,14 @@ public class test { //user for test the database class
          Calendar currentDate = Calendar.getInstance(); 
          DateFormat sm=new SimpleDateFormat("yyyy-MM-dd");
          System.out.println(sm.format(new Date()));
+         String ss = "<html>Time is blablabla<br/>(Duration)";
+         for(int i = 0; i < ss.length() - 1; i++){
+             if (ss.charAt(i) == ' '){
+                 System.out.println("space index is " + i);
+             }
+         }
+         System.out.println(ss);
+         System.out.println("length is " + ss.length());
 //        int a = currentDate.get(Calendar.YEAR);
 //        System.out.println("year: " + currentDate.get(Calendar.YEAR));
 //        System.out.println("month: " + (currentDate.get(Calendar.MONTH) + 1));

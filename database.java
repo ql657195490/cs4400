@@ -367,6 +367,7 @@ public class database {
     * @return the earliest departure date
     * */
    public String getDepatureDate(String sql)throws Exception{
+       System.out.println(sql);
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        java.util.Date min = null;
@@ -375,16 +376,19 @@ public class database {
        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
        
        while(result.next()){
-           temp = df.parse(result.getString(1));
+           String tempDate = result.getString(1);
+           temp = df.parse(tempDate);
            if (min == null){
                min = temp;
+               minDate = tempDate;
            }else{
                if (temp.getTime() < min.getTime()){
                    min = temp;
-                   minDate = result.getString(1);
+                   minDate = tempDate;
                }
            }
        }
+       System.out.println("minDate is " + minDate);
        return minDate;
    }
    

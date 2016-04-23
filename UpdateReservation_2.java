@@ -153,42 +153,44 @@ public class UpdateReservation_2 {
             public void keyPressed(KeyEvent e) {
                
                
-                if (textField.getText().matches("[A-Za-z]")){
-                    textField.setText("");
-                    JOptionPane.showMessageDialog(null, "date should be numbers");
-                }
-                if (textField.getText().trim().length() < 2){
-                    a = true;
-                    b = true;
-                }else  if ( textField.getText().trim().length() < 5){
-                    b = true;
-                }if (textField.getText().trim().length() == 2 && a){
-                    if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
-                        textField.setText(textField.getText().trim() + "/");
-                        a = false;
-                        b = true;
-                    }
-                }else if (textField.getText().trim().length() == 4){
-                    if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-                        textField.setText(textField.getText().trim().substring(0, 3));
+                if ((e.getKeyText(e.getKeyCode()).matches("[A-Za-z-+,=.]"))){
+                    JOptionPane.showMessageDialog(null, "data should be numbers");
+                    textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
+                }else{
+                    if (textField.getText().trim().length() < 2){
                         a = true;
-                    }
-                }else if (textField.getText().trim().length() == 5 && b){
-                    textField.setText(textField.getText().trim() + "/");
-                    b = false;
-                }else if (textField.getText().trim().length() == 7){
-                    if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-                        textField.setText(textField.getText().trim().substring(0, 6));
                         b = true;
-                    }
-                }else if (textField.getText().trim().length() == 10){
-                    if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                    }else  if ( textField.getText().trim().length() < 5){
+                        b = true;
+                    }if (textField.getText().trim().length() == 2 && a){
+                        if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                            textField.setText(textField.getText().trim() + "/");
+                            a = false;
+                            b = true;
+                        }
+                    }else if (textField.getText().trim().length() == 4){
+                        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                            textField.setText(textField.getText().trim().substring(0, 3));
+                            a = true;
+                        }
+                    }else if (textField.getText().trim().length() == 5 && b){
+                        textField.setText(textField.getText().trim() + "/");
+                        b = false;
+                    }else if (textField.getText().trim().length() == 7){
+                        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                            textField.setText(textField.getText().trim().substring(0, 5));
+                            b = true;
+                        }
+                    }else if (textField.getText().trim().length() == 10){
+                        if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                            
+                            JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
+                            textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
+                        }
                         
-                        JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
-                        textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
                     }
-                    
                 }
+                
   
            
             }

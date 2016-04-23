@@ -139,43 +139,47 @@ public class MakeReservation {
         textField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-               
-                if (textField.getText().matches("[A-Za-z]")){
-                    textField.setText("");
-                    JOptionPane.showMessageDialog(null, "date should be numbers");
-                }
-                if (textField.getText().trim().length() < 2){
-                    a = true;
-                    b = true;
-                }else  if ( textField.getText().trim().length() < 5){
-                    b = true;
-                }if (textField.getText().trim().length() == 2 && a){
-                    if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
-                        textField.setText(textField.getText().trim() + "/");
-                        a = false;
-                        b = true;
-                    }
-                }else if (textField.getText().trim().length() == 4){
-                    if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-                        textField.setText(textField.getText().trim().substring(0, 3));
+                if ((e.getKeyText(e.getKeyCode()).matches("[A-Za-z-+,=.]"))){
+                    JOptionPane.showMessageDialog(null, "data should be numbers");
+                    textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
+                }else{
+                    if (textField.getText().trim().length() < 2){
                         a = true;
-                    }
-                }else if (textField.getText().trim().length() == 5 && b){
-                    textField.setText(textField.getText().trim() + "/");
-                    b = false;
-                }else if (textField.getText().trim().length() == 7){
-                    if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
-                        textField.setText(textField.getText().trim().substring(0, 6));
                         b = true;
-                    }
-                }else if (textField.getText().trim().length() == 10){
-                    if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                    }else  if ( textField.getText().trim().length() < 5){
+                        b = true;
+                    }if (textField.getText().trim().length() == 2 && a){
+                        if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                            textField.setText(textField.getText().trim() + "/");
+                            a = false;
+                            b = true;
+                        }
+                    }else if (textField.getText().trim().length() == 4){
+                        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                            textField.setText(textField.getText().trim().substring(0, 3));
+                            a = true;
+                        }
+                    }else if (textField.getText().trim().length() == 5 && b){
+                        textField.setText(textField.getText().trim() + "/");
+                        b = false;
+                    }else if (textField.getText().trim().length() == 7){
+                        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+                            textField.setText(textField.getText().trim().substring(0, 5));
+                            b = true;
+                        }
+                    }else if (textField.getText().trim().length() == 10){
+                        if (!(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)){
+                            
+                            JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
+                            textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
+                        }
                         
-                        JOptionPane.showMessageDialog(null, "date format must be mm/dd/yyyy");
-                        textField.setText(textField.getText().trim().substring(0, textField.getText().trim().length() - 1));
                     }
-                    
                 }
+                
+               
+                
+                
                 
                 
                
@@ -200,9 +204,9 @@ public class MakeReservation {
                     time = df.parse(textField.getText().trim().substring(6, 10) + "-" + textField.getText().trim().substring(0, 2) + "-" + textField.getText().trim().substring(3, 5)).getTime() - df.parse(df.format(new Date())).getTime();
                     
                 }catch(Exception a){}
-              
+                
                 if (comboBox.getSelectedItem().equals(comboBox_1.getSelectedItem())){
-                    JOptionPane.showMessageDialog(null, "deeparts from and arrives at station cannot be same");
+                    JOptionPane.showMessageDialog(null, "departs from and arrives at station cannot be same");
                 }else if(textField.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "departure date cannot be null");
                 }else if (textField.getText().trim().length() != 10){

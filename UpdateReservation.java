@@ -92,7 +92,7 @@ public class UpdateReservation {
                     JOptionPane.showMessageDialog(null, "reservationID cannot be null");
                 }else{
                     try{
-                        String sql = "SELECT reservationID FROM reservation WHERE reservationID = '" + textField.getText().trim() + "';";
+                        String sql = "SELECT reservationID FROM reservation WHERE reservationID = '" + textField.getText().trim() + "' AND isCanceled = 'false';";
                         if (db.checkFunctionality(sql).equals(textField.getText().trim())){
                             System.out.println("test");
                             sql = "select trainNum, departureTime,"

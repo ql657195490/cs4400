@@ -28,6 +28,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 
 
@@ -231,6 +232,11 @@ public class NewUserRegistration{
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.setBounds(176, 305, 89, 29);
         panel.add(btnNewButton);
+        
+        JLabel label_1 = new JLabel("");
+        label_1.setIcon(new ImageIcon("/Users/Lei/Documents/java2/cs4400/xmf.jpg"));
+        label_1.setBounds(302, 240, 120, 118);
+        panel.add(label_1);
         
         
 

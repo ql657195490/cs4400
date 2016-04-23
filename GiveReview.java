@@ -53,6 +53,7 @@ public class GiveReview {
     
     public GiveReview(String username){
         this.username = username;
+        System.out.println("username is " + username);
     }
 
     /**
