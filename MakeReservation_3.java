@@ -228,7 +228,7 @@ public class MakeReservation_3 {
             public void actionPerformed(ActionEvent e) {
                 try {
                     Date exp = null;
-                    DateFormat df = new SimpleDateFormat("hh:mm:ss");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                     exp = df.parse(db.checkFunctionality("SELECT expDate FROM paymentInfo WHERE cardNum = " + comboBox.getSelectedItem().toString() + ";"));
                     if(exp.getTime() - df.parse(df.format(new Date())).getTime() > 0){
                         db.update("insert reservation(isCanceled, username, cardNum, totalCost) values ('false', '" 

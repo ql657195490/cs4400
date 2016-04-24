@@ -279,7 +279,7 @@ public class UpdateReservation_2 {
                 UpdateReservation_1 ur1 = new UpdateReservation_1(urdata.getData(),
                         new Object[]{"Select", "TrainNum", "Time", "Departs From", "Arrives At", "Class", "Price", "#of Baggages", "Passenger Name"}
                 , reservationID, username);
-                
+               
             }
             
         });
@@ -311,6 +311,11 @@ public class UpdateReservation_2 {
                                     + reservationID + " AND trainNum = '" + trainNum + "';");
                             db.update("UPDATE reservation SET isUpdated = 'true' WHERE reservationID = " + reservationID + ";");
                             db.update("UPDATE reservation SET TotalCost = " + textField_2.getText().trim() + " WHERE reservationID = " + reservationID + ";");
+                            JOptionPane.showMessageDialog(null, "update reservation successful");
+                            CustomerFunctionalities cf = new CustomerFunctionalities(username);
+                            frame.dispose();
+                            cf.cfWindow();
+                            
                         }catch(Exception ee){}
                         
                     }
@@ -354,7 +359,10 @@ public class UpdateReservation_2 {
                          // if (db.checkFunctionality("SELECT isStudent FROM customer WHERE username = '" + username + "';").equals("true")){
                               //totalPrice *= 0.8;
                               if (db.checkFunctionality("SELECT isUpdated FROM reservation WHERE reservationID = " + reservationID + ";").equals("false")){
-                                  totalPrice += 50;
+                                  System.out.println("total: " + totalPrice);
+                                  totalPrice = String.valueOf(Float.parseFloat(totalPrice) + 50);
+                                  System.out.println("total: " + totalPrice);
+                                  
                               }
                          // }
                       }catch(Exception ee){}

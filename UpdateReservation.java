@@ -92,17 +92,14 @@ public class UpdateReservation {
                     JOptionPane.showMessageDialog(null, "reservationID cannot be null");
                 }else{
                     try{
-                        String sql = "SELECT reservationID FROM reservation WHERE reservationID = '" + textField.getText().trim() + "' AND isCanceled = 'false';";
+                        String sql = "SELECT reservationID FROM reservation WHERE reservationID = '" + textField.getText().trim() + "' AND isCanceled = 'false' AND username = '" + username + "';";
                         if (db.checkFunctionality(sql).equals(textField.getText().trim())){
                             sql = "select trainNum, departureTime,"
-                                    + " arrivalTime, departsFrom, arrivesAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
-                                    + " from ((reserves natural join(select trainNum, arrivalTime from stop where location "
-                                    + "in (select arrivesAt from reserves where reservationID = " + textField.getText().trim() + " and trainNum "
-                                    + "in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )and trainNum "
-                                    + "in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as a) natural join "
-                                    + "(select trainNum, departureTime from stop where location in "
-                                    + "(select departsFrom from reserves where reservationID = " + textField.getText().trim() + " and trainNum in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )"
-                                    + "and trainNum in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as c) natural join trainRoute where ReservationID = " + textField.getText().trim() + ";";
+                                    + " arrivalTime, dFrom, aAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
+                                    +" FROM (SELECT trainNum, location as dFrom , departureTime FROM stop "
+                                    + "NATURAL JOIN (SELECT trainNum, departsFrom FROM reserves WHERE reservationID =" + textField.getText().trim() + ") AS a WHERE stop.location = a.departsFrom) as t1 "
+                                    + "NATURAL JOIN(SELECT trainNum, location as aAt, arrivalTime From stop NATURAL JOIN (select trainNum, arrivesAt FROM reserves where reservationID =  "+ textField.getText().trim() + ") as aa WHERE stop.location = aa.arrivesAt) as t2 "
+                                    + "NATURAL JOIN reservation NATURAL JOIN trainRoute NATURAL JOIN reserves WHERE username = '" + username + "' AND reservationID = " + textField.getText().trim() + ";";
                             int size = db.UpdateReservationSize(sql);
                             s = db.getUpdateReservation(sql, size);
                             frame.dispose();

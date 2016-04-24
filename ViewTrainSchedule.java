@@ -153,7 +153,7 @@ public class ViewTrainSchedule {
             public void actionPerformed(ActionEvent e) {
                 
                 sql = "select trainNum, arrivalTime, departureTime, location, name from stop where trainNum = '" 
-                        + textField.getText().trim() + "'";
+                        + textField.getText().trim() + "' ORDER BY arrivalTime;";
                 try{
                    if (db.checkFunctionality(sql).equals("")){
                        JOptionPane.showMessageDialog(null, "can not find train" + textField.getText());

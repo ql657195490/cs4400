@@ -221,6 +221,7 @@ public class CustomerFunctionalities {
         btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                frame.dispose();
                 login li = new login();
                 li.loginWindow();
             }

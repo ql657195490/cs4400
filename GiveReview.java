@@ -141,6 +141,10 @@ public class GiveReview {
                                     + textField.getText().trim() + "', '" + username + "');";
                         }
                         db.update(sql);
+                        JOptionPane.showMessageDialog(null, "give review successful");
+                        CustomerFunctionalities cf = new CustomerFunctionalities(username);
+                        frame.dispose();
+                        cf.cfWindow();
                     }catch (Exception ee){
                         
                     }

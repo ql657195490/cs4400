@@ -105,18 +105,15 @@ public class CancelReservation {
                 }else{
                     try{
                        if (db.checkFunctionality("SELECT isCanceled FROM reservation WHERE reservationID = " + textField.getText().trim() + ";").equals("false")
-                               && textField.getText().trim().equals(db.checkFunctionality("SELECT reservationID FROM reservation WHERE reservationID = " + textField.getText().trim() + ";"))){
+                               && textField.getText().trim().equals(db.checkFunctionality("SELECT reservationID FROM reservation WHERE reservationID = " + textField.getText().trim() + " AND username = '" + username + "';"))){
                            //String rid = db.checkFunctionality("select reservationID from reservation where ReservationID = " + textField.getText().trim() + ";");
                            //if (rid.equals(textField.getText().trim())){
-                               String sql = "select trainNum, departureTime,"
-                                       + " arrivalTime, departsFrom, arrivesAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
-                                       + " from ((reserves natural join(select trainNum, arrivalTime from stop where location "
-                                       + "in (select arrivesAt from reserves where reservationID = " + textField.getText().trim() + " and trainNum "
-                                       + "in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )and trainNum "
-                                       + "in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as a) natural join "
-                                       + "(select trainNum, departureTime from stop where location in "
-                                       + "(select departsFrom from reserves where reservationID = " + textField.getText().trim() + " and trainNum in(select trainNum from reserves where reservationID = " + textField.getText().trim() + ") )"
-                                       + "and trainNum in (select trainNum from reserves where reservationID = " + textField.getText().trim() + ")) as c) natural join trainRoute where ReservationID = " + textField.getText().trim() + ";";
+                               String  sql = "select trainNum, departureTime,"
+                                       + " arrivalTime, dFrom, aAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
+                                       +" FROM (SELECT trainNum, location as dFrom , departureTime FROM stop "
+                                       + "NATURAL JOIN (SELECT trainNum, departsFrom FROM reserves WHERE reservationID =" + textField.getText().trim() + ") AS a WHERE stop.location = a.departsFrom) as t1 "
+                                       + "NATURAL JOIN(SELECT trainNum, location as aAt, arrivalTime From stop NATURAL JOIN (select trainNum, arrivesAt FROM reserves where reservationID =  "+ textField.getText().trim() + ") as aa WHERE stop.location = aa.arrivesAt) as t2 "
+                                       + "NATURAL JOIN reservation NATURAL JOIN trainRoute NATURAL JOIN reserves WHERE username = '" + username + "' AND reservationID = " + textField.getText().trim() + ";";
                                s = new Object[db.UpdateReservationSize(sql)][8];
                                Object[][] ss = db.getUpdateReservation(sql, db.UpdateReservationSize(sql));
                                for (int i = 0; i < ss.length; i++){

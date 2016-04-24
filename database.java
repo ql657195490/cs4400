@@ -109,10 +109,12 @@ public class database {
         result = statement.executeQuery();
         while (result.next()){
            for (int i = 0; i < 4; i++){
-
-               ss[count][i] = result.getString(i + 1);
-               if (i == 3){
-                   ss[count][i] = ss[count][i] + "(" + result.getString(5) + ")";
+               
+               if((!result.getString(i + 1).equals("00:00:00"))){
+                   ss[count][i] = result.getString(i + 1);
+                   if (i == 3){
+                       ss[count][i] = ss[count][i] + "(" + result.getString(5) + ")";
+                   }
                }
            }
            if (count == ss.length - 1){

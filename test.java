@@ -21,6 +21,9 @@ public class test { //user for test the database class
          }
          System.out.println(ss);
          System.out.println("length is " + ss.length());
+         Calendar now = Calendar.getInstance();
+         int a = now.get(Calendar.YEAR);
+         System.out.println("a " + a);
 //        int a = currentDate.get(Calendar.YEAR);
 //        System.out.println("year: " + currentDate.get(Calendar.YEAR));
 //        System.out.println("month: " + (currentDate.get(Calendar.MONTH) + 1));
@@ -74,9 +77,9 @@ public class test { //user for test the database class
 //        ur.urWindow();
 
 //        MakeReservation mr = new MakeReservation(username);
-        long a = 20;
-        int b = 3;
-        System.out.println(a/b);
+//        long a = 20;
+//        int b = 3;
+//        System.out.println(a/b);
     }
     private class datetest{
         public int year;
