@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -100,7 +101,7 @@ public class MakeReservation_5 {
             try{
                 db.update(sql);
             }catch(Exception e){
-                
+                JOptionPane.showMessageDialog(null, "you cannot reserves the same train in one reservation");
             }
         }
         

@@ -53,6 +53,7 @@ public class MakeReservation_3 {
     public static double totalCost;
     public static final double bagCharge = 30;
     public String[] card;
+    public static Object[][] s1;
 
     /**
      * Launch the application.
@@ -79,10 +80,11 @@ public class MakeReservation_3 {
         initialize();
     }
     
-    public MakeReservation_3(String username){
+    public MakeReservation_3(String username, Object[][] s1){
         this.username = username;
         mrd = new MakeReservationData(false);
         s2 = mrd.getReservationData();
+        this.s1 = s1;
     }
 
     /**
@@ -221,6 +223,17 @@ public class MakeReservation_3 {
         JButton btnBack = new JButton("Back");
         btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.setBounds(98, 205, 100, 29);
+        btnBack.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                frame.dispose();
+                MakeReservation_2 mr2 = new MakeReservation_2(username, s1);
+                mr2.mrWindow_2();
+            }
+            
+        });
         panel_1.add(btnBack);
         
         JButton btnSubmit = new JButton("Submit");
@@ -338,18 +351,7 @@ public class MakeReservation_3 {
          model.addColumn("# of Baggage");
          model.addColumn("Passenger Name");
 
-//         for (int i = 0;  i <= list.size(); i++){
-//             model.addRow(new Object[0]);
-//             model.setValueAt(false, i, 0);
-//             model.setValueAt(list.get(4), i, 1);
-//             model.setValueAt(list.get(6), i, 2);
-//             model.setValueAt(list.get(1), i, 3);
-//             model.setValueAt(list.get(2), i, 4);
-//             model.setValueAt(list.get(5), i, 5);
-//             model.setValueAt("", i, 6);
-//             model.setValueAt(list.get(7), i, 7);
-//             model.setValueAt(list.get(8), i, 8);
-//         }
+
          for (int i = 0; i < s2.length; i++){
            model.addRow(new Object[0]);
            model.setValueAt(false, i, 0);

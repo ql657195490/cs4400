@@ -82,9 +82,7 @@ public class GiveComment {
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
         textArea = new JTextArea();
-//        if (b){
-//            textArea.setText(comment);
-//        }
+
         textArea.setText(comment);
   
         scrollPane.setViewportView(textArea);

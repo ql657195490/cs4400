@@ -36,15 +36,12 @@ public class database {
     }
     
     public void search(String sql){
-        System.out.println("sql query: " + sql);
         try{
             statement = con.prepareStatement(sql);
             result = statement.executeQuery();
             while (result.next()){
-                System.out.println(result.getString(1) + "\t" + result.getString(2));
             }
         }catch (Exception e){
-           // System.out.println("no match information");
         }
     }
     
@@ -53,16 +50,14 @@ public class database {
      * @param sql the sql language to database
      * */
     public void update(String sql)throws Exception{
-        System.out.println("sql query: " + sql);
         statement = con.prepareStatement(sql);
         statement.executeUpdate();
     }
     
-    /*method use to check the username is exist or not
+    /***method use to check the username is exist or not
      * @param sql the sql language to search username
      */
     public void checkUsername(String sql)throws Exception{
-        System.out.println("sql query: " + sql);
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
         while (result.next()){
@@ -77,7 +72,6 @@ public class database {
      * @return userType in the table customer
      * */
     public String checkFunctionality(String sql)throws Exception{
-        System.out.println("sql query: " + sql);
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
         while (result.next()){
@@ -91,7 +85,6 @@ public class database {
      * @return return a password 
      * */
     public String checkLoginInfo(String sql)throws Exception{
-        System.out.println("sql query: " + sql);
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
         while (result.next()){
@@ -102,7 +95,6 @@ public class database {
     }
     
     public Object[][] viewSchedule(String sql)throws Exception{
-        System.out.println("sql query: " + sql);
         Object ss[][] = new Object[100][4];
         int count = 0;
         statement = con.prepareStatement(sql);
@@ -127,7 +119,6 @@ public class database {
     }
     
     public void setCheckUsername(String sql){
-       // System.out.println("sql query: " + sql);
         if (sql == null || sql.equals("")){
             this.cUsername = true;
         }else{
@@ -161,7 +152,6 @@ public class database {
      * @return return an array
      * */
     public String[] getStation(String sql) throws Exception{
-        System.out.println("sql query: " + sql);
         int stationNum = arraySize("select * from station");
         String[] station = new String[stationNum];
         int count = 0;
@@ -180,7 +170,6 @@ public class database {
      * @return the array size
      * */
     public int arraySize(String sql)throws Exception{
-        System.out.println("sql query: " + sql);
         int arraySize = 0;
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
@@ -200,7 +189,6 @@ public class database {
      * @return the list in Object[][] array
      * */
     public Object[][] TrainOption(String sql, int size) throws Exception{
-        System.out.println("sql query: " + sql);
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
    
@@ -231,49 +219,6 @@ public class database {
             ss[count][2] = new JRadioButton(result.getString(4));
             ss[count][3] = new JRadioButton(result.getString(5));
             count++;
-                    //System.out.println("string1: " + result.getString(2));
-//            dp = df.parse(result.getString(2));
-//            //System.out.println("time1: " + dp.getTime());
-//            aa = df.parse(result.getString(3));
-//            //System.out.println("string2: " + result.getString(3));
-//            //System.out.println("time2: " + aa.getTime());
-////            if (Integer.parseInt(result.getString(2).substring(0, 2)) - 
-////                    Integer.parseInt(result.getString(3).substring(0, 2)) < 0){
-////                mb = true;
-////            }else if(Integer.parseInt(result.getString(2).substring(0, 2)) - 
-////                    Integer.parseInt(result.getString(3).substring(0, 2)) == 0){
-////                if (Integer.parseInt(result.getString(2).substring(3,5)) - 
-////                        Integer.parseInt(result.getString(3).substring(3, 5)) < 0){
-////                    mb = true;
-////                }else if(Integer.parseInt(result.getString(2).substring(3,5)) - 
-////                        Integer.parseInt(result.getString(3).substring(3, 5)) == 0){
-////                    
-////                }
-////            }
-//            if (dp.getTime() - aa.getTime() < 0){
-//                mb = true;
-//            }
-//            for (int i = 0; i < 4; i++){
-//                if (mb){
-//                    if (i == 0){
-//                        ss[count][i] = result.getString(i + 1);
-//                    }else if (i == 1){
-//                        long time = aa.getTime() - dp.getTime();
-//                        duration = "";
-//                        duration += String.valueOf(time / hour) + "hr";
-//                        time = time % hour;
-//                        duration += String.valueOf(time / minute) + "min";
-//                        ss[count][i] = "<html>" + result.getString(i + 1) + "-" + result.getString(i + 2) + "<br/>" + duration + "</html>";
-//                    }else{
-//                        ss[count][i] = new JRadioButton(result.getString(i + 2));
-//                    }
-//                }
-//            }
-//            mb = false;
-//            if (count == ss.length - 1){
-//                this.resize(ss);
-//            }
-//            count++;
         }
         return ss;
     }
@@ -285,7 +230,6 @@ public class database {
      * 
      * */
     public ArrayList getCard(String sql)throws Exception{
-        System.out.println("sql query: " + sql);
         statement = con.prepareStatement(sql);
         result = statement.executeQuery();
         ArrayList list = new ArrayList();
@@ -301,13 +245,11 @@ public class database {
      * @return return the reservationID
      * */
    public String getReservationID(String sql)throws Exception{
-       System.out.println("sql query: " + sql);
        String rid = "";
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        while (result.next()){
            rid = result.getString(1);
-           System.out.println(rid);
        }
        return rid;
    }
@@ -319,12 +261,10 @@ public class database {
     * 
     * */
    public Object[][] getUpdateReservation(String sql, int size)throws Exception{
-       System.out.println("sql query: " + sql);
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        Object[][] temp = new Object[size][9];
        float[][] total = new float[size][2];
-       System.out.println(temp.length);
        
        int count = 0;
        
@@ -335,9 +275,7 @@ public class database {
        int hour = 3600000;
        int minute = 60000;
        while(result.next()){
-           System.out.println("test");
            dp = df.parse(result.getString(2));
-           //System.out.println("time1: " + dp.getTime());
            aa = df.parse(result.getString(3));
            
            long time = aa.getTime() - dp.getTime();
@@ -348,7 +286,6 @@ public class database {
            mc = new MonthConverter();
            temp[count][0] = new JRadioButton(); 
            temp[count][1] = result.getString(1) ; //index 1: train number
-           System.out.println(temp[count][1]);
            temp[count][2] = "<html>" + mc.changeMonth(result.getString(11).substring(5, 10)) + result.getString(2) + "-" + result.getString(3) + "<br>" + duration; // index 2: time
            temp[count][3] = result.getString(4); //index 3: departs from
            temp[count][4] = result.getString(5); //index 4: arrives at
@@ -360,8 +297,6 @@ public class database {
            }
            temp[count][7] = result.getString(7); //index 7: number of baggages
            temp[count][8] = result.getString(8); // index 8: passenger name
-//           String date = mc.changeMonth(result.getString(11).substring(5, 10));
-//           temp[count][9] = date;// index 9: departure date
            total[count][0] = Float.parseFloat(temp[count][6].toString());
            total[count][1] = Float.parseFloat(temp[count][7].toString());
            count++;
@@ -378,7 +313,6 @@ public class database {
     * 
     * */
    public int UpdateReservationSize(String sql)throws Exception{
-       System.out.println("sql query: " + sql);
        int size = 0;
        
        statement = con.prepareStatement(sql);
@@ -395,7 +329,6 @@ public class database {
     * @return the earliest departure date
     * */
    public String getDepatureDate(String sql)throws Exception{
-       System.out.println("sql query: " + sql);
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        java.util.Date min = null;
@@ -416,7 +349,6 @@ public class database {
                }
            }
        }
-       System.out.println("minDate is " + minDate);
        return minDate;
    }
    
@@ -426,7 +358,6 @@ public class database {
     * @return the size of array that we use to store the review data
     * */
    public int getReviewSize(String sql)throws Exception{
-       System.out.println("sql query: " + sql);
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        int count = 0;
@@ -443,7 +374,6 @@ public class database {
     * @return the array we use to store the data
     * */
    public Object[][] getReviewData(String sql, int size)throws Exception{
-       System.out.println("sql query: " + sql);
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        Object[][] s = new Object[size][2];
@@ -465,7 +395,6 @@ public class database {
     * */
    public Object[][] getRevenueReport(String sql, Object[][] s, int index) throws Exception{ 
        
-       System.out.println("sql query: " + sql);
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        while(result.next()){
@@ -483,7 +412,6 @@ public class database {
     * @return the array 
     * */
    public Object[][] getPopularRouteReport(String sql, Object[][] s, int index)throws Exception{
-       System.out.println("sql query: " + sql);
        statement = con.prepareStatement(sql);
        result = statement.executeQuery();
        int count = 0;

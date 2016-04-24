@@ -125,8 +125,7 @@ public class MakeReservation_2 {
                     JOptionPane.showMessageDialog(null, "you need to enter a name");
                 }else{
                 
-                //list.add(comboBox.getSelectedItem()); // index 7: number of baggage
-                //list.add(textField.getText().trim()); // index 8: passenger name
+
                 
                 //add data
                     int position = 0;
@@ -142,7 +141,7 @@ public class MakeReservation_2 {
                     mrd.setReservationData(s2);
                     
                     frame.dispose();
-                    MakeReservation_3 mr3 = new MakeReservation_3(username);
+                    MakeReservation_3 mr3 = new MakeReservation_3(username, s1);
                     mr3.mrWindow_3();
                 }
             }

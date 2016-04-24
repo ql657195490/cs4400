@@ -106,8 +106,7 @@ public class CancelReservation {
                     try{
                        if (db.checkFunctionality("SELECT isCanceled FROM reservation WHERE reservationID = " + textField.getText().trim() + ";").equals("false")
                                && textField.getText().trim().equals(db.checkFunctionality("SELECT reservationID FROM reservation WHERE reservationID = " + textField.getText().trim() + " AND username = '" + username + "';"))){
-                           //String rid = db.checkFunctionality("select reservationID from reservation where ReservationID = " + textField.getText().trim() + ";");
-                           //if (rid.equals(textField.getText().trim())){
+                          
                                String  sql = "select trainNum, departureTime,"
                                        + " arrivalTime, dFrom, aAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
                                        +" FROM (SELECT trainNum, location as dFrom , departureTime FROM stop "
@@ -124,9 +123,7 @@ public class CancelReservation {
                                frame.dispose();
                                CancelReservation_1 cr1 = new CancelReservation_1(username, s, textField.getText().trim());
                                cr1.cr1Window();
-//                           }else{
-//                               JOptionPane.showMessageDialog(null, "invalid reservation ID information");
-                          // }
+
                        }else {
                            JOptionPane.showMessageDialog(null, "no reservation found");
                        }

@@ -35,14 +35,9 @@ public class login extends JFrame {
     public String sql;
     public String username;
 
-    //constructor 
-//    public login(){
-//       buildwindow();
-//       frame.setVisible(true);
-//    }
-//    /**
-//     * Launch the application.
-//     */
+    /**
+     * Launch the application.
+     */
     public static void loginWindow() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -159,11 +154,7 @@ public class login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 
                 frame.dispose();
-//                try{
-//                    this.wait();
-//                }catch (Exception ee){
-//                    
-//                }
+
                 NewUserRegistration nur = new NewUserRegistration();
                 nur.nurWindow();
             }

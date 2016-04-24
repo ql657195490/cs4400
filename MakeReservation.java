@@ -336,7 +336,7 @@ public class MakeReservation {
                               
                             }
                             
-                            if(s1[0][0] == null){
+                            if(s1.length == 0){
                                 JOptionPane.showMessageDialog(null, "No train available");
                             }else{
                                 frame.dispose();

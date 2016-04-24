@@ -198,17 +198,10 @@ public class CancelReservation_1 {
         table.setRowHeight(50);
         scrollPane.setViewportView(table);
         
-//        for (int i = 0; i < table.getRowCount(); i++){
-//            cost += Integer.parseInt(table.getModel().getValueAt(i, 5).toString());
-//            if (Integer.parseInt(table.getModel().getValueAt(i, 6).toString()) > 2){
-//                cost += (Integer.parseInt(table.getModel().getValueAt(i, 6).toString()) - 2) * bagfee;
-//            }
-//        }
+
         try{
             cost = Float.parseFloat(db.checkFunctionality("SELECT totalCost FROM reservation WHERE reservationID = " + reservationID + ";"));
-//            if (db.checkFunctionality("SELECT isStudent FROM customer WHERE username = '" + username + "';").equals("true")){
-//                cost *= 0.8;
-//            }
+
         }catch(Exception e){}
         textField.setText(String.valueOf(cost));
         if (currentDate.getTime() - cancelDate.getTime() > sevendays){

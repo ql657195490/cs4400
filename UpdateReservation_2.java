@@ -356,15 +356,13 @@ public class UpdateReservation_2 {
                       textField_1.setText("50");
                       btnSumbit.setEnabled(true);
                       try{
-                         // if (db.checkFunctionality("SELECT isStudent FROM customer WHERE username = '" + username + "';").equals("true")){
-                              //totalPrice *= 0.8;
+
                               if (db.checkFunctionality("SELECT isUpdated FROM reservation WHERE reservationID = " + reservationID + ";").equals("false")){
                                   System.out.println("total: " + totalPrice);
                                   totalPrice = String.valueOf(Float.parseFloat(totalPrice) + 50);
                                   System.out.println("total: " + totalPrice);
                                   
                               }
-                         // }
                       }catch(Exception ee){}
                       textField_2.setText(totalPrice);
                       lblCurrentTicket.setText("Update train ticket");
@@ -376,32 +374,6 @@ public class UpdateReservation_2 {
         table.setRowHeight(50);
         table.getColumn("<html>Time<br>(Duration)").setMinWidth(150);
         table.getColumn("Price").setMaxWidth(50);
-//        JPanel panel_8 = new JPanel();
-//        panel_8.setBackground(Color.WHITE);
-//        panel_8.setBorder(new EmptyBorder(10, 10, 10 ,10));
-//        panel_2.add(panel_8, BorderLayout.CENTER);
-//        panel_8.setLayout(new BorderLayout(0, 0));
-//        
-//        JScrollPane scrollPane_1 = new JScrollPane();
-//        panel_8.add(scrollPane_1, BorderLayout.CENTER);
-      //  model = new DefaultTableModel();
-//        table_2.setModel(model);
-//        String[] col = {"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"};
-//        for (int i = 0; i < col.length; i++){
-//            model.addColumn(col[i]);
-//        }
-//        for (int i = 0 ; i < s.length;i++){
-//            
-//        }
-      
 
-//        table_2 = new JTable(s1,
-//                
-//                new Object[]{"<html>Train<br>(Train Number)", "<html>Time<br>(Duration)", "Departs From", "Arrives At", "Class", "Price", "# of baggages", "Passenger Name"});
-//                    table_2.setEnabled(false);
-//                 
-//          scrollPane_1.setViewportView(table_2);
-          
-          //frame.setVisible(true);
     }
 }

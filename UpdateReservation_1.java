@@ -44,15 +44,7 @@ public class UpdateReservation_1 extends JFrame{
     public static int index;
     
     
-    //test
-//    public static void main(String[] args){
-//        Object[][] s1 = {
-//                {new JRadioButton(), "test1"},
-//                {new JRadioButton(), "test2"}
-//        };
-//        Object[] s2 = {"Select", "test"};
-//        UpdateReservation_1 ur1 = new UpdateReservation_1(s1, s2);
-//    }
+ 
     public UpdateReservation_1(){
         
     }
@@ -147,22 +139,7 @@ public class UpdateReservation_1 extends JFrame{
         });
         panel1.add(button2);
         
-        //add listener and action event to the button
-//        button1.addActionListener(new ActionListener() {//button "Next"
-//            public void actionPerformed(ActionEvent e) {
-//                frame.dispose();
-//                UpdateReservation_2 ur2 = new UpdateReservation_2();
-//                //ur2.ur2Window();
-//            }
-//        });
-        
-//        button2.addActionListener(new ActionListener() {//button "Back"
-//            public void actionPerformed(ActionEvent e) {
-//                frame.dispose();
-//                UpdateReservation ur = new UpdateReservation();
-//                ur.urWindow();
-//            }
-//        });
+
       
     }
     
