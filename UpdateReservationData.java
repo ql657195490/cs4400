@@ -12,8 +12,6 @@ public class UpdateReservationData {
     }
     
     public void renewReservationData(String s){
-        System.out.println("s1[0][1] is " + s1[0][1]);
-        System.out.println("s is " + s);
         this.s1[0][1] = s;
     }
     

@@ -108,7 +108,6 @@ public class ViewReview_1 {
         table.setFillsViewportHeight(true);
         table.setCellSelectionEnabled(true);
         table.setColumnSelectionAllowed(true);
-        System.out.println(table.getModel().getValueAt(1, 1).toString());
         for (int i = 0; i < s.length; i++){
             if(s[i][1] != null && s[i][1].toString().length() > 25){
                 resize(i, s[i][1].toString());
@@ -132,7 +131,6 @@ public class ViewReview_1 {
             renewData += temp.substring(0, spaceIndex) + "<br/>";
             size -= spaceIndex;
             startIndex += spaceIndex;
-            System.out.println("space index: " + spaceIndex);
             if(size > 25){
                 endIndex = 25;
                 temp = comment.substring(startIndex, startIndex + 25);
@@ -140,13 +138,11 @@ public class ViewReview_1 {
             }
         }
         renewData += comment.substring(comment.length()- size, comment.length());
-        System.out.println("old: " + s[index][1]);
-        System.out.println("new: " + renewData);
+
         s[index][1] = renewData;
     }
     
     public int getSpace(String comment){
-        System.out.println("space comment: " + comment);
         int index  = 0;
         boolean b = false;
         for(int i = 24; i > 0; i--){

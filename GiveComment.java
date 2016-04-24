@@ -72,7 +72,6 @@ public class GiveComment {
         btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(textArea.getText());
                 gr.saveComment(textArea.getText());
                 frame.dispose();
             }

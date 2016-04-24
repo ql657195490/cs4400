@@ -112,9 +112,7 @@ public class AddSchoolInfo {
                     if (edu.equals("edu")){
                         db = new database();
                         //li = new login();
-                        System.out.println(username);
                         sql = "update customer set isStudent = 'true' where username = '" + username + "'";
-                        System.out.println(sql);
                         try{
                             db.update(sql);
                         }catch (Exception ee){}

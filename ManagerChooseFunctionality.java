@@ -32,7 +32,14 @@ public class ManagerChooseFunctionality {
     public static Date currentDate;
     public static DateFormat df;
     public static Calendar now;
-    public static int month;
+    public static String month1;
+    public static String month2;
+    public static String month3;
+    public static int current;
+    public static int date2;
+    public static int date3;
+    public int year;
+    public MonthConverter mc;
 
     /**
      * Launch the application.
@@ -57,7 +64,13 @@ public class ManagerChooseFunctionality {
         db = new database();
         df = new SimpleDateFormat("yyyy-MM-dd");
         now = Calendar.getInstance();
-        month = now.get(Calendar.MONTH);
+        month1 = "";
+        month2 = "";
+        month3 = "";
+        date2 = 0;
+        date3 = 0;
+        //month = now.get(Calendar.MONTH);
+        mc = new MonthConverter();
         initialize();
     }
 
@@ -73,6 +86,35 @@ public class ManagerChooseFunctionality {
         
         ImageIcon icon = new ImageIcon("/Users/Lei/Documents/java2/cs4400/bj1.jpg");
         
+        
+        now = Calendar.getInstance();
+        current = now.get(Calendar.MONTH);
+        year = now.get(Calendar.YEAR);
+        if(current == 2){
+            date2 = 1;
+            date3 = 12;
+        }else if(current == 1){
+            date2 = 12;
+            date3 = 11;
+        }else{
+            date2 = current - 1;
+            date3 = current - 2;
+        }
+        if (current < 10){
+            month1 = "-0";
+        }else{
+            month1 = "-";
+        }
+        if (date2 < 10){
+            month2 = "-0";
+        }else{
+            month2 = "-";
+        }
+        if (date3 < 10){
+            month3 = "-0";
+        }else{
+            month3 = "-";
+        }
         
         
         JPanel panel_1 = new ImagePanel(icon);
@@ -92,32 +134,27 @@ public class ManagerChooseFunctionality {
                 
                 try{
                     
-                    String sql = "select sum(ifnull(p,0) + ifnull(p1,0)) from (select sum(sClassPrice) as p from "
-                            + "(trainRoute natural join (select * from reserves where reservationID"
-                            + " in (select ReservationID from Reservation where isCanceled ='false')  and (departureDate like '2016-01%')) as a ) where class = 'first') "
-                            + "as b join (select sum(fClassPrice)  as p1 from (trainRoute natural join"
-                            + " (select * from reserves where reservationID in (select ReservationID from Reservation where isCanceled ='false') and (departureDate like "
-                            + "'2016-01%')) as a ) where class = 'second') as c";
-                    System.out.println(sql);
-                    s[0][0] = "January";
-                    System.out.println("test1");
+                    String sql = "SELECT sum(ifnull(p1, 0) + ifnull(p2,0) + ifnull(p3, 0) + ifnull(p4, 0) + ifnull(p5, 0))FROM (SELECT sum(fClassPrice) as p1 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month2 + String.valueOf(date3) + "-%' and class = 'first' AND isStudent = 'false')as a1"
+                            + " JOIN(SELECT sum(sClassPrice)  as p2 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month3 + String.valueOf(date3) + "-%' and class = 'second' AND isStudent = 'false') as a2 "
+                            + " JOIN (SELECT sum(fClassPrice) * 0.8 as p3 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month3 + String.valueOf(date3) + "-%' and class = 'first' AND isStudent = 'true')as a3"
+                            + " JOIN (SELECT sum(sClassPrice) * 0.8  as p4 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month3 + String.valueOf(date3) + "-%' and class = 'second' AND isStudent = 'true') as a4"
+                            + " JOIN (SELECT sum(numOfBaggages - 2) * 30 as p5 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month3 + String.valueOf(date3) + "-%' AND numOfBaggages > 2) as a5";
+                    s[0][0] = mc.managerMonth(String.valueOf(date3));
                     s = db.getRevenueReport(sql, s, 0);
-                    System.out.println("test1");
-                    sql = "select sum(ifnull(p,0) + ifnull(p1,0)) from (select sum(sClassPrice) as p from "
-                            + "(trainRoute natural join (select * from reserves where reservationID"
-                            + " in (select ReservationID from Reservation where isCanceled ='false')  and (departureDate like '2016-02%')) as a ) where class = 'first') "
-                            + "as b join (select sum(fClassPrice)  as p1 from (trainRoute natural join"
-                            + " (select * from reserves where reservationID in (select ReservationID from Reservation where isCanceled ='false') and (departureDate like "
-                            + "'2016-02%')) as a ) where class = 'second') as c";
-                    s[1][0] = "February";
+                    sql = "SELECT sum(ifnull(p1, 0) + ifnull(p2,0) + ifnull(p3, 0) + ifnull(p4, 0) + ifnull(p5, 0))FROM (SELECT sum(fClassPrice) as p1 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month2 + String.valueOf(date2) + "-%' and class = 'first' AND isStudent = 'false')as a1"
+                            + " JOIN(SELECT sum(sClassPrice)  as p2 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month2 + String.valueOf(date2) + "-%' and class = 'second' AND isStudent = 'false') as a2 "
+                            + " JOIN (SELECT sum(fClassPrice) * 0.8 as p3 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month2 + String.valueOf(date2) + "-%' and class = 'first' AND isStudent = 'true')as a3"
+                            + " JOIN (SELECT sum(sClassPrice) * 0.8  as p4 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month2 + String.valueOf(date2) + "-%' and class = 'second' AND isStudent = 'true') as a4"
+                            + " JOIN (SELECT sum(numOfBaggages - 2) * 30 as p5 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month2 + String.valueOf(date2) + "-%' AND numOfBaggages > 2) as a5";
+                    s[1][0] = mc.managerMonth(String.valueOf(date2));
                     s = db.getRevenueReport(sql, s, 1);
-                    sql = "select sum(ifnull(p,0) + ifnull(p1,0)) from (select sum(sClassPrice) as p from "
-                            + "(trainRoute natural join (select * from reserves where reservationID"
-                            + " in (select ReservationID from Reservation where isCanceled ='false')  and (departureDate like '2016-03%')) as a ) where class = 'first') "
-                            + "as b join (select sum(fClassPrice)  as p1 from (trainRoute natural join"
-                            + " (select * from reserves where reservationID in (select ReservationID from Reservation where isCanceled ='false') and (departureDate like "
-                            + "'2016-03%')) as a ) where class = 'second') as c";
-                    s[2][0] = "March";
+                    sql = "SELECT sum(ifnull(p1, 0) + ifnull(p2,0) + ifnull(p3, 0) + ifnull(p4, 0) + ifnull(p5, 0))FROM (SELECT sum(fClassPrice) as p1 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month1 + String.valueOf(current) + "-%' and class = 'first' AND isStudent = 'false')as a1"
+                            + " JOIN(SELECT sum(sClassPrice)  as p2 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month1 + String.valueOf(current) + "-%' and class = 'second' AND isStudent = 'false') as a2 "
+                            + " JOIN (SELECT sum(fClassPrice) * 0.8 as p3 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month1 + String.valueOf(current) + "-%' and class = 'first' AND isStudent = 'true')as a3"
+                            + " JOIN (SELECT sum(sClassPrice) * 0.8  as p4 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month1 + String.valueOf(current) + "-%' and class = 'second' AND isStudent = 'true') as a4"
+                            + " JOIN (SELECT sum(numOfBaggages - 2) * 30 as p5 FROM reservation natural join trainRoute natural join reserves NATURAL JOIN customer WHERE isCanceled = 'false' and departureDate like '" +  String.valueOf(year) + month1 + String.valueOf(current) + "-%' AND numOfBaggages > 2) as a5";
+                    s[2][0] = mc.managerMonth(String.valueOf(current));
+
                     s = db.getRevenueReport(sql, s, 2);
                 }catch(Exception ee){}
                 frame.dispose();
@@ -164,18 +201,18 @@ public class ManagerChooseFunctionality {
                 try{
                     String sql = "select trainNum, count(trainNum) as a from (reserves  natural joi"
                             + "n reservation) where isCanceled = 'false' and departureDate like "
-                            + "'2016-01%' group by trainNum order by a desc;";
-                    s[0][0] = "January";
+                            + "'" +  String.valueOf(year) + month3 + String.valueOf(date3) + "%' group by trainNum order by a desc;";
+                    s[0][0] = mc.managerMonth(String.valueOf(date3));
                     s = db.getPopularRouteReport(sql, s, 0);
                     sql = "select trainNum, count(trainNum) as a from (reserves  natural joi"
                             + "n reservation) where isCanceled = 'false' and departureDate like "
-                            + "'2016-02%' group by trainNum order by a desc;";
-                    s[3][0] = "Feburary";
+                            + "'" +  String.valueOf(year) + month2 + String.valueOf(date2) + "-%' group by trainNum order by a desc;";
+                    s[3][0] = mc.managerMonth(String.valueOf(date2));;
                     s = db.getPopularRouteReport(sql, s, 3);
                     sql = "select trainNum, count(trainNum) as a from (reserves  natural joi"
                             + "n reservation) where isCanceled = 'false' and departureDate like "
-                            + "'2016-03%' group by trainNum order by a desc;";
-                    s[6][0] = "March";
+                            + "'" +  String.valueOf(year) + month1 + String.valueOf(current) + "-%' group by trainNum order by a desc;";
+                    s[6][0] = mc.managerMonth(String.valueOf(current));
                     s = db.getPopularRouteReport(sql, s, 6);
     
                 }catch(Exception ee){}

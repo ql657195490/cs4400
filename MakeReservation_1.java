@@ -101,7 +101,6 @@ public class MakeReservation_1 {
 //                list.add(trainNum); //index 4: train number
 //                
 //                
-//                System.out.println("tn is " + trainNum);
 //                list.add(tclass); // index 5: class
                 //list.add(getTime(s1, trainNum)); // index 6: time
                 
@@ -118,13 +117,8 @@ public class MakeReservation_1 {
                 }else{
                     s2 = mrd.getReservationData();
                     time = getTime(s1, (String)s2[position][0]);
-                    System.out.println("train: " + s2[position][0]);
-                    System.out.println("time is " + time);
-                    System.out.println("time length: " + time.length());
-                    System.out.println("date length: " + s2[position][8].toString().length());
-                    System.out.println("date: " + s2[position][8].toString());
+
                     time = s2[position][8].toString().substring(0, s2[position][8].toString().length() - 10) + time;
-                    System.out.println("new time: " + time);
 //                    s2[position][0] = trainNum; //index 0: train number
                       s2[position][1] = time; // index 1: time
 //                    s2[position][4] = tclass; // index 4 : class
@@ -151,8 +145,7 @@ public class MakeReservation_1 {
 //              {"1", "1", new JRadioButton("1"), new JRadioButton("2")}
 //             
 //          };
-//        System.out.println(s1.length * 2);
-//        System.out.println(s1[0].length * 2);
+
         
       
         scrollPane = new JScrollPane();
@@ -181,8 +174,7 @@ public class MakeReservation_1 {
         ButtonGroup bg = new ButtonGroup();
         Object[] s3 = new Object[s1.length];
         JRadioButton[] rb = new JRadioButton[s1.length * 2];
-//        System.out.println("s1 length: " + s1.length);
-//        System.out.println("rb length :" +  rb.length);
+
         //int lengthR = 0;
 
          
@@ -206,7 +198,7 @@ public class MakeReservation_1 {
             
             
             
-            //System.out.println(rb[count]);
+           
             //s1[i][1] = rb[i];
         }
         
@@ -214,9 +206,7 @@ public class MakeReservation_1 {
        
         
         
-//        System.out.println("length R" + lengthR);
 //        JRadioButton[] rb1 = new JRadioButton[lengthR];
-//        System.out.println("rb1 length: " + rb1.length);
 //        count = 0;
 //        for (int i = 0; i < rb1.length / 2; i++){
 //            
@@ -227,7 +217,6 @@ public class MakeReservation_1 {
 //        }
 //        
 //        for (int i = 0; i <  s3.length; i++){
-//            System.out.println(s3[i]);
 //        }
 //        
 //        
@@ -236,9 +225,7 @@ public class MakeReservation_1 {
 //        for (int i = 0; i <  rb1.length; i++){
 //            
 //            if (i % 2 == 0){
-//                System.out.println(count);
-//                rb1[i].addItemListener(new rButton(s3[count], "first", rb1[i].getText()));
-//                System.out.println(s3[count]+ "first" + rb1[i].getText());
+
 //            }else{
 //                rb1[i].addItemListener(new rButton(s3[count++], "second", rb1[i].getText()));
 //            }
@@ -260,7 +247,6 @@ public class MakeReservation_1 {
 //            if (rb[i] == null){
 //                break;
 //            }
-//            System.out.println(rb[i]);
 //            bg.add(rb[i]);
 //        }
        // table.getColumn("<html>Train<br/>(Train number)").setCellRenderer(new Radiorenderer());
@@ -299,8 +285,7 @@ public class MakeReservation_1 {
         @Override
         public void itemStateChanged(ItemEvent e) {
             // TODO Auto-generated method stub
-            System.out.println("your select train is " + tn);
-            System.out.println(getTn());
+      
             this.ss = mrd.getReservationData();
             int position = 0;
             for (int i = 0; i < ss.length; i++){
@@ -333,12 +318,9 @@ public class MakeReservation_1 {
     
     public String getTime(Object[][] s1, String tn){
         for (int i = 0; i < s1.length; i++){
-            System.out.println("s1[i][0] is " + s1[i][0]);
-            System.out.println("tn is" + tn);
+
             if (s1[i][0].equals(tn)){
-                System.out.println("test");
                 this.time = (String)s1[i][1];
-                System.out.println(time);
                 break;
                 
                 

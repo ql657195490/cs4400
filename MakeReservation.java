@@ -190,10 +190,10 @@ public class MakeReservation {
         panel.add(textField);
         textField.setColumns(10);
         
-        JButton btnNewButton = new JButton("New button");//calendar button
-        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnNewButton.setBounds(364, 157, 44, 29);
-        panel.add(btnNewButton);
+//        JButton btnNewButton = new JButton("New button");//calendar button
+//        btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//        btnNewButton.setBounds(364, 157, 44, 29);
+//        panel.add(btnNewButton);
         
         JButton btnNewButton_1 = new JButton("Find Train");// find train button
         btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -314,19 +314,24 @@ public class MakeReservation {
                             String ymd = textField.getText().trim().substring(6, 10)
                                     + "-" + textField.getText().trim().substring(0,2) + "-" +
                                     textField.getText().trim().substring(3, 5);
-                            System.out.println("ymd is " + ymd);
                             ymd = "<html>" + mc.changeMonth(textField.getText().trim()) + ymd;
-                            System.out.println("ymd is " + ymd);
                             
                             
                             s2[position][8] = ymd; //index 8: date
                             mdr.setReservationData(s2);
                         
                             try{
-                                s1 = db.TrainOption("select * from (select * from (select trainNum, departureTime from stop "
-                                        + " where name = '" + n2 + "' and location = '" + n1 + "') as a1 natural join "
-                                        +"(select trainNum, arrivalTime from stop where name = '" + n4 + "' and location = '" + n3 + "') as a2) as a3"
-                                        + " natural join trainRoute");
+                                int size = Integer.parseInt(db.checkFunctionality("SELECT count(*) FROM ((SELECT departureTime, trainNum FROM stop "
+                                        + "WHERE name = '" + n2 + "' AND location = '" + n1 + "' ) AS a1 NATURAL JOIN"
+                                            + "(SELECT arrivalTime, trainNum From stop WHERE name = '" + n4 + "' AND location ='" + n3 + "') AS a2) NATURAL JOIN trainRoute "
+                                            + "WHERE arrivalTime > departureTime AND departureTime != '00:00:00';"));
+        
+                                s1 = db.TrainOption("SELECT * FROM ((SELECT "
+                                        + "departureTime, trainNum FROM stop WHERE name = '" + n2 + "' AND "
+                                        + "location = '" + n1 + "' ) AS a1 NATURAL JOIN(SELECT arrivalTime, "
+                                        + "trainNum From stop WHERE name = '"+ n4 + "' AND location ='"+ n3 +"')"
+                                        + " AS a2) NATURAL JOIN trainRoute WHERE arrivalTime > departureTime AND departureTime != '00:00:00';", size);
+                              
                             }catch (Exception ee){
                               
                             }

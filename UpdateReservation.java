@@ -94,7 +94,6 @@ public class UpdateReservation {
                     try{
                         String sql = "SELECT reservationID FROM reservation WHERE reservationID = '" + textField.getText().trim() + "' AND isCanceled = 'false';";
                         if (db.checkFunctionality(sql).equals(textField.getText().trim())){
-                            System.out.println("test");
                             sql = "select trainNum, departureTime,"
                                     + " arrivalTime, departsFrom, arrivesAt, class, numOfBaggages, passengerName, fClassPrice, sClassPrice, departureDate"
                                     + " from ((reserves natural join(select trainNum, arrivalTime from stop where location "

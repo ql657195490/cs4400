@@ -32,7 +32,10 @@ import javax.swing.UIManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MakeReservation_3 {
@@ -224,14 +227,23 @@ public class MakeReservation_3 {
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                    Date exp = null;
+                    DateFormat df = new SimpleDateFormat("hh:mm:ss");
+                    exp = df.parse(db.checkFunctionality("SELECT expDate FROM paymentInfo WHERE cardNum = " + comboBox.getSelectedItem().toString() + ";"));
+                    if(exp.getTime() - df.parse(df.format(new Date())).getTime() > 0){
+                        db.update("insert reservation(isCanceled, username, cardNum, totalCost) values ('false', '" 
+                                + username +"', " + comboBox.getSelectedItem().toString() + ", " + textField.getText().trim() + ");"); 
+                        frame.dispose();
+                        MakeReservation_5 mr5 = new MakeReservation_5(username);
+                        mr5.mrWindow_5();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "your card is expired");
+                    }
                    
-                    db.update("insert reservation(isCanceled, username, cardNum, totalCost) values ('false', '" 
-                            + username +"', " + comboBox.getSelectedItem().toString() + ", " + textField.getText().trim() + ");");
+                    
                    
                 }catch (Exception ee){}
-                frame.dispose();
-                MakeReservation_5 mr5 = new MakeReservation_5(username);
-                mr5.mrWindow_5();
+                
             }
         });
         btnSubmit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

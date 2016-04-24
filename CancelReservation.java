@@ -125,14 +125,12 @@ public class CancelReservation {
                                    }
                                }
                                frame.dispose();
-                               //System.out.println("size of s is" + s.length);
                                CancelReservation_1 cr1 = new CancelReservation_1(username, s, textField.getText().trim());
                                cr1.cr1Window();
 //                           }else{
 //                               JOptionPane.showMessageDialog(null, "invalid reservation ID information");
                           // }
                        }else {
-                           System.out.println("test");
                            JOptionPane.showMessageDialog(null, "no reservation found");
                        }
                     }catch (Exception ee){

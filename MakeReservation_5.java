@@ -98,7 +98,6 @@ public class MakeReservation_5 {
                     + rid  + ", '" + s[i][0] + "');";
             
             try{
-                System.out.println(sql);
                 db.update(sql);
             }catch(Exception e){
                 

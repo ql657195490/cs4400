@@ -75,7 +75,7 @@ public class MakeReservation_4 {
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 450, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -216,7 +216,6 @@ public class MakeReservation_4 {
                                    + textField_3.getText().trim().substring(3, 7)
                                    + "-" + textField_3.getText().trim().substring(0, 2) + "-" + "01', '"
                                    + textField.getText().trim() + "', '" + username + "');";
-                           System.out.println(sql);
                            db.update(sql);       
                            frame.dispose();
                        }
@@ -258,7 +257,6 @@ public class MakeReservation_4 {
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try{
-                    System.out.println("delete from paymentInfo where cardNum = " + comboBox.getSelectedItem().toString() + ";");
                     db.update("delete from paymentInfo where cardNum = " + comboBox.getSelectedItem().toString() + ";");
                     JOptionPane.showMessageDialog(null, "delete card successful");
                     frame.dispose();

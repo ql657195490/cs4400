@@ -126,7 +126,6 @@ public class login extends JFrame {
                                     textField.getText().trim() + "'").equals("customer")){
                                     login li = new login();
                                     li.setUsername(textField.getText().trim());
-                                    System.out.println(li.getUsername());
                                     CustomerFunctionalities cf = new CustomerFunctionalities(li.getUsername());
                                     cf.cfWindow();
                                 }else if (db.checkFunctionality("select userType from user where username = '" +

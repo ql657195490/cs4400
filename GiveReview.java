@@ -53,7 +53,6 @@ public class GiveReview {
     
     public GiveReview(String username){
         this.username = username;
-        System.out.println("username is " + username);
     }
 
     /**
@@ -141,13 +140,11 @@ public class GiveReview {
                                     + comboBox.getSelectedItem().toString() + "', '" + comment +"', '"
                                     + textField.getText().trim() + "', '" + username + "');";
                         }
-                            System.out.println(sql);
                         db.update(sql);
                     }catch (Exception ee){
                         
                     }
                 }
-                System.out.println(comment);
             }
         });
         btnSubmit.setBounds(175, 220, 100, 29);

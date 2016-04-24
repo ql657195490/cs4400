@@ -73,11 +73,9 @@ public class UpdateReservation_2 {
         db = new database();
         mc = new MonthConverter();
 //        totalPrice = db.totalPrice;
-//        System.out.println("total price is " + db.totalPrice);
         totalPrice = "";
         try{
             totalPrice = db.checkFunctionality("SELECT totalCost FROM reservation WHERE reservationID = " + reservationID + ";");
-            System.out.println("total price is " + totalPrice);
         }catch(Exception e){}
         df = new SimpleDateFormat("yyyy-MM-dd");
        // this.s1 = this.s;
@@ -86,7 +84,6 @@ public class UpdateReservation_2 {
     
     public UpdateReservation_2(String username, String reservationID, String trainNum, Object[][] s, Object[][] s1){
         this.username = username;
-        System.out.println("2: " + this.username);
         this.reservationID = reservationID;
         this.trainNum = trainNum;
         this.s = s;
@@ -95,13 +92,11 @@ public class UpdateReservation_2 {
         //urd = new UpdateReservationData();
         //this.s = urd.currentSelectData();
         //this.s1 = urd.currentSelectData();
-//        System.out.println(s1[0][0]);
 //        db = new database();
 //        mc = new MonthConverter();
        // ur2Window();
 //        urd = new UpdateReservationData();
 //        this.s1 = urd.currentSelectData();
-//        System.out.println("s1[0][1] is " + s1[0][1]);
     }
 
     /**
@@ -199,14 +194,14 @@ public class UpdateReservation_2 {
         panel_4.add(textField);
         textField.setColumns(10);
         
-        JButton btnCalender = new JButton("calendar");
-        btnCalender.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        btnCalender.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnCalender.setBounds(337, 7, 80, 29);
-        panel_4.add(btnCalender);
+//        JButton btnCalender = new JButton("calendar");
+//        btnCalender.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//            }
+//        });
+//        btnCalender.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//        btnCalender.setBounds(337, 7, 80, 29);
+//        panel_4.add(btnCalender);
         
         JButton btnSearch = new JButton("Search availability");// click this to check availability and also act the update result
         
@@ -332,7 +327,6 @@ public class UpdateReservation_2 {
         
         btnSearch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                System.out.println(s1.length);
 //                urd.setUpdateReservationData(s1);\
                 time = 0;
                 try{
@@ -348,8 +342,7 @@ public class UpdateReservation_2 {
                
                    int choice = JOptionPane.showConfirmDialog(null, "date is available, Do you want to update your reservation?", "Confirm",JOptionPane.YES_NO_OPTION); 
                    if (choice == JOptionPane.YES_OPTION){
-                       //System.out.println("s1[0][1] is " + mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length()));
-                       //System.out.println(s[0][1].toString().length());
+
                       //s1[0][1] = mc.changeMonth(textField.getText().trim()) + s[0][1].toString().substring(s[0][1].toString().length() - 17, s[0][1].toString().length());
                        //urd.renewReservationData();
                       // s1 = urd.currentSelectData();
@@ -367,7 +360,6 @@ public class UpdateReservation_2 {
                       }catch(Exception ee){}
                       textField_2.setText(totalPrice);
                       lblCurrentTicket.setText("Update train ticket");
-                      System.out.println("s[0][1]" + s[0][1]);
                    }
                 }
                 

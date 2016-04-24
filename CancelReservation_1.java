@@ -82,7 +82,6 @@ public class CancelReservation_1 {
         current = "";
         cancel = year + month + date;
         df = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println("cancel date is " + cancel);
         cancelDate = null;
         currentDate = null;
         sevendays = 7 * 24 * 60 * 60 * 1000;// seven day represent in ms
@@ -92,7 +91,6 @@ public class CancelReservation_1 {
             current = db.getDepatureDate("SELECT departureDate FROM reserves WHERE reservationID = " + reservationID + ";");
             cancelDate = df.parse(cancel);
             currentDate = df.parse(current);
-            System.out.println("current date is " + current);
         }catch(Exception e){}
         initialize();
     }
@@ -200,7 +198,6 @@ public class CancelReservation_1 {
         table.setRowHeight(50);
         scrollPane.setViewportView(table);
         
-        //System.out.println("number of row: " + table.getRowCount());
 //        for (int i = 0; i < table.getRowCount(); i++){
 //            cost += Integer.parseInt(table.getModel().getValueAt(i, 5).toString());
 //            if (Integer.parseInt(table.getModel().getValueAt(i, 6).toString()) > 2){
@@ -215,23 +212,18 @@ public class CancelReservation_1 {
         }catch(Exception e){}
         textField.setText(String.valueOf(cost));
         if (currentDate.getTime() - cancelDate.getTime() > sevendays){
-            System.out.println("80% refund");
           
             refund = (float) (cost * 0.8);
             refund -= 50;
-            System.out.println("refund is " + refund);
         }else if (currentDate.getTime() - cancelDate.getTime() <  sevendays && currentDate.getTime() - cancelDate.getTime() > oneday){
-            System.out.println("50% refund");
             refund = (float) (cost * 0.5);
             refund -= 50;
         }else{
             refund = 0;
-            System.out.println("no refund");
         }
         textField_2.setText(String.valueOf(refund));
         textField_2.setEnabled(false);
         textField.setEnabled(false);
         
-        System.out.println("current date is " + currentDate);
     }
 }
